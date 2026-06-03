@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\TrainingHub;
 use App\Models\TrainingCategory;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class TrainingHubController extends Controller
@@ -63,6 +64,21 @@ class TrainingHubController extends Controller
                 'file_path' => $filePath,
                 'status' => $request->status,
             ]);
+        }
+
+        // Create notification
+        try {
+            $typeLabel = $request->type === 'video' ? 'Video' : 'PDF';
+            $emoji = $request->type === 'video' ? '🎬' : '📄';
+            Notification::create([
+                'title' => "{$emoji} New Training {$typeLabel} Added",
+                'message' => "A new {$request->type} \"{$request->title}\" has been added to the Training Hub.",
+                'type' => 'training',
+                'is_read' => false,
+            ]);
+        } catch (\Exception $e) {
+            // Log or ignore database failures to prevent upload failure if notifications table has issues
+            logger()->error('Notification creation failed: ' . $e->getMessage());
         }
 
         return redirect()->route('admin.training-hubs.index')

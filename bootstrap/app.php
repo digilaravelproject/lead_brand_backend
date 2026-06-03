@@ -15,5 +15,16 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (\Illuminate\Http\Exceptions\PostTooLargeException $e, $request) {
+            if ($request->is('admin*') || $request->is('*/admin/*')) {
+                return back()->withErrors([
+                    'files' => 'The uploaded file is too large. Please upload smaller files or increase upload_max_filesize / post_max_size in your php.ini.'
+                ])->withInput();
+            }
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => 'The uploaded POST data is too large. Content-Length exceeds maximum limit.'
+            ], 413);
+        });
     })->create();

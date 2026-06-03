@@ -99,8 +99,8 @@
 <!-- Add Page Modal -->
 <div id="add-page-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal('add-page-modal')"></div>
-    <div class="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl z-10 animate-fade-in">
-        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
+    <div class="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl z-10 animate-fade-in max-h-[90vh] flex flex-col">
+        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
             <h3 class="text-lg font-bold text-white">Create Static Page</h3>
             <button onclick="closeModal('add-page-modal')" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -109,38 +109,39 @@
             </button>
         </div>
         
-        <form action="{{ route('admin.pages.store') }}" method="POST" class="p-6 space-y-4">
+        <form action="{{ route('admin.pages.store') }}" method="POST" class="flex-1 flex flex-col overflow-hidden">
             @csrf
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label for="add-page_name" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page Name (URL Key)</label>
-                    <input type="text" name="page_name" id="add-page_name" required placeholder="e.g. privacy_policy"
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-650 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+            <div class="p-6 space-y-4 overflow-y-auto flex-1 scrollbar">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="add-page_name" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page Name (URL Key)</label>
+                        <input type="text" name="page_name" id="add-page_name" required placeholder="e.g. privacy_policy"
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                    </div>
+
+                    <div>
+                        <label for="add-page_type" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page Type (Optional)</label>
+                        <input type="text" name="page_type" id="add-page_type" placeholder="e.g. text_content"
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                    </div>
                 </div>
 
                 <div>
-                    <label for="add-page_type" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page Type (Optional)</label>
-                    <input type="text" name="page_type" id="add-page_type" placeholder="e.g. text_content"
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-650 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                    <label for="add-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page HTML Content</label>
+                    <textarea name="description" id="add-description" rows="8" required placeholder="<h2>Privacy Policy</h2><p>Our guidelines details here...</p>"
+                              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm font-mono"></textarea>
+                </div>
+
+                <div>
+                    <label for="add-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Status</label>
+                    <select name="status" id="add-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                        <option value="1">Active (Published)</option>
+                        <option value="0">Inactive (Draft)</option>
+                    </select>
                 </div>
             </div>
 
-            <div>
-                <label for="add-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page HTML Content</label>
-                <textarea name="description" id="add-description" rows="8" required placeholder="<h2>Privacy Policy</h2><p>Our guidelines details here...</p>"
-                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-650 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm font-mono"></textarea>
-            </div>
-
-            <div>
-                <label for="add-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Status</label>
-                <select name="status" id="add-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
-                    <option value="1">Active (Published)</option>
-                    <option value="0">Inactive (Draft)</option>
-                </select>
-            </div>
-
-            <div class="border-t border-slate-800 pt-4 flex justify-end space-x-3">
+            <div class="border-t border-slate-800 px-6 py-4 flex justify-end space-x-3 bg-slate-950/40 flex-shrink-0">
                 <button type="button" onclick="closeModal('add-page-modal')"
                         class="px-5 py-2.5 rounded-xl border border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors text-sm font-semibold">
                     Cancel
@@ -157,8 +158,8 @@
 <!-- View Page Modal -->
 <div id="view-page-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal('view-page-modal')"></div>
-    <div class="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl z-10 animate-fade-in">
-        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
+    <div class="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl z-10 animate-fade-in max-h-[90vh] flex flex-col">
+        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
             <div>
                 <h3 class="text-lg font-bold text-white capitalize" id="view-title">Loading Page...</h3>
                 <span class="text-xs text-indigo-400 font-mono" id="view-type">type: loading</span>
@@ -169,7 +170,7 @@
                 </svg>
             </button>
         </div>
-        <div class="p-6 space-y-4">
+        <div class="p-6 space-y-4 overflow-y-auto flex-1 scrollbar">
             <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Page Content Render Preview</span>
             <div class="h-[300px] overflow-y-auto bg-slate-955 p-5 border border-slate-850 rounded-2xl text-sm text-slate-300 leading-relaxed prose prose-invert max-w-none scrollbar" id="view-content">
                 <!-- HTML rendered dynamically -->
@@ -180,7 +181,7 @@
                 <span id="view-status" class="px-2.5 py-1 text-xs font-bold rounded-full">Active</span>
             </div>
         </div>
-        <div class="px-6 py-4 bg-slate-950/40 border-t border-slate-800 flex justify-end">
+        <div class="px-6 py-4 bg-slate-950/40 border-t border-slate-800 flex justify-end flex-shrink-0">
             <button onclick="closeModal('view-page-modal')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white transition-colors text-sm font-semibold rounded-xl">
                 Close View
             </button>
@@ -191,8 +192,8 @@
 <!-- Edit Page Modal -->
 <div id="edit-page-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal('edit-page-modal')"></div>
-    <div class="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl z-10 animate-fade-in">
-        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
+    <div class="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl z-10 animate-fade-in max-h-[90vh] flex flex-col">
+        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
             <h3 class="text-lg font-bold text-white">Modify Page Settings & Content</h3>
             <button onclick="closeModal('edit-page-modal')" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -201,38 +202,39 @@
             </button>
         </div>
         
-        <form id="edit-page-form" action="" method="POST" class="p-6 space-y-4">
+        <form id="edit-page-form" action="" method="POST" class="flex-1 flex flex-col overflow-hidden">
             @csrf
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label for="edit-page_name" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page Name (URL Key)</label>
-                    <input type="text" name="page_name" id="edit-page_name" required
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+            <div class="p-6 space-y-4 overflow-y-auto flex-1 scrollbar">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="edit-page_name" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page Name (URL Key)</label>
+                        <input type="text" name="page_name" id="edit-page_name" required
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                    </div>
+
+                    <div>
+                        <label for="edit-page_type" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page Type</label>
+                        <input type="text" name="page_type" id="edit-page_type" required
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                    </div>
                 </div>
 
                 <div>
-                    <label for="edit-page_type" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page Type</label>
-                    <input type="text" name="page_type" id="edit-page_type" required
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                    <label for="edit-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page HTML Content</label>
+                    <textarea name="description" id="edit-description" rows="8" required
+                              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm font-mono"></textarea>
+                </div>
+
+                <div>
+                    <label for="edit-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Status</label>
+                    <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                        <option value="1">Active (Published)</option>
+                        <option value="0">Inactive (Draft)</option>
+                    </select>
                 </div>
             </div>
 
-            <div>
-                <label for="edit-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Page HTML Content</label>
-                <textarea name="description" id="edit-description" rows="8" required
-                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm font-mono"></textarea>
-            </div>
-
-            <div>
-                <label for="edit-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Status</label>
-                <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
-                    <option value="1">Active (Published)</option>
-                    <option value="0">Inactive (Draft)</option>
-                </select>
-            </div>
-
-            <div class="border-t border-slate-800 pt-4 flex justify-end space-x-3">
+            <div class="border-t border-slate-800 px-6 py-4 flex justify-end space-x-3 bg-slate-950/40 flex-shrink-0">
                 <button type="button" onclick="closeModal('edit-page-modal')"
                         class="px-5 py-2.5 rounded-xl border border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors text-sm font-semibold">
                     Cancel
@@ -245,6 +247,7 @@
         </form>
     </div>
 </div>
+
 
 <!-- Delete Page Confirmation Modal -->
 <div id="delete-page-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">

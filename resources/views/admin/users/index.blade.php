@@ -102,8 +102,8 @@
 <!-- View User Modal -->
 <div id="view-user-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal('view-user-modal')"></div>
-    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl z-10 animate-fade-in">
-        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
+    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl z-10 animate-fade-in max-h-[90vh] flex flex-col">
+        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
             <h3 class="text-lg font-bold text-white">User Account Details</h3>
             <button onclick="closeModal('view-user-modal')" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -111,7 +111,7 @@
                 </svg>
             </button>
         </div>
-        <div class="p-6 space-y-6">
+        <div class="p-6 space-y-6 overflow-y-auto flex-1 scrollbar">
             <!-- User Banner -->
             <div class="flex items-center space-x-4 bg-slate-950/50 p-4 border border-slate-800/80 rounded-2xl">
                 <div class="h-16 w-16 bg-slate-800 rounded-2xl flex items-center justify-center text-white text-xl font-extrabold uppercase overflow-hidden border border-slate-700/50" id="view-avatar-box">
@@ -145,7 +145,7 @@
                 </div>
             </div>
         </div>
-        <div class="px-6 py-4 bg-slate-950/40 border-t border-slate-800 flex justify-end">
+        <div class="px-6 py-4 bg-slate-950/40 border-t border-slate-800 flex justify-end flex-shrink-0">
             <button onclick="closeModal('view-user-modal')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white transition-colors text-sm font-semibold rounded-xl">
                 Close View
             </button>
@@ -156,8 +156,8 @@
 <!-- Edit User Modal -->
 <div id="edit-user-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal('edit-user-modal')"></div>
-    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl z-10 animate-fade-in">
-        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
+    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl z-10 animate-fade-in max-h-[90vh] flex flex-col">
+        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
             <h3 class="text-lg font-bold text-white">Modify User Profile</h3>
             <button onclick="closeModal('edit-user-modal')" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -166,65 +166,67 @@
             </button>
         </div>
         
-        <form id="edit-user-form" action="" method="POST" enctype="multipart/form-data" class="p-6 space-y-4">
+        <form id="edit-user-form" action="" method="POST" enctype="multipart/form-data" class="flex-1 flex flex-col overflow-hidden">
             @csrf
             
-            <div class="grid grid-cols-2 gap-4">
-                <!-- Profile Image -->
-                <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Profile Photo</label>
-                    <div class="flex items-center space-x-3">
-                        <div class="h-12 w-12 rounded-xl bg-slate-800 border border-slate-700/50 flex items-center justify-center text-white font-extrabold uppercase overflow-hidden" id="edit-photo-preview">
-                            <!-- Dynamic -->
+            <div class="p-6 space-y-4 overflow-y-auto flex-1 scrollbar">
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Profile Image -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Profile Photo</label>
+                        <div class="flex items-center space-x-3">
+                            <div class="h-12 w-12 rounded-xl bg-slate-800 border border-slate-700/50 flex items-center justify-center text-white font-extrabold uppercase overflow-hidden" id="edit-photo-preview">
+                                <!-- Dynamic -->
+                            </div>
+                            <input type="file" name="profile_photo" accept="image/*" onchange="previewUserFile(this, 'edit-photo-preview')" class="block w-full text-xs text-slate-500 file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:bg-slate-800 file:text-slate-300 hover:file:bg-slate-700 file:cursor-pointer cursor-pointer">
                         </div>
-                        <input type="file" name="profile_photo" accept="image/*" onchange="previewUserFile(this, 'edit-photo-preview')" class="block w-full text-xs text-slate-500 file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:bg-slate-800 file:text-slate-300 hover:file:bg-slate-700 file:cursor-pointer cursor-pointer">
+                    </div>
+
+                    <!-- Brand Logo -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Brand Logo</label>
+                        <div class="flex items-center space-x-3">
+                            <div class="h-12 w-20 rounded-xl bg-slate-800 border border-slate-700/50 flex items-center justify-center text-white font-extrabold uppercase overflow-hidden p-1" id="edit-logo-preview">
+                                <!-- Dynamic -->
+                            </div>
+                            <input type="file" name="logo" accept="image/*" onchange="previewUserFile(this, 'edit-logo-preview')" class="block w-full text-xs text-slate-500 file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:bg-slate-800 file:text-slate-300 hover:file:bg-slate-700 file:cursor-pointer cursor-pointer">
+                        </div>
                     </div>
                 </div>
 
-                <!-- Brand Logo -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Brand Logo</label>
-                    <div class="flex items-center space-x-3">
-                        <div class="h-12 w-20 rounded-xl bg-slate-800 border border-slate-700/50 flex items-center justify-center text-white font-extrabold uppercase overflow-hidden p-1" id="edit-logo-preview">
-                            <!-- Dynamic -->
-                        </div>
-                        <input type="file" name="logo" accept="image/*" onchange="previewUserFile(this, 'edit-logo-preview')" class="block w-full text-xs text-slate-500 file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:bg-slate-800 file:text-slate-300 hover:file:bg-slate-700 file:cursor-pointer cursor-pointer">
+                    <label for="edit-name" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Full Name</label>
+                    <input type="text" name="name" id="edit-name" required
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                </div>
+
+                <div>
+                    <label for="edit-email" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Email Address</label>
+                    <input type="email" name="email" id="edit-email" required
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="edit-phone" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Phone Number</label>
+                        <input type="text" name="phone_number" id="edit-phone"
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                    </div>
+                    <div>
+                        <label for="edit-destination" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Destination</label>
+                        <input type="text" name="destination" id="edit-destination"
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
                     </div>
                 </div>
-            </div>
 
-            <div>
-                <label for="edit-name" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Full Name</label>
-                <input type="text" name="name" id="edit-name" required
-                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
-            </div>
-
-            <div>
-                <label for="edit-email" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Email Address</label>
-                <input type="email" name="email" id="edit-email" required
-                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label for="edit-phone" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Phone Number</label>
-                    <input type="text" name="phone_number" id="edit-phone"
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
-                </div>
-                <div>
-                    <label for="edit-destination" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Destination</label>
-                    <input type="text" name="destination" id="edit-destination"
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                <div class="border-t border-slate-800 pt-3.5">
+                    <label for="edit-password" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Change Password (Optional)</label>
+                    <input type="password" name="password" id="edit-password" placeholder="Leave blank to keep current password"
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-660 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
                 </div>
             </div>
 
-            <div class="border-t border-slate-800 pt-3.5">
-                <label for="edit-password" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Change Password (Optional)</label>
-                <input type="password" name="password" id="edit-password" placeholder="Leave blank to keep current password"
-                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
-            </div>
-
-            <div class="border-t border-slate-800 pt-4 flex justify-end space-x-3">
+            <div class="border-t border-slate-800 px-6 py-4 flex justify-end space-x-3 bg-slate-950/40 flex-shrink-0">
                 <button type="button" onclick="closeModal('edit-user-modal')"
                         class="px-5 py-2.5 rounded-xl border border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors text-sm font-semibold">
                     Cancel
@@ -237,6 +239,7 @@
         </form>
     </div>
 </div>
+
 
 <!-- Delete User Confirmation Modal -->
 <div id="delete-user-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">

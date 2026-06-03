@@ -95,8 +95,8 @@
 <!-- Add FAQ Modal -->
 <div id="add-faq-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal('add-faq-modal')"></div>
-    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl z-10 animate-fade-in">
-        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
+    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl z-10 animate-fade-in max-h-[90vh] flex flex-col">
+        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
             <h3 class="text-lg font-bold text-white">Create FAQ Record</h3>
             <button onclick="closeModal('add-faq-modal')" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -105,29 +105,31 @@
             </button>
         </div>
         
-        <form action="{{ route('admin.faqs.store') }}" method="POST" class="p-6 space-y-4">
+        <form action="{{ route('admin.faqs.store') }}" method="POST" class="flex-1 flex flex-col overflow-hidden">
             @csrf
-            <div>
-                <label for="add-question" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Question</label>
-                <input type="text" name="question" id="add-question" required placeholder="What is LeadBrand?"
-                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-650 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+            <div class="p-6 space-y-4 overflow-y-auto flex-1 scrollbar">
+                <div>
+                    <label for="add-question" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Question</label>
+                    <input type="text" name="question" id="add-question" required placeholder="What is LeadBrand?"
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                </div>
+
+                <div>
+                    <label for="add-answer" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Answer Description</label>
+                    <textarea name="answer" id="add-answer" rows="5" required placeholder="LeadBrand is a client administration platform..."
+                              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm resize-none"></textarea>
+                </div>
+
+                <div>
+                    <label for="add-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Default Status</label>
+                    <select name="status" id="add-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                        <option value="1">Active (Visible)</option>
+                        <option value="0">Inactive (Hidden)</option>
+                    </select>
+                </div>
             </div>
 
-            <div>
-                <label for="add-answer" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Answer Description</label>
-                <textarea name="answer" id="add-answer" rows="5" required placeholder="LeadBrand is a client administration platform..."
-                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-650 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm resize-none"></textarea>
-            </div>
-
-            <div>
-                <label for="add-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Default Status</label>
-                <select name="status" id="add-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
-                    <option value="1">Active (Visible)</option>
-                    <option value="0">Inactive (Hidden)</option>
-                </select>
-            </div>
-
-            <div class="border-t border-slate-800 pt-4 flex justify-end space-x-3">
+            <div class="border-t border-slate-800 px-6 py-4 flex justify-end space-x-3 bg-slate-950/40 flex-shrink-0">
                 <button type="button" onclick="closeModal('add-faq-modal')"
                         class="px-5 py-2.5 rounded-xl border border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors text-sm font-semibold">
                     Cancel
@@ -144,8 +146,8 @@
 <!-- View FAQ Modal -->
 <div id="view-faq-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal('view-faq-modal')"></div>
-    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl z-10 animate-fade-in">
-        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
+    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl z-10 animate-fade-in max-h-[90vh] flex flex-col">
+        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
             <h3 class="text-lg font-bold text-white">FAQ Record View</h3>
             <button onclick="closeModal('view-faq-modal')" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -153,7 +155,7 @@
                 </svg>
             </button>
         </div>
-        <div class="p-6 space-y-4">
+        <div class="p-6 space-y-4 overflow-y-auto flex-1 scrollbar">
             <div class="space-y-1">
                 <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Question Inquiry</span>
                 <h4 class="text-base font-bold text-white leading-snug" id="view-question">Loading...</h4>
@@ -169,7 +171,7 @@
                 <span id="view-status" class="px-2.5 py-1 text-xs font-bold rounded-full">Active</span>
             </div>
         </div>
-        <div class="px-6 py-4 bg-slate-950/40 border-t border-slate-800 flex justify-end">
+        <div class="px-6 py-4 bg-slate-950/40 border-t border-slate-800 flex justify-end flex-shrink-0">
             <button onclick="closeModal('view-faq-modal')" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white transition-colors text-sm font-semibold rounded-xl">
                 Close View
             </button>
@@ -180,8 +182,8 @@
 <!-- Edit FAQ Modal -->
 <div id="edit-faq-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal('edit-faq-modal')"></div>
-    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl z-10 animate-fade-in">
-        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
+    <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl z-10 animate-fade-in max-h-[90vh] flex flex-col">
+        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
             <h3 class="text-lg font-bold text-white">Modify FAQ Record</h3>
             <button onclick="closeModal('edit-faq-modal')" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -190,29 +192,31 @@
             </button>
         </div>
         
-        <form id="edit-faq-form" action="" method="POST" class="p-6 space-y-4">
+        <form id="edit-faq-form" action="" method="POST" class="flex-1 flex flex-col overflow-hidden">
             @csrf
-            <div>
-                <label for="edit-question" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Question</label>
-                <input type="text" name="question" id="edit-question" required
-                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+            <div class="p-6 space-y-4 overflow-y-auto flex-1 scrollbar">
+                <div>
+                    <label for="edit-question" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Question</label>
+                    <input type="text" name="question" id="edit-question" required
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                </div>
+
+                <div>
+                    <label for="edit-answer" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Answer Description</label>
+                    <textarea name="answer" id="edit-answer" rows="5" required
+                              class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm resize-none"></textarea>
+                </div>
+
+                <div>
+                    <label for="edit-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Status</label>
+                    <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                        <option value="1">Active (Visible)</option>
+                        <option value="0">Inactive (Hidden)</option>
+                    </select>
+                </div>
             </div>
 
-            <div>
-                <label for="edit-answer" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Answer Description</label>
-                <textarea name="answer" id="edit-answer" rows="5" required
-                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm resize-none"></textarea>
-            </div>
-
-            <div>
-                <label for="edit-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Status</label>
-                <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
-                    <option value="1">Active (Visible)</option>
-                    <option value="0">Inactive (Hidden)</option>
-                </select>
-            </div>
-
-            <div class="border-t border-slate-800 pt-4 flex justify-end space-x-3">
+            <div class="border-t border-slate-800 px-6 py-4 flex justify-end space-x-3 bg-slate-950/40 flex-shrink-0">
                 <button type="button" onclick="closeModal('edit-faq-modal')"
                         class="px-5 py-2.5 rounded-xl border border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors text-sm font-semibold">
                     Cancel
@@ -225,6 +229,7 @@
         </form>
     </div>
 </div>
+
 
 <!-- Delete FAQ Confirmation Modal -->
 <div id="delete-faq-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">

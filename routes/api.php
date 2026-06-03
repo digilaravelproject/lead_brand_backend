@@ -30,3 +30,9 @@ Route::get('trainings', [TrainingController::class, 'getTrainings']);
 Route::get('trainings/search', [TrainingController::class, 'search']);
 Route::get('trainings/{id}', [TrainingController::class, 'show']);
 
+// Notifications routes
+use App\Http\Controllers\Api\NotificationController;
+Route::get('notifications', [NotificationController::class, 'index']);
+Route::post('notifications/mark-all-read', [NotificationController::class, 'markAllRead']);
+Route::get('notifications/{id}', [NotificationController::class, 'show']);
+
