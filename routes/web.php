@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\TrainingCategoryController;
+use App\Http\Controllers\Admin\TrainingHubController;
 use App\Http\Middleware\AdminAuthenticate;
 use App\Http\Middleware\RedirectIfAdminAuthenticated;
 
@@ -59,6 +61,26 @@ Route::prefix('admin')->group(function () {
             Route::post('{id}/update', [PageController::class, 'update'])->name('admin.pages.update');
             Route::post('{id}/toggle-status', [PageController::class, 'toggleStatus'])->name('admin.pages.toggle-status');
             Route::delete('{id}', [PageController::class, 'destroy'])->name('admin.pages.destroy');
+        });
+
+        // Manage Training Categories
+        Route::prefix('training-categories')->group(function () {
+            Route::get('/', [TrainingCategoryController::class, 'index'])->name('admin.training-categories.index');
+            Route::post('/', [TrainingCategoryController::class, 'store'])->name('admin.training-categories.store');
+            Route::get('{id}', [TrainingCategoryController::class, 'show'])->name('admin.training-categories.show');
+            Route::post('{id}/update', [TrainingCategoryController::class, 'update'])->name('admin.training-categories.update');
+            Route::post('{id}/toggle-status', [TrainingCategoryController::class, 'toggleStatus'])->name('admin.training-categories.toggle-status');
+            Route::delete('{id}', [TrainingCategoryController::class, 'destroy'])->name('admin.training-categories.destroy');
+        });
+
+        // Manage Training Hubs
+        Route::prefix('training-hubs')->group(function () {
+            Route::get('/', [TrainingHubController::class, 'index'])->name('admin.training-hubs.index');
+            Route::post('/', [TrainingHubController::class, 'store'])->name('admin.training-hubs.store');
+            Route::get('{id}', [TrainingHubController::class, 'show'])->name('admin.training-hubs.show');
+            Route::post('{id}/update', [TrainingHubController::class, 'update'])->name('admin.training-hubs.update');
+            Route::post('{id}/toggle-status', [TrainingHubController::class, 'toggleStatus'])->name('admin.training-hubs.toggle-status');
+            Route::delete('{id}', [TrainingHubController::class, 'destroy'])->name('admin.training-hubs.destroy');
         });
     });
 });

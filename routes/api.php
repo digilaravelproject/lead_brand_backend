@@ -22,3 +22,11 @@ Route::middleware('auth:sanctum')->group(function () {
 // Public content routes
 Route::get('faqs', [FaqController::class, 'index']);
 Route::get('pages/{page_name}', [PageController::class, 'show']);
+
+// Public training routes
+use App\Http\Controllers\Api\TrainingController;
+Route::get('training-categories', [TrainingController::class, 'getCategories']);
+Route::get('trainings', [TrainingController::class, 'getTrainings']);
+Route::get('trainings/search', [TrainingController::class, 'search']);
+Route::get('trainings/{id}', [TrainingController::class, 'show']);
+

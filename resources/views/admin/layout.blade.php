@@ -91,6 +91,25 @@
                 </svg>
                 <span>Static Pages</span>
             </a>
+
+            <!-- Manage Training Categories Link -->
+            <a href="{{ route('admin.training-categories.index') }}" 
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.training-categories.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+                <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span>Training Categories</span>
+            </a>
+
+            <!-- Manage Training Hub Link -->
+            <a href="{{ route('admin.training-hubs.index') }}" 
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.training-hubs.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+                <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <span>Training Hub</span>
+            </a>
+
         </nav>
 
         <!-- Sidebar Footer (Logout Info) -->
@@ -210,21 +229,20 @@
     <div id="profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal('profile-modal')"></div>
         
-        <div class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl z-10 animate-fade-in">
+        <form action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data" class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl z-10 animate-fade-in max-h-[90vh] flex flex-col">
+            @csrf
             <!-- Header -->
-            <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
+            <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
                 <h3 class="text-lg font-bold text-white">Update Admin Profile</h3>
-                <button onclick="closeModal('profile-modal')" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
+                <button type="button" onclick="closeModal('profile-modal')" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
 
-            <!-- Form -->
-            <form action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-5">
-                @csrf
-                
+            <!-- Form Body -->
+            <div class="p-6 overflow-y-auto space-y-5 flex-1 scrollbar">
                 <!-- Profile Image Selection -->
                 <div class="flex items-center space-x-5">
                     <div class="h-20 w-20 rounded-2xl bg-indigo-600 flex items-center justify-center text-white font-extrabold text-2xl uppercase shadow-md overflow-hidden relative group border border-slate-700/50" id="avatar-preview-box">
@@ -272,19 +290,20 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="border-t border-slate-800 pt-5 flex justify-end space-x-3">
-                    <button type="button" onclick="closeModal('profile-modal')"
-                            class="px-5 py-2.5 rounded-xl border border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors text-sm font-semibold">
-                        Cancel
-                    </button>
-                    <button type="submit" 
-                            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md shadow-indigo-500/10 transition-colors text-sm font-semibold">
-                        Save Changes
-                    </button>
-                </div>
-            </form>
-        </div>
+            <!-- Footer -->
+            <div class="border-t border-slate-800 px-6 py-5 flex justify-end space-x-3 bg-slate-950/40 flex-shrink-0">
+                <button type="button" onclick="closeModal('profile-modal')"
+                        class="px-5 py-2.5 rounded-xl border border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors text-sm font-semibold">
+                    Cancel
+                </button>
+                <button type="submit" 
+                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md shadow-indigo-500/10 transition-colors text-sm font-semibold">
+                    Save Changes
+                </button>
+            </div>
+        </form>
     </div>
 
     <!-- Layout JS (Vanilla, zero deps) -->
