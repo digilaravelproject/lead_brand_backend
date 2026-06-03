@@ -32,8 +32,8 @@ class TrainingHubController extends Controller
             'description' => ['nullable', 'string'],
             'files' => ['required', 'array'],
             'files.*' => $request->type === 'pdf' 
-                ? ['file', 'mimes:pdf', 'max:20480'] // Max 20MB for PDFs
-                : ['file', 'mimes:mp4,mov,avi,mkv,webm', 'max:102400'], // Max 100MB for Videos
+                ? ['file', 'mimes:pdf', 'max:2097152'] // Max 2GB for PDFs
+                : ['file', 'mimes:mp4,mov,avi,mkv,webm', 'max:2097152'], // Max 2GB for Videos
             'status' => ['required', 'in:0,1'],
         ]);
 
@@ -107,8 +107,8 @@ class TrainingHubController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'file' => $request->type === 'pdf' 
-                ? ['nullable', 'file', 'mimes:pdf', 'max:20480'] 
-                : ['nullable', 'file', 'mimes:mp4,mov,avi,mkv,webm', 'max:102400'],
+                ? ['nullable', 'file', 'mimes:pdf', 'max:2097152'] 
+                : ['nullable', 'file', 'mimes:mp4,mov,avi,mkv,webm', 'max:2097152'],
             'status' => ['required', 'in:0,1'],
         ]);
 

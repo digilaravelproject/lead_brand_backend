@@ -34,5 +34,12 @@ Route::get('trainings/{id}', [TrainingController::class, 'show']);
 use App\Http\Controllers\Api\NotificationController;
 Route::get('notifications', [NotificationController::class, 'index']);
 Route::post('notifications/mark-all-read', [NotificationController::class, 'markAllRead']);
+
+// Tools routes
+use App\Http\Controllers\Api\ToolController;
+Route::get('tools', [ToolController::class, 'index']);
+Route::get('tools/{id}', [ToolController::class, 'show']);
+Route::get('tools/media/{id}', [ToolController::class, 'showMedia']);
+
 Route::get('notifications/{id}', [NotificationController::class, 'show']);
 

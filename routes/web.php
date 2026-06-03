@@ -82,5 +82,23 @@ Route::prefix('admin')->group(function () {
             Route::post('{id}/toggle-status', [TrainingHubController::class, 'toggleStatus'])->name('admin.training-hubs.toggle-status');
             Route::delete('{id}', [TrainingHubController::class, 'destroy'])->name('admin.training-hubs.destroy');
         });
+
+        // Manage Business Tools
+        Route::prefix('tools')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\ToolController::class, 'index'])->name('admin.tools.index');
+            Route::post('/', [\App\Http\Controllers\Admin\ToolController::class, 'store'])->name('admin.tools.store');
+            Route::get('{id}', [\App\Http\Controllers\Admin\ToolController::class, 'show'])->name('admin.tools.show');
+            Route::post('{id}/update', [\App\Http\Controllers\Admin\ToolController::class, 'update'])->name('admin.tools.update');
+            Route::post('{id}/toggle-status', [\App\Http\Controllers\Admin\ToolController::class, 'toggleStatus'])->name('admin.tools.toggle-status');
+            Route::delete('{id}', [\App\Http\Controllers\Admin\ToolController::class, 'destroy'])->name('admin.tools.destroy');
+            
+            // Subtools & Media management specific to a Tool
+            Route::get('{id}/manage', [\App\Http\Controllers\Admin\ToolController::class, 'manage'])->name('admin.tools.manage');
+            Route::post('{id}/subtools', [\App\Http\Controllers\Admin\ToolController::class, 'storeSubtool'])->name('admin.tools.subtools.store');
+            Route::delete('subtools/{subtoolId}', [\App\Http\Controllers\Admin\ToolController::class, 'destroySubtool'])->name('admin.tools.subtools.destroy');
+            Route::post('{id}/media', [\App\Http\Controllers\Admin\ToolController::class, 'storeMedia'])->name('admin.tools.media.store');
+            Route::delete('media/{mediaId}', [\App\Http\Controllers\Admin\ToolController::class, 'destroyMedia'])->name('admin.tools.media.destroy');
+        });
     });
 });
+
