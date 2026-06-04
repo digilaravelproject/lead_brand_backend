@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\TrainingCategoryController;
 use App\Http\Controllers\Admin\TrainingHubController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Middleware\AdminAuthenticate;
 use App\Http\Middleware\RedirectIfAdminAuthenticated;
 
@@ -98,6 +99,16 @@ Route::prefix('admin')->group(function () {
             Route::delete('subtools/{subtoolId}', [\App\Http\Controllers\Admin\ToolController::class, 'destroySubtool'])->name('admin.tools.subtools.destroy');
             Route::post('{id}/media', [\App\Http\Controllers\Admin\ToolController::class, 'storeMedia'])->name('admin.tools.media.store');
             Route::delete('media/{mediaId}', [\App\Http\Controllers\Admin\ToolController::class, 'destroyMedia'])->name('admin.tools.media.destroy');
+        });
+
+        // Manage Banners
+        Route::prefix('banners')->group(function () {
+            Route::get('/', [BannerController::class, 'index'])->name('admin.banners.index');
+            Route::post('/', [BannerController::class, 'store'])->name('admin.banners.store');
+            Route::get('{id}', [BannerController::class, 'show'])->name('admin.banners.show');
+            Route::post('{id}/update', [BannerController::class, 'update'])->name('admin.banners.update');
+            Route::post('{id}/toggle-status', [BannerController::class, 'toggleStatus'])->name('admin.banners.toggle-status');
+            Route::delete('{id}', [BannerController::class, 'destroy'])->name('admin.banners.destroy');
         });
     });
 });

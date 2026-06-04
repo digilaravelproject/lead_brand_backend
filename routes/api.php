@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\PageController;
+use App\Http\Controllers\Api\BannerController;
+use App\Http\Controllers\Api\CalendarController;
 
 Route::prefix('auth')->group(function () {
     Route::post('send-otp', [AuthController::class, 'sendOtp']);
@@ -17,7 +19,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('user/update-profile', [AuthController::class, 'updateProfile']);
+    
+    // Calendar PDF Generation
+    Route::get('generate-calendar', [CalendarController::class, 'generate']);
+    Route::post('generate-calendar', [CalendarController::class, 'generate']);
 });
+
+// Banners APIs
+Route::get('banners', [BannerController::class, 'index']);
+Route::get('banners/{id}', [BannerController::class, 'show']);
 
 // Public content routes
 Route::get('faqs', [FaqController::class, 'index']);
