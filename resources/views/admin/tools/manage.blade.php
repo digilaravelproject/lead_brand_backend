@@ -297,6 +297,29 @@
                 </select>
             </div>
 
+            <!-- Language Selection Radio Buttons -->
+            <div>
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Language <span class="text-red-500">*</span></label>
+                <div class="flex flex-wrap gap-4 items-center bg-slate-950/40 border border-slate-800 rounded-xl p-3">
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="en" checked class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <span>English</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="mr" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <span>Marathi</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="hi" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <span>Hindi</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <span>Gujrati</span>
+                    </label>
+                </div>
+            </div>
+
             <!-- Upload Multiple Files -->
             <div>
                 <label for="media-files" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Select Files <span class="text-red-500">*</span></label>

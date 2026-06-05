@@ -181,6 +181,7 @@ class ToolController extends Controller
 
         $request->validate([
             'subtool_id' => ['nullable', 'exists:subtools,id'],
+            'language' => ['required', 'string', 'in:en,mr,hi,gu'],
             'files' => ['required', 'array'],
             'files.*' => ['file', 'max:2097152'], // Max 2GB per file
         ]);
@@ -220,6 +221,7 @@ class ToolController extends Controller
                 'title' => $mediaTitle,
                 'file_path' => $filePath,
                 'media_type' => $mediaType,
+                'language' => $request->language,
                 'status' => 1,
             ]);
 

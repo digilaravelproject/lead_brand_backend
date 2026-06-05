@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\BannerController;
-use App\Http\Controllers\Api\CalendarController;
 
 Route::prefix('auth')->group(function () {
     Route::post('send-otp', [AuthController::class, 'sendOtp']);
@@ -19,10 +18,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('user/update-profile', [AuthController::class, 'updateProfile']);
-    
-    // Calendar PDF Generation
-    Route::get('generate-calendar', [CalendarController::class, 'generate']);
-    Route::post('generate-calendar', [CalendarController::class, 'generate']);
+    Route::post('user/language', [AuthController::class, 'updateLanguage']);
+    Route::get('calendar', [\App\Http\Controllers\Api\CalendarApiController::class, 'getCalendar']);
 });
 
 // Banners APIs

@@ -30,6 +30,7 @@ class TrainingHubController extends Controller
             'type' => ['required', 'in:pdf,video'],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'language' => ['required', 'string', 'in:en,mr,hi,gu'],
             'files' => ['required', 'array'],
             'files.*' => $request->type === 'pdf' 
                 ? ['file', 'mimes:pdf', 'max:2097152'] // Max 2GB for PDFs
@@ -62,6 +63,7 @@ class TrainingHubController extends Controller
                 'title' => $title,
                 'description' => $request->description,
                 'file_path' => $filePath,
+                'language' => $request->language,
                 'status' => $request->status,
             ]);
         }
@@ -106,6 +108,7 @@ class TrainingHubController extends Controller
             'type' => ['required', 'in:pdf,video'],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
+            'language' => ['required', 'string', 'in:en,mr,hi,gu'],
             'file' => $request->type === 'pdf' 
                 ? ['nullable', 'file', 'mimes:pdf', 'max:2097152'] 
                 : ['nullable', 'file', 'mimes:mp4,mov,avi,mkv,webm', 'max:2097152'],
@@ -116,6 +119,7 @@ class TrainingHubController extends Controller
         $training->type = $request->type;
         $training->title = $request->title;
         $training->description = $request->description;
+        $training->language = $request->language;
         $training->status = $request->status;
 
         // If replacing the file

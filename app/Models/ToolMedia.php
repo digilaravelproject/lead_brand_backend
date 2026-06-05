@@ -17,6 +17,7 @@ class ToolMedia extends Model
         'title',
         'file_path',
         'media_type',
+        'language',
         'status',
     ];
 

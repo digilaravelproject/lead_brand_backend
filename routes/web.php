@@ -110,6 +110,16 @@ Route::prefix('admin')->group(function () {
             Route::post('{id}/toggle-status', [BannerController::class, 'toggleStatus'])->name('admin.banners.toggle-status');
             Route::delete('{id}', [BannerController::class, 'destroy'])->name('admin.banners.destroy');
         });
+
+        // Manage Calendar Contents
+        Route::prefix('calendar-contents')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\CalendarController::class, 'index'])->name('admin.calendar-contents.index');
+            Route::post('/', [\App\Http\Controllers\Admin\CalendarController::class, 'store'])->name('admin.calendar-contents.store');
+            Route::get('{id}', [\App\Http\Controllers\Admin\CalendarController::class, 'show'])->name('admin.calendar-contents.show');
+            Route::post('{id}/update', [\App\Http\Controllers\Admin\CalendarController::class, 'update'])->name('admin.calendar-contents.update');
+            Route::post('{id}/toggle-status', [\App\Http\Controllers\Admin\CalendarController::class, 'toggleStatus'])->name('admin.calendar-contents.toggle-status');
+            Route::delete('{id}', [\App\Http\Controllers\Admin\CalendarController::class, 'destroy'])->name('admin.calendar-contents.destroy');
+        });
     });
 });
 

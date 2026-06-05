@@ -161,6 +161,29 @@
                        class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-650 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
             </div>
 
+            <!-- Language Selection Radio Buttons -->
+            <div>
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Language <span class="text-red-500">*</span></label>
+                <div class="flex flex-wrap gap-4 items-center bg-slate-950/40 border border-slate-800 rounded-xl p-3">
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="en" checked class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-en">
+                        <span>English</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="mr" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-mr">
+                        <span>Marathi</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="hi" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-hi">
+                        <span>Hindi</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-gu">
+                        <span>Gujrati</span>
+                    </label>
+                </div>
+            </div>
+
             <div>
                 <label for="add-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Summary / Instructions (Optional)</label>
                 <textarea name="description" id="add-description" rows="3" placeholder="Brief outline of topics covered..."
@@ -481,6 +504,11 @@
                     fileInput.accept = 'video/*';
                     editUploadLabel.textContent = 'Replace Video File (Optional)';
                 }
+
+                document.getElementById('edit-lang-en').checked = (item.language === 'en');
+                document.getElementById('edit-lang-mr').checked = (item.language === 'mr');
+                document.getElementById('edit-lang-hi').checked = (item.language === 'hi');
+                document.getElementById('edit-lang-gu').checked = (item.language === 'gu');
 
                 document.getElementById('edit-current-file-text').textContent = `Current: ${item.file_path.split('/').pop()}`;
             })

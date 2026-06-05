@@ -10,6 +10,37 @@ use Illuminate\Http\Request;
 class TrainingController extends Controller
 {
     /**
+     * Resolve the requested language code (en, mr, hi, gu).
+     */
+    private function resolveLanguage(Request $request)
+    {
+        // 1. Check if user is authenticated via Bearer token (Access Token) or request resolver
+        $user = $request->user('sanctum') ?: $request->user();
+        if ($user && $user->language) {
+            return $user->language;
+        }
+        
+        // 2. Check X-Language header
+        if ($request->hasHeader('X-Language')) {
+            $lang = strtolower($request->header('X-Language'));
+            if (in_array($lang, ['en', 'mr', 'hi', 'gu'])) {
+                return $lang;
+            }
+        }
+        
+        // 3. Check language parameter in request
+        if ($request->has('language')) {
+            $lang = strtolower($request->input('language'));
+            if (in_array($lang, ['en', 'mr', 'hi', 'gu'])) {
+                return $lang;
+            }
+        }
+
+        // Default to English
+        return 'en';
+    }
+
+    /**
      * Get active training categories.
      * Endpoint: GET /api/training-categories
      */
@@ -26,7 +57,7 @@ class TrainingController extends Controller
     }
 
     /**
-     * Get training data based on type (pdf/video) and category filter.
+     * Get training data based on type (pdf/video) and category filter, filtered by language.
      * Endpoint: GET /api/trainings
      */
     public function getTrainings(Request $request)
@@ -38,9 +69,11 @@ class TrainingController extends Controller
 
         $type = $request->type;
         $categoryId = $request->input('category_id', 'all');
+        $language = $this->resolveLanguage($request);
 
         $query = TrainingHub::with(['category:id,category_name'])
             ->where('status', 1)
+            ->where('language', $language)
             ->where('type', $type);
 
         if ($categoryId && $categoryId !== 'all') {
@@ -56,6 +89,7 @@ class TrainingController extends Controller
         return response()->json([
             'success' => true,
             'type' => $type,
+            'language' => $language,
             'category_filter' => $categoryId,
             'count' => $trainings->count(),
             'data' => $trainings
@@ -63,7 +97,7 @@ class TrainingController extends Controller
     }
 
     /**
-     * Search pdf/video items.
+     * Search pdf/video items filtered by language.
      * Endpoint: GET /api/trainings/search
      */
     public function search(Request $request)
@@ -75,9 +109,11 @@ class TrainingController extends Controller
 
         $searchQuery = $request->q;
         $type = $request->type;
+        $language = $this->resolveLanguage($request);
 
         $query = TrainingHub::with(['category:id,category_name'])
             ->where('status', 1)
+            ->where('language', $language)
             ->where(function ($subQuery) use ($searchQuery) {
                 $subQuery->where('title', 'like', '%' . $searchQuery . '%')
                          ->orWhere('description', 'like', '%' . $searchQuery . '%');
@@ -96,25 +132,29 @@ class TrainingController extends Controller
             'success' => true,
             'query' => $searchQuery,
             'type_filter' => $type ?: 'all',
+            'language' => $language,
             'count' => $results->count(),
             'data' => $results
         ], 200);
     }
 
     /**
-     * Get a specific training resource by ID (e.g. for getting a specific video).
+     * Get a specific training resource by ID, matching the requested language.
      * Endpoint: GET /api/trainings/{id}
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        $language = $this->resolveLanguage($request);
         $training = TrainingHub::with(['category:id,category_name'])
             ->where('status', 1)
+            ->where('language', $language)
             ->findOrFail($id);
 
         $training->file_url = asset($training->file_path);
 
         return response()->json([
             'success' => true,
+            'language' => $language,
             'data' => $training
         ], 200);
     }

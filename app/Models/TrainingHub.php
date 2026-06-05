@@ -17,6 +17,7 @@ class TrainingHub extends Model
         'title',
         'description',
         'file_path',
+        'language',
         'status',
     ];
 

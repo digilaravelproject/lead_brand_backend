@@ -10,21 +10,58 @@ use Illuminate\Http\Request;
 class ToolController extends Controller
 {
     /**
-     * Get all active tools, their active subtools, and associated media.
+     * Resolve the requested language code (en, mr, hi, gu).
      */
-    public function index()
+    private function resolveLanguage(Request $request)
+    {
+        // 1. Check if user is authenticated via Bearer token (Access Token) or request resolver
+        $user = $request->user('sanctum') ?: $request->user();
+        if ($user && $user->language) {
+            return $user->language;
+        }
+        
+        // 2. Check X-Language header
+        if ($request->hasHeader('X-Language')) {
+            $lang = strtolower($request->header('X-Language'));
+            if (in_array($lang, ['en', 'mr', 'hi', 'gu'])) {
+                return $lang;
+            }
+        }
+        
+        // 3. Check language parameter in request
+        if ($request->has('language')) {
+            $lang = strtolower($request->input('language'));
+            if (in_array($lang, ['en', 'mr', 'hi', 'gu'])) {
+                return $lang;
+            }
+        }
+
+        // Default to English
+        return 'en';
+    }
+
+    /**
+     * Get all active tools, their active subtools, and associated media matching the user's language.
+     */
+    public function index(Request $request)
     {
         try {
+            $language = $this->resolveLanguage($request);
+
             $tools = Tool::where('status', 1)
                 ->with([
                     'subtools' => function ($query) {
                         $query->where('status', 1)->orderBy('created_at', 'asc');
                     },
-                    'subtools.media' => function ($query) {
-                        $query->where('status', 1)->orderBy('created_at', 'desc');
+                    'subtools.media' => function ($query) use ($language) {
+                        $query->where('status', 1)
+                              ->where('language', $language)
+                              ->orderBy('created_at', 'desc');
                     },
-                    'media' => function ($query) {
-                        $query->where('status', 1)->orderBy('created_at', 'desc');
+                    'media' => function ($query) use ($language) {
+                        $query->where('status', 1)
+                              ->where('language', $language)
+                              ->orderBy('created_at', 'desc');
                     }
                 ])
                 ->orderBy('created_at', 'asc')
@@ -40,6 +77,7 @@ class ToolController extends Controller
                         'file_path' => $media->file_path,
                         'full_url' => asset($media->file_path),
                         'media_type' => $media->media_type,
+                        'language' => $media->language,
                         'created_at' => $media->created_at->toIso8601String(),
                     ];
                 });
@@ -53,6 +91,7 @@ class ToolController extends Controller
                             'file_path' => $media->file_path,
                             'full_url' => asset($media->file_path),
                             'media_type' => $media->media_type,
+                            'language' => $media->language,
                             'created_at' => $media->created_at->toIso8601String(),
                         ];
                     });
@@ -80,6 +119,7 @@ class ToolController extends Controller
 
             return response()->json([
                 'status' => 'success',
+                'language' => $language,
                 'tools' => $formattedTools
             ], 200);
 
@@ -92,21 +132,27 @@ class ToolController extends Controller
     }
 
     /**
-     * Get specific tool data by its ID (including its subtools and media assets).
+     * Get specific tool data by its ID (including its subtools and media assets filtered by language).
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try {
+            $language = $this->resolveLanguage($request);
+
             $tool = Tool::where('status', 1)
                 ->with([
                     'subtools' => function ($query) {
                         $query->where('status', 1)->orderBy('created_at', 'asc');
                     },
-                    'subtools.media' => function ($query) {
-                        $query->where('status', 1)->orderBy('created_at', 'desc');
+                    'subtools.media' => function ($query) use ($language) {
+                        $query->where('status', 1)
+                              ->where('language', $language)
+                              ->orderBy('created_at', 'desc');
                     },
-                    'media' => function ($query) {
-                        $query->where('status', 1)->orderBy('created_at', 'desc');
+                    'media' => function ($query) use ($language) {
+                        $query->where('status', 1)
+                              ->where('language', $language)
+                              ->orderBy('created_at', 'desc');
                     }
                 ])
                 ->find($id);
@@ -126,6 +172,7 @@ class ToolController extends Controller
                     'file_path' => $media->file_path,
                     'full_url' => asset($media->file_path),
                     'media_type' => $media->media_type,
+                    'language' => $media->language,
                     'created_at' => $media->created_at->toIso8601String(),
                 ];
             });
@@ -138,6 +185,7 @@ class ToolController extends Controller
                         'file_path' => $media->file_path,
                         'full_url' => asset($media->file_path),
                         'media_type' => $media->media_type,
+                        'language' => $media->language,
                         'created_at' => $media->created_at->toIso8601String(),
                     ];
                 });
@@ -154,6 +202,7 @@ class ToolController extends Controller
 
             return response()->json([
                 'status' => 'success',
+                'language' => $language,
                 'tool' => [
                     'id' => $tool->id,
                     'title' => $tool->title,
@@ -174,17 +223,20 @@ class ToolController extends Controller
     }
 
     /**
-     * Get details of a specific tool media asset (photo/video) by its ID.
+     * Get details of a specific tool media asset by its ID if it matches the language.
      */
-    public function showMedia($id)
+    public function showMedia(Request $request, $id)
     {
         try {
-            $media = ToolMedia::where('status', 1)->find($id);
+            $language = $this->resolveLanguage($request);
+            $media = ToolMedia::where('status', 1)
+                ->where('language', $language)
+                ->find($id);
 
             if (!$media) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Media asset not found or inactive.'
+                    'message' => 'Media asset not found or inactive in the selected language.'
                 ], 404);
             }
 
@@ -198,6 +250,7 @@ class ToolController extends Controller
                     'file_path' => $media->file_path,
                     'full_url' => asset($media->file_path),
                     'media_type' => $media->media_type,
+                    'language' => $media->language,
                     'created_at' => $media->created_at->toIso8601String(),
                 ]
             ], 200);
