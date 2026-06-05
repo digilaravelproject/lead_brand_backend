@@ -40,30 +40,22 @@ class AuthController extends Controller
                 ]);
             } else {
                 // Link google_id if not already linked
-                if (empty($user->google_id)) {
+                if ($request->filled('google_id')) {
                     $user->update([
                         'google_id' => $request->google_id
                     ]);
                 }
                 // Fill details if they are empty
-                if ($request->filled('name') && empty($user->name)) {
+                if ($request->filled('name')) {
                     $user->update([
                         'name' => $request->name
                     ]);
                 }
-                if ($request->filled('profile_photo') && empty($user->profile_photo)) {
+                if ($request->filled('profile_photo')) {
                     $user->update([
                         'profile_photo' => $request->profile_photo
                     ]);
                 }
-            }
-
-            // Update latitude and longitude if provided
-            if ($request->has('latitude') || $request->has('longitude')) {
-                $user->update([
-                    'latitude'  => $request->latitude ?? $user->latitude,
-                    'longitude' => $request->longitude ?? $user->longitude,
-                ]);
             }
 
             // Revoke old tokens
