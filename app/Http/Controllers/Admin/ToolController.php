@@ -184,11 +184,24 @@ class ToolController extends Controller
             'language' => ['required', 'string', 'in:en,mr,hi,gu'],
             'files' => ['required', 'array'],
             'files.*' => ['file', 'max:2097152'], // Max 2GB per file
+            'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
         ]);
 
         $subtool = null;
         if ($request->subtool_id) {
             $subtool = Subtool::findOrFail($request->subtool_id);
+        }
+
+        $thumbnailPath = null;
+        if ($request->hasFile('thumbnail')) {
+            $thumb = $request->file('thumbnail');
+            $thumbName = time() . '_tool_thumb_' . preg_replace('/[^A-Za-z0-9\-.]/', '', $thumb->getClientOriginalName());
+            $thumbDest = public_path('uploads/tools/thumbnails');
+            if (!file_exists($thumbDest)) {
+                File::makeDirectory($thumbDest, 0755, true);
+            }
+            $thumb->move($thumbDest, $thumbName);
+            $thumbnailPath = 'uploads/tools/thumbnails/' . $thumbName;
         }
 
         $files = $request->file('files');
@@ -221,6 +234,7 @@ class ToolController extends Controller
                 'title' => $mediaTitle,
                 'file_path' => $filePath,
                 'media_type' => $mediaType,
+                'thumbnail' => $mediaType === 'video' ? $thumbnailPath : null,
                 'language' => $request->language,
                 'status' => 1,
             ]);
@@ -261,6 +275,11 @@ class ToolController extends Controller
         // Delete physical file
         if ($media->file_path && file_exists(public_path($media->file_path))) {
             @unlink(public_path($media->file_path));
+        }
+
+        // Delete physical thumbnail if exists
+        if ($media->thumbnail && file_exists(public_path($media->thumbnail))) {
+            @unlink(public_path($media->thumbnail));
         }
 
         $media->delete();

@@ -33,13 +33,13 @@
     </style>
     @yield('styles')
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+<body class="bg-slate-950 text-slate-100 min-h-screen md:h-screen md:overflow-hidden flex flex-col md:flex-row overflow-x-hidden">
 
     <!-- Mobile Sidebar Backdrop (Overlay) -->
     <div id="sidebar-backdrop" onclick="toggleSidebar()" class="hidden fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-40 transition-opacity duration-300 opacity-0"></div>
 
     <!-- Sidebar Component -->
-    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 w-72 bg-slate-900 border-r border-slate-800/80 z-50 transform -translate-x-full md:translate-x-0 md:static transition-transform duration-300 cubic-bezier(0.16, 1, 0.3, 1) flex flex-col">
+    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 w-72 bg-slate-900 border-r border-slate-800/80 z-50 transform -translate-x-full md:translate-x-0 md:sticky md:top-0 md:h-screen transition-transform duration-300 cubic-bezier(0.16, 1, 0.3, 1) flex flex-col">
         <!-- Sidebar Brand -->
         <div class="h-20 flex items-center px-6 border-b border-slate-800/80">
             <div class="flex items-center space-x-3">
@@ -157,7 +157,7 @@
     </aside>
 
     <!-- Main Content Container -->
-    <div class="flex-1 flex flex-col min-h-screen overflow-x-hidden">
+    <div class="flex-1 flex flex-col min-h-screen md:h-screen md:overflow-y-auto overflow-x-hidden">
         
         <!-- Header (Navbar) -->
         <header class="h-20 bg-slate-900 border-b border-slate-800/80 px-6 flex items-center justify-between sticky top-0 z-30">

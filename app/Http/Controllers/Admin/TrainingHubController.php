@@ -35,8 +35,23 @@ class TrainingHubController extends Controller
             'files.*' => $request->type === 'pdf' 
                 ? ['file', 'mimes:pdf', 'max:2097152'] // Max 2GB for PDFs
                 : ['file', 'mimes:mp4,mov,avi,mkv,webm', 'max:2097152'], // Max 2GB for Videos
+            'thumbnail' => $request->type === 'video'
+                ? ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120']
+                : ['nullable'],
             'status' => ['required', 'in:0,1'],
         ]);
+
+        $thumbnailPath = null;
+        if ($request->type === 'video' && $request->hasFile('thumbnail')) {
+            $thumb = $request->file('thumbnail');
+            $thumbName = time() . '_thumb_' . preg_replace('/[^A-Za-z0-9\-.]/', '', $thumb->getClientOriginalName());
+            $thumbDest = public_path('uploads/trainings/thumbnails');
+            if (!file_exists($thumbDest)) {
+                mkdir($thumbDest, 0755, true);
+            }
+            $thumb->move($thumbDest, $thumbName);
+            $thumbnailPath = 'uploads/trainings/thumbnails/' . $thumbName;
+        }
 
         $files = $request->file('files');
         $totalFiles = count($files);
@@ -63,6 +78,7 @@ class TrainingHubController extends Controller
                 'title' => $title,
                 'description' => $request->description,
                 'file_path' => $filePath,
+                'thumbnail' => $thumbnailPath,
                 'language' => $request->language,
                 'status' => $request->status,
             ]);
@@ -112,6 +128,9 @@ class TrainingHubController extends Controller
             'file' => $request->type === 'pdf' 
                 ? ['nullable', 'file', 'mimes:pdf', 'max:2097152'] 
                 : ['nullable', 'file', 'mimes:mp4,mov,avi,mkv,webm', 'max:2097152'],
+            'thumbnail' => $request->type === 'video'
+                ? ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120']
+                : ['nullable'],
             'status' => ['required', 'in:0,1'],
         ]);
 
@@ -137,6 +156,23 @@ class TrainingHubController extends Controller
             }
             $file->move($destinationPath, $filename);
             $training->file_path = 'uploads/trainings/' . $filename;
+        }
+
+        // If replacing the thumbnail
+        if ($request->type === 'video' && $request->hasFile('thumbnail')) {
+            // Delete old thumbnail if exists
+            if ($training->thumbnail && file_exists(public_path($training->thumbnail))) {
+                @unlink(public_path($training->thumbnail));
+            }
+
+            $thumb = $request->file('thumbnail');
+            $thumbName = time() . '_replace_thumb_' . preg_replace('/[^A-Za-z0-9\-.]/', '', $thumb->getClientOriginalName());
+            $thumbDest = public_path('uploads/trainings/thumbnails');
+            if (!file_exists($thumbDest)) {
+                mkdir($thumbDest, 0755, true);
+            }
+            $thumb->move($thumbDest, $thumbName);
+            $training->thumbnail = 'uploads/trainings/thumbnails/' . $thumbName;
         }
 
         $training->save();
@@ -171,6 +207,11 @@ class TrainingHubController extends Controller
         // Delete file
         if ($training->file_path && file_exists(public_path($training->file_path))) {
             @unlink(public_path($training->file_path));
+        }
+
+        // Delete thumbnail
+        if ($training->thumbnail && file_exists(public_path($training->thumbnail))) {
+            @unlink(public_path($training->thumbnail));
         }
 
         $training->delete();

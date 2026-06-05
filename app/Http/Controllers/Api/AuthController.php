@@ -15,6 +15,100 @@ use Carbon\Carbon;
 
 class AuthController extends Controller
 {
+
+    public function googleLogin(Request $request)
+    {
+        try {
+            $request->validate([
+                'google_id' => 'required|string',
+                'email'     => 'required|email',
+                'name'      => 'nullable|string',
+                'profile_photo' => 'nullable|string',
+            ]);
+
+            $user = User::where('email', $request->email)
+                        ->orWhere('google_id', $request->google_id)
+                        ->first();
+
+            if (!$user) {
+                // Register user automatically
+                $user = User::create([
+                    'email'     => $request->email,
+                    'google_id' => $request->google_id,
+                    'name'      => $request->name ?? '',
+                    'profile_photo' => $request->profile_photo ?? null,
+                ]);
+            } else {
+                // Link google_id if not already linked
+                if (empty($user->google_id)) {
+                    $user->update([
+                        'google_id' => $request->google_id
+                    ]);
+                }
+                // Fill details if they are empty
+                if ($request->filled('name') && empty($user->name)) {
+                    $user->update([
+                        'name' => $request->name
+                    ]);
+                }
+                if ($request->filled('profile_photo') && empty($user->profile_photo)) {
+                    $user->update([
+                        'profile_photo' => $request->profile_photo
+                    ]);
+                }
+            }
+
+            // Update latitude and longitude if provided
+            if ($request->has('latitude') || $request->has('longitude')) {
+                $user->update([
+                    'latitude'  => $request->latitude ?? $user->latitude,
+                    'longitude' => $request->longitude ?? $user->longitude,
+                ]);
+            }
+
+            // Revoke old tokens
+            $user->tokens()->delete();
+
+            $isNew = empty($user->name) ? 1 : 0;
+
+            if ($isNew) {
+                return response()->json([
+                    'status'  => true,
+                    'message' => 'Google login success - profile incomplete',
+                    'data'    => [
+                        'is_new' => 1,
+                        'user'   => $user,
+                    ],
+                ], 200);
+            }
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'status'  => true,
+                'message' => 'Login successful',
+                'data'    => [
+                    'is_new'       => 0,
+                    'access_token' => $token,
+                    'token_type'   => 'Bearer',
+                    'user'         => $user,
+                ],
+            ], 200);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'status'  => false,
+                'message' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            \Log::error($e);
+            return response()->json([
+                'status'  => false,
+                'message' => 'Something went wrong. Please try again.'
+            ], 500);
+        }
+    }
+
     public function sendOtp(Request $request)
     {
         try {

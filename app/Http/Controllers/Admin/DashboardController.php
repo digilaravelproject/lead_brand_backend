@@ -6,6 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Faq;
 use App\Models\Page;
+use App\Models\Banner;
+use App\Models\TrainingCategory;
+use App\Models\TrainingHub;
+use App\Models\Tool;
+use App\Models\Subtool;
+use App\Models\ToolMedia;
+use App\Models\CalendarContent;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -16,19 +24,39 @@ class DashboardController extends Controller
     public function index()
     {
         $usersCount = User::count();
-        $faqsCount = Faq::count();
-        $pagesCount = Page::count();
+        $bannersCount = Banner::count();
+        $trainingCategoriesCount = TrainingCategory::count();
+        $trainingHubCount = TrainingHub::count();
+        $trainingPdfsCount = TrainingHub::where('type', 'pdf')->count();
+        $trainingVideosCount = TrainingHub::where('type', 'video')->count();
 
-        // Get recent users and recent faqs to display on the dashboard
+        $toolsCount = Tool::count();
+        $subtoolsCount = Subtool::count();
+        $toolMediaCount = ToolMedia::count();
+
+        $calendarCount = CalendarContent::count();
+        $pagesCount = Page::count();
+        $faqsCount = Faq::count();
+
+        // Get recent users and recent activity notifications to display on the dashboard
         $recentUsers = User::latest()->take(5)->get();
-        $recentFaqs = Faq::latest()->take(5)->get();
+        $recentNotifications = Notification::latest()->take(6)->get();
 
         return view('admin.dashboard', compact(
             'usersCount',
-            'faqsCount',
+            'bannersCount',
+            'trainingCategoriesCount',
+            'trainingHubCount',
+            'trainingPdfsCount',
+            'trainingVideosCount',
+            'toolsCount',
+            'subtoolsCount',
+            'toolMediaCount',
+            'calendarCount',
             'pagesCount',
+            'faqsCount',
             'recentUsers',
-            'recentFaqs'
+            'recentNotifications'
         ));
     }
 }

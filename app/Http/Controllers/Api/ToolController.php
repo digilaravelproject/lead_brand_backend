@@ -77,6 +77,8 @@ class ToolController extends Controller
                         'file_path' => $media->file_path,
                         'full_url' => asset($media->file_path),
                         'media_type' => $media->media_type,
+                        'thumbnail' => $media->thumbnail,
+                        'thumbnail_url' => $media->thumbnail ? asset($media->thumbnail) : null,
                         'language' => $media->language,
                         'created_at' => $media->created_at->toIso8601String(),
                     ];
@@ -91,6 +93,8 @@ class ToolController extends Controller
                             'file_path' => $media->file_path,
                             'full_url' => asset($media->file_path),
                             'media_type' => $media->media_type,
+                            'thumbnail' => $media->thumbnail,
+                            'thumbnail_url' => $media->thumbnail ? asset($media->thumbnail) : null,
                             'language' => $media->language,
                             'created_at' => $media->created_at->toIso8601String(),
                         ];
@@ -172,6 +176,8 @@ class ToolController extends Controller
                     'file_path' => $media->file_path,
                     'full_url' => asset($media->file_path),
                     'media_type' => $media->media_type,
+                    'thumbnail' => $media->thumbnail,
+                    'thumbnail_url' => $media->thumbnail ? asset($media->thumbnail) : null,
                     'language' => $media->language,
                     'created_at' => $media->created_at->toIso8601String(),
                 ];
@@ -185,6 +191,8 @@ class ToolController extends Controller
                         'file_path' => $media->file_path,
                         'full_url' => asset($media->file_path),
                         'media_type' => $media->media_type,
+                        'thumbnail' => $media->thumbnail,
+                        'thumbnail_url' => $media->thumbnail ? asset($media->thumbnail) : null,
                         'language' => $media->language,
                         'created_at' => $media->created_at->toIso8601String(),
                     ];
@@ -250,6 +258,8 @@ class ToolController extends Controller
                     'file_path' => $media->file_path,
                     'full_url' => asset($media->file_path),
                     'media_type' => $media->media_type,
+                    'thumbnail' => $media->thumbnail,
+                    'thumbnail_url' => $media->thumbnail ? asset($media->thumbnail) : null,
                     'language' => $media->language,
                     'created_at' => $media->created_at->toIso8601String(),
                 ]

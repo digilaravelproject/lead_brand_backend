@@ -12,6 +12,7 @@ Route::prefix('auth')->group(function () {
     Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
     Route::post('resend-otp', [AuthController::class, 'resendOtp']);
     Route::post('complete-setup', [AuthController::class, 'completeSetup']);
+    Route::post('google-login', [AuthController::class, 'googleLogin']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {

@@ -114,7 +114,7 @@
                                 @if($media->media_type === 'image')
                                     <img src="{{ asset($media->file_path) }}" alt="Preview" class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300">
                                 @else
-                                    <video src="{{ asset($media->file_path) }}" class="h-full w-full object-cover"></video>
+                                    <video src="{{ asset($media->file_path) }}" @if($media->thumbnail) poster="{{ asset($media->thumbnail) }}" @endif class="h-full w-full object-cover"></video>
                                     <div class="absolute inset-0 bg-slate-950/50 flex items-center justify-center">
                                         <div class="h-8 w-8 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center text-white">
                                             <svg class="h-4 w-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -188,7 +188,7 @@
                                         @if($media->media_type === 'image')
                                             <img src="{{ asset($media->file_path) }}" alt="Preview" class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300">
                                         @else
-                                            <video src="{{ asset($media->file_path) }}" class="h-full w-full object-cover"></video>
+                                            <video src="{{ asset($media->file_path) }}" @if($media->thumbnail) poster="{{ asset($media->thumbnail) }}" @endif class="h-full w-full object-cover"></video>
                                             <div class="absolute inset-0 bg-slate-950/50 flex items-center justify-center">
                                                 <div class="h-8 w-8 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center text-white">
                                                     <svg class="h-4 w-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -327,6 +327,14 @@
                        class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-2">You can select multiple images (PNG, JPG, JPEG, GIF) or videos (MP4, WEBM) up to 100MB per file. File name will be used as media title.</p>
             </div>
+
+            <!-- Optional Video Thumbnail (Hidden by default) -->
+            <div id="tool-media-thumbnail-container" class="hidden">
+                <label for="tool-media-thumbnail" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Video Thumbnail (Optional)</label>
+                <input type="file" name="thumbnail" id="tool-media-thumbnail" accept="image/*"
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                <p class="text-xs text-slate-500 mt-1.5">Accepts PNG, JPG, JPEG, WEBP. This thumbnail will represent the video resource.</p>
+            </div>
         </div>
 
         <!-- Footer -->
@@ -342,4 +350,44 @@
         </div>
     </form>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('media-files');
+        if (fileInput) {
+            fileInput.addEventListener('change', function(e) {
+                const files = e.target.files;
+                let hasVideo = false;
+                for (let i = 0; i < files.length; i++) {
+                    if (files[i].type.startsWith('video/') || files[i].name.match(/\.(mp4|mov|avi|mkv|webm)$/i)) {
+                        hasVideo = true;
+                        break;
+                    }
+                }
+                const container = document.getElementById('tool-media-thumbnail-container');
+                if (hasVideo) {
+                    container.classList.remove('hidden');
+                } else {
+                    container.classList.add('hidden');
+                    document.getElementById('tool-media-thumbnail').value = '';
+                }
+            });
+        }
+    });
+
+    // Reset fields when opening modal
+    const originalOpenModal = window.openModal;
+    window.openModal = function(modalId) {
+        if (modalId === 'upload-media-modal') {
+            document.getElementById('media-files').value = '';
+            document.getElementById('tool-media-thumbnail').value = '';
+            document.getElementById('tool-media-thumbnail-container').classList.add('hidden');
+        }
+        if (originalOpenModal) {
+            originalOpenModal(modalId);
+        }
+    };
+</script>
 @endsection

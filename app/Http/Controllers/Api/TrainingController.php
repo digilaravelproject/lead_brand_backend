@@ -83,6 +83,7 @@ class TrainingController extends Controller
         $trainings = $query->latest()->get()->map(function ($item) {
             // Include absolute file URL
             $item->file_url = asset($item->file_path);
+            $item->thumbnail_url = $item->thumbnail ? asset($item->thumbnail) : null;
             return $item;
         });
 
@@ -125,6 +126,7 @@ class TrainingController extends Controller
 
         $results = $query->latest()->get()->map(function ($item) {
             $item->file_url = asset($item->file_path);
+            $item->thumbnail_url = $item->thumbnail ? asset($item->thumbnail) : null;
             return $item;
         });
 
@@ -151,6 +153,7 @@ class TrainingController extends Controller
             ->findOrFail($id);
 
         $training->file_url = asset($training->file_path);
+        $training->thumbnail_url = $training->thumbnail ? asset($training->thumbnail) : null;
 
         return response()->json([
             'success' => true,

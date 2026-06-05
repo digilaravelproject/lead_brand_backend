@@ -17,9 +17,15 @@ class TrainingHub extends Model
         'title',
         'description',
         'file_path',
+        'thumbnail',
         'language',
         'status',
     ];
+
+    /**
+     * Appended attributes automatically returned in JSON responses.
+     */
+    protected $appends = ['thumbnail_url'];
 
     /**
      * Relationship: A training hub resource belongs to a specific category.
@@ -27,5 +33,13 @@ class TrainingHub extends Model
     public function category()
     {
         return $this->belongsTo(TrainingCategory::class, 'training_category_id');
+    }
+
+    /**
+     * Get the full URL to the thumbnail file.
+     */
+    public function getThumbnailUrlAttribute()
+    {
+        return $this->thumbnail ? asset($this->thumbnail) : null;
     }
 }

@@ -198,6 +198,14 @@
                 <p class="text-xs text-slate-500 mt-1.5" id="upload-help-text">You can select multiple PDFs. Suffixes (- Part 1, Part 2...) will be added automatically to their titles.</p>
             </div>
 
+            <!-- Video Thumbnail Upload (Hidden by default) -->
+            <div id="add-thumbnail-container" class="hidden">
+                <label for="add-thumbnail" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Video Thumbnail Image (Optional)</label>
+                <input type="file" name="thumbnail" id="add-thumbnail" accept="image/*"
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                <p class="text-xs text-slate-500 mt-1.5">Accepts PNG, JPG, JPEG, WEBP. This thumbnail will represent the video resource.</p>
+            </div>
+
             <div>
                 <label for="add-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Publish Status</label>
                 <select name="status" id="add-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
@@ -312,6 +320,29 @@
                        class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
             </div>
 
+            <!-- Language Selection Radio Buttons -->
+            <div>
+                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Language <span class="text-red-500">*</span></label>
+                <div class="flex flex-wrap gap-4 items-center bg-slate-950/40 border border-slate-800 rounded-xl p-3">
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="en" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-en">
+                        <span>English</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="mr" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-mr">
+                        <span>Marathi</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="hi" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-hi">
+                        <span>Hindi</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-gu">
+                        <span>Gujrati</span>
+                    </label>
+                </div>
+            </div>
+
             <div>
                 <label for="edit-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Summary / Instructions</label>
                 <textarea name="description" id="edit-description" rows="3"
@@ -325,6 +356,15 @@
                        class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-1.5">Leave blank to keep existing file. Uploading replaces the old file.</p>
                 <span class="block text-xs text-indigo-400 truncate mt-1 font-mono" id="edit-current-file-text"></span>
+            </div>
+
+            <!-- Optional Video Thumbnail Replacement (Hidden by default) -->
+            <div id="edit-thumbnail-container" class="hidden">
+                <label for="edit-thumbnail" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Replace Thumbnail Image (Optional)</label>
+                <input type="file" name="thumbnail" id="edit-thumbnail" accept="image/*"
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                <p class="text-xs text-slate-500 mt-1.5">Leave blank to keep existing thumbnail. Uploading replaces the old one.</p>
+                <span class="block text-xs text-indigo-400 truncate mt-1 font-mono" id="edit-current-thumbnail-text"></span>
             </div>
 
             <div>
@@ -391,6 +431,7 @@
         const fileInput = document.getElementById('add-files');
         const labelText = document.getElementById('upload-label-text');
         const helpText = document.getElementById('upload-help-text');
+        const thumbnailContainer = document.getElementById('add-thumbnail-container');
 
         if (type === 'pdf') {
             pill.style.left = '4px';
@@ -400,6 +441,8 @@
             fileInput.accept = 'application/pdf';
             labelText.textContent = 'Select PDF File(s) *';
             helpText.textContent = 'You can select multiple PDFs. Suffixes (- Part 1, Part 2...) will be added automatically to their titles.';
+            thumbnailContainer.classList.add('hidden');
+            document.getElementById('add-thumbnail').value = '';
         } else {
             pill.style.left = '50%';
             textPdf.className = 'flex-1 text-center py-2.5 text-xs font-bold text-slate-455';
@@ -408,6 +451,7 @@
             fileInput.accept = 'video/*';
             labelText.textContent = 'Select Video File(s) *';
             helpText.textContent = 'You can select multiple videos. Suffixes (- Part 1, Part 2...) will be added automatically to their titles.';
+            thumbnailContainer.classList.remove('hidden');
         }
     }
 
@@ -416,6 +460,7 @@
         document.getElementById('add-title').value = '';
         document.getElementById('add-description').value = '';
         document.getElementById('add-files').value = '';
+        document.getElementById('add-thumbnail').value = '';
         document.getElementById('add-status').value = '1';
         
         // Reset toggle radios
@@ -453,6 +498,11 @@
                 if (item.type === 'video') {
                     document.getElementById('video-player-container').classList.remove('hidden');
                     player.src = assetUrl;
+                    if (item.thumbnail) {
+                        player.poster = `{{ asset('') }}${item.thumbnail}`;
+                    } else {
+                        player.removeAttribute('poster');
+                    }
                     player.load();
                 } else {
                     document.getElementById('pdf-viewer-container').classList.remove('hidden');
@@ -479,7 +529,9 @@
         document.getElementById('edit-title').value = '';
         document.getElementById('edit-description').value = '';
         document.getElementById('edit-file').value = '';
+        document.getElementById('edit-thumbnail').value = '';
         document.getElementById('edit-current-file-text').textContent = '';
+        document.getElementById('edit-current-thumbnail-text').textContent = '';
 
         openModal('edit-modal');
 
@@ -496,13 +548,24 @@
 
                 const editUploadLabel = document.getElementById('edit-upload-label');
                 const fileInput = document.getElementById('edit-file');
+                const editThumbnailContainer = document.getElementById('edit-thumbnail-container');
+                const currentThumbnailText = document.getElementById('edit-current-thumbnail-text');
                 
                 if (item.type === 'pdf') {
                     fileInput.accept = 'application/pdf';
                     editUploadLabel.textContent = 'Replace PDF File (Optional)';
+                    editThumbnailContainer.classList.add('hidden');
                 } else {
                     fileInput.accept = 'video/*';
                     editUploadLabel.textContent = 'Replace Video File (Optional)';
+                    editThumbnailContainer.classList.remove('hidden');
+                    if (item.thumbnail) {
+                        currentThumbnailText.textContent = `Current Thumbnail: ${item.thumbnail.split('/').pop()}`;
+                        currentThumbnailText.classList.remove('hidden');
+                    } else {
+                        currentThumbnailText.textContent = '';
+                        currentThumbnailText.classList.add('hidden');
+                    }
                 }
 
                 document.getElementById('edit-lang-en').checked = (item.language === 'en');
