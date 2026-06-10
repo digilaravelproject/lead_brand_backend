@@ -80,6 +80,9 @@ class ToolController extends Controller
                         'thumbnail' => $media->thumbnail,
                         'thumbnail_url' => $media->thumbnail ? asset($media->thumbnail) : null,
                         'language' => $media->language,
+                        'pdf' => $media->pdf,
+                        'pdf_url' => $media->pdf ? asset($media->pdf) : null,
+                        'description' => $media->description,
                         'created_at' => $media->created_at->toIso8601String(),
                     ];
                 });
@@ -96,6 +99,9 @@ class ToolController extends Controller
                             'thumbnail' => $media->thumbnail,
                             'thumbnail_url' => $media->thumbnail ? asset($media->thumbnail) : null,
                             'language' => $media->language,
+                            'pdf' => $media->pdf,
+                            'pdf_url' => $media->pdf ? asset($media->pdf) : null,
+                            'description' => $media->description,
                             'created_at' => $media->created_at->toIso8601String(),
                         ];
                     });
@@ -179,6 +185,9 @@ class ToolController extends Controller
                     'thumbnail' => $media->thumbnail,
                     'thumbnail_url' => $media->thumbnail ? asset($media->thumbnail) : null,
                     'language' => $media->language,
+                    'pdf' => $media->pdf,
+                    'pdf_url' => $media->pdf ? asset($media->pdf) : null,
+                    'description' => $media->description,
                     'created_at' => $media->created_at->toIso8601String(),
                 ];
             });
@@ -194,6 +203,9 @@ class ToolController extends Controller
                         'thumbnail' => $media->thumbnail,
                         'thumbnail_url' => $media->thumbnail ? asset($media->thumbnail) : null,
                         'language' => $media->language,
+                        'pdf' => $media->pdf,
+                        'pdf_url' => $media->pdf ? asset($media->pdf) : null,
+                        'description' => $media->description,
                         'created_at' => $media->created_at->toIso8601String(),
                     ];
                 });
@@ -261,6 +273,9 @@ class ToolController extends Controller
                     'thumbnail' => $media->thumbnail,
                     'thumbnail_url' => $media->thumbnail ? asset($media->thumbnail) : null,
                     'language' => $media->language,
+                    'pdf' => $media->pdf,
+                    'pdf_url' => $media->pdf ? asset($media->pdf) : null,
+                    'description' => $media->description,
                     'created_at' => $media->created_at->toIso8601String(),
                 ]
             ], 200);

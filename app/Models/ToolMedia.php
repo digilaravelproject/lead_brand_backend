@@ -18,6 +18,8 @@ class ToolMedia extends Model
         'file_path',
         'media_type',
         'thumbnail',
+        'pdf',
+        'description',
         'language',
         'status',
     ];

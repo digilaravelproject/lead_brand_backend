@@ -97,39 +97,77 @@
                     No direct assets uploaded here. Use "Upload Media" to add images or videos directly to this tool.
                 </div>
             @else
-                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
-                    @foreach($tool->media as $media)
-                        <div class="group relative bg-slate-950/40 border border-slate-850 rounded-2xl overflow-hidden shadow hover:border-slate-800 transition-all flex flex-col h-40">
-                            <!-- Action button -->
-                            <form action="{{ route('admin.tools.media.destroy', $media->id) }}" method="POST" onsubmit="return confirm('Delete this media?');" class="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="p-1.5 bg-red-650/80 hover:bg-red-600 rounded-lg text-white shadow focus:outline-none">
-                                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
-                            </form>
-
-                            <!-- Preview -->
-                            <div class="flex-1 bg-black flex items-center justify-center overflow-hidden">
-                                @if($media->media_type === 'image')
-                                    <img src="{{ asset($media->file_path) }}" alt="Preview" class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300">
-                                @else
-                                    <video src="{{ asset($media->file_path) }}" @if($media->thumbnail) poster="{{ asset($media->thumbnail) }}" @endif class="h-full w-full object-cover"></video>
-                                    <div class="absolute inset-0 bg-slate-950/50 flex items-center justify-center">
-                                        <div class="h-8 w-8 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center text-white">
-                                            <svg class="h-4 w-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                            
-                            <!-- Detail -->
-                            <div class="p-2 border-t border-slate-900 bg-slate-950/20">
-                                <span class="block text-[10px] text-slate-400 font-semibold truncate">{{ $media->title ?: 'Media #'.$media->id }}</span>
-                                <span class="text-[9px] text-slate-500 uppercase font-bold tracking-wider mt-0.5 inline-block">{{ $media->media_type }}</span>
-                            </div>
-                        </div>
-                    @endforeach
+                <div class="bg-slate-950/40 border border-slate-800/80 rounded-2xl overflow-hidden shadow-xl">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-[10px] text-slate-400 font-bold uppercase tracking-wider bg-slate-950/80">
+                                    <th class="py-3 px-4 w-[12%]">Preview</th>
+                                    <th class="py-3 px-4 w-[23%]">Title</th>
+                                    <th class="py-3 px-4 w-[10%]">Language</th>
+                                    <th class="py-3 px-4 w-[10%]">Type</th>
+                                    <th class="py-3 px-4 w-[15%]">PDF File</th>
+                                    <th class="py-3 px-4 w-[20%]">Description</th>
+                                    <th class="py-3 px-4 text-right w-[10%]">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/40 text-slate-300">
+                                @foreach($tool->media as $media)
+                                    <tr class="hover:bg-slate-800/20 transition-colors">
+                                        <td class="py-3 px-4">
+                                            <div class="relative h-10 w-16 bg-black rounded-lg overflow-hidden border border-slate-800 flex items-center justify-center">
+                                                @if($media->media_type === 'image')
+                                                    <img src="{{ asset($media->file_path) }}" alt="Preview" class="h-full w-full object-cover">
+                                                @else
+                                                    <video src="{{ asset($media->file_path) }}" @if($media->thumbnail) poster="{{ asset($media->thumbnail) }}" @endif class="h-full w-full object-cover"></video>
+                                                    <div class="absolute inset-0 flex items-center justify-center bg-black/45">
+                                                        <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td class="py-3 px-4 font-semibold text-white truncate max-w-[150px]" title="{{ $media->title }}">
+                                            {{ $media->title ?: 'Media #'.$media->id }}
+                                        </td>
+                                        <td class="py-3 px-4">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-800 text-[10px] text-slate-300 font-bold uppercase">
+                                                {{ $media->language }}
+                                            </span>
+                                        </td>
+                                        <td class="py-3 px-4">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $media->media_type === 'video' ? 'bg-rose-500/10 text-rose-455 border border-rose-500/20' : 'bg-emerald-500/10 text-emerald-455 border border-emerald-500/20' }}">
+                                                {{ $media->media_type }}
+                                            </span>
+                                        </td>
+                                        <td class="py-3 px-4">
+                                            @if($media->pdf)
+                                                <a href="{{ asset($media->pdf) }}" target="_blank" class="inline-flex items-center space-x-1 text-indigo-400 hover:text-indigo-300 font-bold">
+                                                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                    </svg>
+                                                    <span>View PDF</span>
+                                                </a>
+                                            @else
+                                                <span class="text-slate-600 font-medium">-</span>
+                                            @endif
+                                        </td>
+                                        <td class="py-3 px-4 text-slate-400 truncate max-w-[200px]" title="{{ $media->description }}">
+                                            {{ $media->description ?: '-' }}
+                                        </td>
+                                        <td class="py-3 px-4 text-right">
+                                            <form action="{{ route('admin.tools.media.destroy', $media->id) }}" method="POST" onsubmit="return confirm('Delete this media?');" class="inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="p-1.5 bg-red-650/10 hover:bg-red-650/20 text-red-400 rounded-lg hover:text-red-300 transition-colors cursor-pointer">
+                                                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             @endif
         </div>
@@ -171,39 +209,77 @@
                             No files uploaded in this subtool. Use "Upload Media" and target this subtool.
                         </div>
                     @else
-                        <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
-                            @foreach($subtool->media as $media)
-                                <div class="group relative bg-slate-950/40 border border-slate-850 rounded-2xl overflow-hidden shadow hover:border-slate-800 transition-all flex flex-col h-40">
-                                    <!-- Action button -->
-                                    <form action="{{ route('admin.tools.media.destroy', $media->id) }}" method="POST" onsubmit="return confirm('Delete this media?');" class="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="p-1.5 bg-red-650/80 hover:bg-red-600 rounded-lg text-white shadow focus:outline-none">
-                                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                        </button>
-                                    </form>
-
-                                    <!-- Preview -->
-                                    <div class="flex-1 bg-black flex items-center justify-center overflow-hidden">
-                                        @if($media->media_type === 'image')
-                                            <img src="{{ asset($media->file_path) }}" alt="Preview" class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300">
-                                        @else
-                                            <video src="{{ asset($media->file_path) }}" @if($media->thumbnail) poster="{{ asset($media->thumbnail) }}" @endif class="h-full w-full object-cover"></video>
-                                            <div class="absolute inset-0 bg-slate-950/50 flex items-center justify-center">
-                                                <div class="h-8 w-8 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center text-white">
-                                                    <svg class="h-4 w-4 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    
-                                    <!-- Detail -->
-                                    <div class="p-2 border-t border-slate-900 bg-slate-950/20">
-                                        <span class="block text-[10px] text-slate-400 font-semibold truncate">{{ $media->title ?: 'Media #'.$media->id }}</span>
-                                        <span class="text-[9px] text-slate-500 uppercase font-bold tracking-wider mt-0.5 inline-block">{{ $media->media_type }}</span>
-                                    </div>
-                                </div>
-                            @endforeach
+                        <div class="bg-slate-950/40 border border-slate-800/80 rounded-2xl overflow-hidden shadow-xl">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left">
+                                    <thead>
+                                        <tr class="border-b border-slate-800 text-[10px] text-slate-400 font-bold uppercase tracking-wider bg-slate-950/80">
+                                            <th class="py-3 px-4 w-[12%]">Preview</th>
+                                            <th class="py-3 px-4 w-[23%]">Title</th>
+                                            <th class="py-3 px-4 w-[10%]">Language</th>
+                                            <th class="py-3 px-4 w-[10%]">Type</th>
+                                            <th class="py-3 px-4 w-[15%]">PDF File</th>
+                                            <th class="py-3 px-4 w-[20%]">Description</th>
+                                            <th class="py-3 px-4 text-right w-[10%]">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-800/40 text-slate-300">
+                                        @foreach($subtool->media as $media)
+                                            <tr class="hover:bg-slate-800/20 transition-colors">
+                                                <td class="py-3 px-4">
+                                                    <div class="relative h-10 w-16 bg-black rounded-lg overflow-hidden border border-slate-800 flex items-center justify-center">
+                                                        @if($media->media_type === 'image')
+                                                            <img src="{{ asset($media->file_path) }}" alt="Preview" class="h-full w-full object-cover">
+                                                        @else
+                                                            <video src="{{ asset($media->file_path) }}" @if($media->thumbnail) poster="{{ asset($media->thumbnail) }}" @endif class="h-full w-full object-cover"></video>
+                                                            <div class="absolute inset-0 flex items-center justify-center bg-black/45">
+                                                                <svg class="h-3 w-3 text-white fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                                <td class="py-3 px-4 font-semibold text-white truncate max-w-[150px]" title="{{ $media->title }}">
+                                                    {{ $media->title ?: 'Media #'.$media->id }}
+                                                </td>
+                                                <td class="py-3 px-4">
+                                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-800 text-[10px] text-slate-300 font-bold uppercase">
+                                                        {{ $media->language }}
+                                                    </span>
+                                                </td>
+                                                <td class="py-3 px-4">
+                                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $media->media_type === 'video' ? 'bg-rose-500/10 text-rose-455 border border-rose-500/20' : 'bg-emerald-500/10 text-emerald-455 border border-emerald-500/20' }}">
+                                                        {{ $media->media_type }}
+                                                    </span>
+                                                </td>
+                                                <td class="py-3 px-4">
+                                                    @if($media->pdf)
+                                                        <a href="{{ asset($media->pdf) }}" target="_blank" class="inline-flex items-center space-x-1 text-indigo-400 hover:text-indigo-300 font-bold">
+                                                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                            </svg>
+                                                            <span>View PDF</span>
+                                                        </a>
+                                                    @else
+                                                        <span class="text-slate-600 font-medium">-</span>
+                                                    @endif
+                                                </td>
+                                                <td class="py-3 px-4 text-slate-400 truncate max-w-[200px]" title="{{ $media->description }}">
+                                                    {{ $media->description ?: '-' }}
+                                                </td>
+                                                <td class="py-3 px-4 text-right">
+                                                    <form action="{{ route('admin.tools.media.destroy', $media->id) }}" method="POST" onsubmit="return confirm('Delete this media?');" class="inline-block">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="p-1.5 bg-red-650/10 hover:bg-red-650/20 text-red-400 rounded-lg hover:text-red-300 transition-colors cursor-pointer">
+                                                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -335,6 +411,21 @@
                        class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-1.5">Accepts PNG, JPG, JPEG, WEBP. This thumbnail will represent the video resource.</p>
             </div>
+
+            <!-- Optional PDF Upload -->
+            <div>
+                <label for="media-pdf" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">PDF Document (Optional)</label>
+                <input type="file" name="pdf" id="media-pdf" accept="application/pdf"
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                <p class="text-xs text-slate-500 mt-1.5">Accepts PDF files up to 20MB.</p>
+            </div>
+
+            <!-- Optional Description -->
+            <div>
+                <label for="media-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Description (Optional)</label>
+                <textarea name="description" id="media-description" rows="3" placeholder="Enter media description..."
+                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm resize-none"></textarea>
+            </div>
         </div>
 
         <!-- Footer -->
@@ -384,6 +475,12 @@
             document.getElementById('media-files').value = '';
             document.getElementById('tool-media-thumbnail').value = '';
             document.getElementById('tool-media-thumbnail-container').classList.add('hidden');
+            if (document.getElementById('media-pdf')) {
+                document.getElementById('media-pdf').value = '';
+            }
+            if (document.getElementById('media-description')) {
+                document.getElementById('media-description').value = '';
+            }
         }
         if (originalOpenModal) {
             originalOpenModal(modalId);

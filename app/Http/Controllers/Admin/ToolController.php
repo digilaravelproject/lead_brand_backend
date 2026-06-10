@@ -110,6 +110,12 @@ class ToolController extends Controller
             if ($media->file_path && file_exists(public_path($media->file_path))) {
                 @unlink(public_path($media->file_path));
             }
+            if ($media->thumbnail && file_exists(public_path($media->thumbnail))) {
+                @unlink(public_path($media->thumbnail));
+            }
+            if ($media->pdf && file_exists(public_path($media->pdf))) {
+                @unlink(public_path($media->pdf));
+            }
         }
 
         $tool->delete();
@@ -164,6 +170,12 @@ class ToolController extends Controller
             if ($media->file_path && file_exists(public_path($media->file_path))) {
                 @unlink(public_path($media->file_path));
             }
+            if ($media->thumbnail && file_exists(public_path($media->thumbnail))) {
+                @unlink(public_path($media->thumbnail));
+            }
+            if ($media->pdf && file_exists(public_path($media->pdf))) {
+                @unlink(public_path($media->pdf));
+            }
         }
 
         $subtool->delete();
@@ -185,6 +197,8 @@ class ToolController extends Controller
             'files' => ['required', 'array'],
             'files.*' => ['file', 'max:2097152'], // Max 2GB per file
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
+            'pdf' => ['nullable', 'file', 'mimes:pdf', 'max:20480'],
+            'description' => ['nullable', 'string'],
         ]);
 
         $subtool = null;
@@ -202,6 +216,18 @@ class ToolController extends Controller
             }
             $thumb->move($thumbDest, $thumbName);
             $thumbnailPath = 'uploads/tools/thumbnails/' . $thumbName;
+        }
+
+        $pdfPath = null;
+        if ($request->hasFile('pdf')) {
+            $pdfFile = $request->file('pdf');
+            $pdfName = time() . '_tool_pdf_' . preg_replace('/[^A-Za-z0-9\-.]/', '', $pdfFile->getClientOriginalName());
+            $pdfDest = public_path('uploads/tools/pdfs');
+            if (!file_exists($pdfDest)) {
+                File::makeDirectory($pdfDest, 0755, true);
+            }
+            $pdfFile->move($pdfDest, $pdfName);
+            $pdfPath = 'uploads/tools/pdfs/' . $pdfName;
         }
 
         $files = $request->file('files');
@@ -235,6 +261,8 @@ class ToolController extends Controller
                 'file_path' => $filePath,
                 'media_type' => $mediaType,
                 'thumbnail' => $mediaType === 'video' ? $thumbnailPath : null,
+                'pdf' => $pdfPath,
+                'description' => $request->description,
                 'language' => $request->language,
                 'status' => 1,
             ]);
@@ -280,6 +308,11 @@ class ToolController extends Controller
         // Delete physical thumbnail if exists
         if ($media->thumbnail && file_exists(public_path($media->thumbnail))) {
             @unlink(public_path($media->thumbnail));
+        }
+
+        // Delete physical PDF if exists
+        if ($media->pdf && file_exists(public_path($media->pdf))) {
+            @unlink(public_path($media->pdf));
         }
 
         $media->delete();
