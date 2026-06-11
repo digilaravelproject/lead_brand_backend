@@ -101,6 +101,16 @@ Route::prefix('admin')->group(function () {
             Route::delete('media/{mediaId}', [\App\Http\Controllers\Admin\ToolController::class, 'destroyMedia'])->name('admin.tools.media.destroy');
         });
 
+        // Manage Leads
+        Route::prefix('leads')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\LeadController::class, 'index'])->name('admin.leads.index');
+            Route::get('{id}', [\App\Http\Controllers\Admin\LeadController::class, 'show'])->name('admin.leads.show');
+            Route::post('{id}/update', [\App\Http\Controllers\Admin\LeadController::class, 'update'])->name('admin.leads.update');
+            Route::post('{id}/toggle-status', [\App\Http\Controllers\Admin\LeadController::class, 'toggleStatus'])->name('admin.leads.toggle-status');
+            Route::post('{id}/change-status', [\App\Http\Controllers\Admin\LeadController::class, 'changeStatus'])->name('admin.leads.change-status');
+            Route::delete('{id}', [\App\Http\Controllers\Admin\LeadController::class, 'destroy'])->name('admin.leads.destroy');
+        });
+
         // Manage Banners
         Route::prefix('banners')->group(function () {
             Route::get('/', [BannerController::class, 'index'])->name('admin.banners.index');

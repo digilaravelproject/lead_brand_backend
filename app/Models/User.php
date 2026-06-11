@@ -57,4 +57,12 @@ class User extends Authenticatable
             'otp_expires_at' => 'datetime',
         ];
     }
+
+    /**
+     * Get the leads created by this user.
+     */
+    public function leads()
+    {
+        return $this->hasMany(Lead::class);
+    }
 }

@@ -112,6 +112,15 @@
                 <span>Business Tools</span>
             </a>
 
+            <!-- Manage Leads Link -->
+            <a href="{{ route('admin.leads.index') }}" 
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.leads.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+                <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span>Manage Leads</span>
+            </a>
+
             <!-- Calendar Content Link -->
             <a href="{{ route('admin.calendar-contents.index') }}" 
                class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.calendar-contents.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">

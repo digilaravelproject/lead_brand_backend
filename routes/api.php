@@ -21,6 +21,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('user/update-profile', [AuthController::class, 'updateProfile']);
     Route::post('user/language', [AuthController::class, 'updateLanguage']);
     Route::get('calendar', [\App\Http\Controllers\Api\CalendarApiController::class, 'getCalendar']);
+    
+    // Leads APIs
+    Route::prefix('leads')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Api\LeadController::class, 'index']);
+        Route::post('/', [\App\Http\Controllers\Api\LeadController::class, 'store']);
+        Route::get('stats', [\App\Http\Controllers\Api\LeadController::class, 'getStats']);
+        Route::get('{id}', [\App\Http\Controllers\Api\LeadController::class, 'show']);
+        Route::post('{id}/change-status', [\App\Http\Controllers\Api\LeadController::class, 'changeStatus']);
+        Route::put('{id}', [\App\Http\Controllers\Api\LeadController::class, 'update']);
+        Route::delete('{id}', [\App\Http\Controllers\Api\LeadController::class, 'destroy']);
+    });
 });
 
 // Banners APIs
