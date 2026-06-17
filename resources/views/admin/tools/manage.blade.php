@@ -107,7 +107,9 @@
                                     <th class="py-3 px-4 w-[10%]">Language</th>
                                     <th class="py-3 px-4 w-[10%]">Type</th>
                                     <th class="py-3 px-4 w-[15%]">PDF File</th>
-                                    <th class="py-3 px-4 w-[20%]">Description</th>
+                                    <th class="py-3 px-4 w-[15%]">Info Image</th>
+                                    <th class="py-3 px-4 w-[15%]">Info Image</th>
+                                    <th class="py-3 px-4 w-[15%]">Description</th>
                                     <th class="py-3 px-4 text-right w-[10%]">Actions</th>
                                 </tr>
                             </thead>
@@ -147,6 +149,13 @@
                                                     </svg>
                                                     <span>View PDF</span>
                                                 </a>
+                                            @else
+                                                <span class="text-slate-600 font-medium">-</span>
+                                            @endif
+                                        </td>
+                                        <td class="py-3 px-4">
+                                            @if($media->info_image)
+                                                <img src="{{ asset($media->info_image) }}" alt="Info Image" class="h-12 w-20 object-cover rounded-lg border border-slate-800">
                                             @else
                                                 <span class="text-slate-600 font-medium">-</span>
                                             @endif
@@ -259,6 +268,13 @@
                                                             </svg>
                                                             <span>View PDF</span>
                                                         </a>
+                                                    @else
+                                                        <span class="text-slate-600 font-medium">-</span>
+                                                    @endif
+                                                </td>
+                                                <td class="py-3 px-4">
+                                                    @if($media->info_image)
+                                                        <img src="{{ asset($media->info_image) }}" alt="Info Image" class="h-12 w-20 object-cover rounded-lg border border-slate-800">
                                                     @else
                                                         <span class="text-slate-600 font-medium">-</span>
                                                     @endif
@@ -410,6 +426,14 @@
                 <input type="file" name="thumbnail" id="tool-media-thumbnail" accept="image/*"
                        class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-1.5">Accepts PNG, JPG, JPEG, WEBP. This thumbnail will represent the video resource.</p>
+            </div>
+
+            <!-- Optional Info Image Upload -->
+            <div>
+                <label for="media-info-image" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Info Image (Optional)</label>
+                <input type="file" name="info_image" id="media-info-image" accept="image/*"
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                <p class="text-xs text-slate-500 mt-1.5">Optional informational image to store alongside the main media upload.</p>
             </div>
 
             <!-- Optional PDF Upload -->
