@@ -232,7 +232,7 @@ class LeadController extends Controller
      * Get lead counts and weekly growth percentages.
      * GET /api/leads/stats
      */
-    public function getStats(Request $request)
+    public function getStats_old(Request $request)
     {
         $user = $request->user();
 
@@ -268,6 +268,75 @@ class LeadController extends Controller
             ->where('is_active', true)
             ->where('status', 'done');
         
+        $doneCount = (clone $doneQuery)->count();
+        $donePercentage = $this->calculateWeeklyPercentage(clone $doneQuery);
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'hot_leads' => [
+                    'count' => $hotLeadsCount,
+                    'percentage' => $hotLeadsPercentage,
+                    'trend' => $hotLeadsPercentage >= 0 ? 'up' : 'down'
+                ],
+                'appointments_today' => [
+                    'count' => $appointmentsTodayCount,
+                    'percentage' => $appointmentsPercentage,
+                    'trend' => $appointmentsPercentage >= 0 ? 'up' : 'down'
+                ],
+                'followups_pending' => [
+                    'count' => $followupsCount,
+                    'percentage' => $followupsPercentage,
+                    'trend' => $followupsPercentage >= 0 ? 'up' : 'down'
+                ],
+                'done_leads' => [
+                    'count' => $doneCount,
+                    'percentage' => $donePercentage,
+                    'trend' => $donePercentage >= 0 ? 'up' : 'down'
+                ]
+            ]
+        ], 200);
+    }
+
+    public function getStats(Request $request)
+    {
+        $user = $request->user();
+
+        // Base query
+        $baseQuery = Lead::where('user_id', $user->id)
+            ->where('is_active', true);
+
+        // Apply day=today filter if passed
+        if ($request->get('day') == 'today') {
+            $baseQuery->whereDate('created_at', Carbon::today());
+        }
+
+        // 1. Hot Leads Stats
+        $hotLeadsQuery = (clone $baseQuery)
+            ->where('status', 'hot_lead');
+
+        $hotLeadsCount = (clone $hotLeadsQuery)->count();
+        $hotLeadsPercentage = $this->calculateWeeklyPercentage(clone $hotLeadsQuery);
+
+        // 2. Appointments Today Stats
+        $appointmentsQuery = (clone $baseQuery)
+            ->where('status', 'appointment');
+
+        $appointmentsTodayCount = (clone $appointmentsQuery)->count();
+
+        $appointmentsPercentage = $this->calculateWeeklyPercentage(clone $appointmentsQuery);
+
+        // 3. Follow-ups Pending Stats
+        $followupsQuery = (clone $baseQuery)
+            ->where('status', 'followup');
+
+        $followupsCount = (clone $followupsQuery)->count();
+        $followupsPercentage = $this->calculateWeeklyPercentage(clone $followupsQuery);
+
+        // 4. Done Leads Stats
+        $doneQuery = (clone $baseQuery)
+            ->where('status', 'done');
+
         $doneCount = (clone $doneQuery)->count();
         $donePercentage = $this->calculateWeeklyPercentage(clone $doneQuery);
 
