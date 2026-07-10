@@ -32,6 +32,11 @@ class CalendarController extends Controller
             'pdf_hi' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
             'pdf_gu' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
             'pdf_mr' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
+            'pdf_bn' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
+            'pdf_te' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
+            'pdf_ta' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
+            'pdf_kn' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
+            'pdf_pa' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
         ]);
 
         $year = CalendarYear::create([
@@ -39,7 +44,7 @@ class CalendarController extends Controller
             'status' => $request->status,
         ]);
 
-        $languages = ['en', 'hi', 'gu', 'mr'];
+        $languages = ['en', 'hi', 'gu', 'mr', 'bn', 'te', 'ta', 'kn', 'pa'];
         $uploadedCount = 0;
 
         foreach ($languages as $lang) {
@@ -105,6 +110,11 @@ class CalendarController extends Controller
             'pdf_hi' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
             'pdf_gu' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
             'pdf_mr' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
+            'pdf_bn' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
+            'pdf_te' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
+            'pdf_ta' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
+            'pdf_kn' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
+            'pdf_pa' => ['nullable', 'file', 'mimes:pdf', 'max:51200'],
         ]);
 
         $year->update([
@@ -112,7 +122,7 @@ class CalendarController extends Controller
             'status' => $request->status,
         ]);
 
-        $languages = ['en', 'hi', 'gu', 'mr'];
+        $languages = ['en', 'hi', 'gu', 'mr', 'bn', 'te', 'ta', 'kn', 'pa'];
 
         foreach ($languages as $lang) {
             $inputName = 'pdf_' . $lang;

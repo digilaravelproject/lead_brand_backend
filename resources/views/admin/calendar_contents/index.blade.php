@@ -9,7 +9,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-xl font-bold text-white">Calendar Contents</h1>
-            <p class="text-xs text-slate-400 mt-0.5">Manage yearly calendars and upload PDFs in multiple languages (English, Hindi, Gujarati, Marathi).</p>
+            <p class="text-xs text-slate-400 mt-0.5">Manage yearly calendars and upload PDFs in multiple languages (English, Hindi, Gujarati, Marathi, Bengali, Telugu, Tamil, Kannada, Panjabi).</p>
         </div>
         <div>
             <button onclick="openAddModal()" 
@@ -47,7 +47,12 @@
                                             'en' => ['name' => 'English', 'color' => 'indigo'],
                                             'hi' => ['name' => 'Hindi', 'color' => 'red'],
                                             'gu' => ['name' => 'Gujarati', 'color' => 'amber'],
-                                            'mr' => ['name' => 'Marathi', 'color' => 'emerald']
+                                            'mr' => ['name' => 'Marathi', 'color' => 'emerald'],
+                                            'bn' => ['name' => 'Bengali', 'color' => 'teal'],
+                                            'te' => ['name' => 'Telugu', 'color' => 'cyan'],
+                                            'ta' => ['name' => 'Tamil', 'color' => 'sky'],
+                                            'kn' => ['name' => 'Kannada', 'color' => 'pink'],
+                                            'pa' => ['name' => 'Panjabi', 'color' => 'violet']
                                         ];
                                     @endphp
 
@@ -168,6 +173,31 @@
                             <input type="file" name="pdf_mr" id="add-pdf-mr" accept=".pdf"
                                    class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
                         </div>
+                        <div>
+                            <label for="add-pdf-bn" class="block text-xs font-medium text-slate-400 mb-1">Bengali PDF</label>
+                            <input type="file" name="pdf_bn" id="add-pdf-bn" accept=".pdf"
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="add-pdf-te" class="block text-xs font-medium text-slate-400 mb-1">Telugu PDF</label>
+                            <input type="file" name="pdf_te" id="add-pdf-te" accept=".pdf"
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="add-pdf-ta" class="block text-xs font-medium text-slate-400 mb-1">Tamil PDF</label>
+                            <input type="file" name="pdf_ta" id="add-pdf-ta" accept=".pdf"
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="add-pdf-kn" class="block text-xs font-medium text-slate-400 mb-1">Kannada PDF</label>
+                            <input type="file" name="pdf_kn" id="add-pdf-kn" accept=".pdf"
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="add-pdf-pa" class="block text-xs font-medium text-slate-400 mb-1">Panjabi PDF</label>
+                            <input type="file" name="pdf_pa" id="add-pdf-pa" accept=".pdf"
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -268,6 +298,66 @@
                                        class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
                             </div>
                         </div>
+
+                        <!-- Bengali -->
+                        <div class="p-3 bg-slate-950/30 rounded-xl border border-slate-850 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <div class="space-y-0.5">
+                                <label for="edit-pdf-bn" class="block text-xs font-bold text-slate-200">Bengali Language PDF</label>
+                                <span id="current-pdf-bn-label" class="block text-[10px] text-slate-500 italic">No file uploaded</span>
+                            </div>
+                            <div>
+                                <input type="file" name="pdf_bn" id="edit-pdf-bn" accept=".pdf"
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                            </div>
+                        </div>
+
+                        <!-- Telugu -->
+                        <div class="p-3 bg-slate-950/30 rounded-xl border border-slate-850 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <div class="space-y-0.5">
+                                <label for="edit-pdf-te" class="block text-xs font-bold text-slate-200">Telugu Language PDF</label>
+                                <span id="current-pdf-te-label" class="block text-[10px] text-slate-500 italic">No file uploaded</span>
+                            </div>
+                            <div>
+                                <input type="file" name="pdf_te" id="edit-pdf-te" accept=".pdf"
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                            </div>
+                        </div>
+
+                        <!-- Tamil -->
+                        <div class="p-3 bg-slate-950/30 rounded-xl border border-slate-850 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <div class="space-y-0.5">
+                                <label for="edit-pdf-ta" class="block text-xs font-bold text-slate-200">Tamil Language PDF</label>
+                                <span id="current-pdf-ta-label" class="block text-[10px] text-slate-500 italic">No file uploaded</span>
+                            </div>
+                            <div>
+                                <input type="file" name="pdf_ta" id="edit-pdf-ta" accept=".pdf"
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                            </div>
+                        </div>
+
+                        <!-- Kannada -->
+                        <div class="p-3 bg-slate-950/30 rounded-xl border border-slate-850 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <div class="space-y-0.5">
+                                <label for="edit-pdf-kn" class="block text-xs font-bold text-slate-200">Kannada Language PDF</label>
+                                <span id="current-pdf-kn-label" class="block text-[10px] text-slate-500 italic">No file uploaded</span>
+                            </div>
+                            <div>
+                                <input type="file" name="pdf_kn" id="edit-pdf-kn" accept=".pdf"
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                            </div>
+                        </div>
+
+                        <!-- Panjabi -->
+                        <div class="p-3 bg-slate-950/30 rounded-xl border border-slate-850 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <div class="space-y-0.5">
+                                <label for="edit-pdf-pa" class="block text-xs font-bold text-slate-200">Panjabi Language PDF</label>
+                                <span id="current-pdf-pa-label" class="block text-[10px] text-slate-500 italic">No file uploaded</span>
+                            </div>
+                            <div>
+                                <input type="file" name="pdf_pa" id="edit-pdf-pa" accept=".pdf"
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -327,6 +417,11 @@
         document.getElementById('add-pdf-hi').value = '';
         document.getElementById('add-pdf-gu').value = '';
         document.getElementById('add-pdf-mr').value = '';
+        document.getElementById('add-pdf-bn').value = '';
+        document.getElementById('add-pdf-te').value = '';
+        document.getElementById('add-pdf-ta').value = '';
+        document.getElementById('add-pdf-kn').value = '';
+        document.getElementById('add-pdf-pa').value = '';
         openModal('add-year-modal');
     }
 
@@ -338,11 +433,21 @@
         document.getElementById('edit-pdf-hi').value = '';
         document.getElementById('edit-pdf-gu').value = '';
         document.getElementById('edit-pdf-mr').value = '';
+        document.getElementById('edit-pdf-bn').value = '';
+        document.getElementById('edit-pdf-te').value = '';
+        document.getElementById('edit-pdf-ta').value = '';
+        document.getElementById('edit-pdf-kn').value = '';
+        document.getElementById('edit-pdf-pa').value = '';
 
         document.getElementById('current-pdf-en-label').innerHTML = 'Loading file status...';
         document.getElementById('current-pdf-hi-label').innerHTML = 'Loading file status...';
         document.getElementById('current-pdf-gu-label').innerHTML = 'Loading file status...';
         document.getElementById('current-pdf-mr-label').innerHTML = 'Loading file status...';
+        document.getElementById('current-pdf-bn-label').innerHTML = 'Loading file status...';
+        document.getElementById('current-pdf-te-label').innerHTML = 'Loading file status...';
+        document.getElementById('current-pdf-ta-label').innerHTML = 'Loading file status...';
+        document.getElementById('current-pdf-kn-label').innerHTML = 'Loading file status...';
+        document.getElementById('current-pdf-pa-label').innerHTML = 'Loading file status...';
 
         openModal('edit-year-modal');
 
@@ -352,7 +457,7 @@
                 document.getElementById('edit-year').value = year.year;
                 document.getElementById('edit-status').value = year.status;
 
-                const languages = ['en', 'hi', 'gu', 'mr'];
+                const languages = ['en', 'hi', 'gu', 'mr', 'bn', 'te', 'ta', 'kn', 'pa'];
                 languages.forEach(lang => {
                     const content = year.contents.find(c => c.language === lang);
                     const label = document.getElementById(`current-pdf-${lang}-label`);

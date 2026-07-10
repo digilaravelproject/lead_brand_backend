@@ -409,6 +409,26 @@
                         <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
                         <span>Gujrati</span>
                     </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="bn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <span>Bengali</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="te" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <span>Telugu</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="ta" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <span>Tamil</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="kn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <span>Kannada</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="pa" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <span>Panjabi</span>
+                    </label>
                 </div>
             </div>
 

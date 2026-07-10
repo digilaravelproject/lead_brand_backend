@@ -338,7 +338,7 @@ class AuthController extends Controller
             }
 
             $v = Validator::make($request->all(), [
-                'language' => ['required', 'string', 'in:en,mr,hi,gu'],
+                'language' => ['required', 'string', 'in:en,mr,hi,gu,bn,te,ta,kn,pa'],
             ]);
 
             if ($v->fails()) {

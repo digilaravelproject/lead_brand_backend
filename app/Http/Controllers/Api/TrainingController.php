@@ -23,7 +23,7 @@ class TrainingController extends Controller
         // 2. Check X-Language header
         if ($request->hasHeader('X-Language')) {
             $lang = strtolower($request->header('X-Language'));
-            if (in_array($lang, ['en', 'mr', 'hi', 'gu'])) {
+            if (in_array($lang, ['en', 'mr', 'hi', 'gu', 'bn', 'te', 'ta', 'kn', 'pa'])) {
                 return $lang;
             }
         }
@@ -31,7 +31,7 @@ class TrainingController extends Controller
         // 3. Check language parameter in request
         if ($request->has('language')) {
             $lang = strtolower($request->input('language'));
-            if (in_array($lang, ['en', 'mr', 'hi', 'gu'])) {
+            if (in_array($lang, ['en', 'mr', 'hi', 'gu', 'bn', 'te', 'ta', 'kn', 'pa'])) {
                 return $lang;
             }
         }

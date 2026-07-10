@@ -181,6 +181,26 @@
                         <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-gu">
                         <span>Gujrati</span>
                     </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="bn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-bn">
+                        <span>Bengali</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="te" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-te">
+                        <span>Telugu</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="ta" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-ta">
+                        <span>Tamil</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="kn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-kn">
+                        <span>Kannada</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="pa" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-pa">
+                        <span>Panjabi</span>
+                    </label>
                 </div>
             </div>
 
@@ -339,6 +359,26 @@
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
                         <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-gu">
                         <span>Gujrati</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="bn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-bn">
+                        <span>Bengali</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="te" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-te">
+                        <span>Telugu</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="ta" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-ta">
+                        <span>Tamil</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="kn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-kn">
+                        <span>Kannada</span>
+                    </label>
+                    <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
+                        <input type="radio" name="language" value="pa" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-pa">
+                        <span>Panjabi</span>
                     </label>
                 </div>
             </div>
@@ -572,6 +612,11 @@
                 document.getElementById('edit-lang-mr').checked = (item.language === 'mr');
                 document.getElementById('edit-lang-hi').checked = (item.language === 'hi');
                 document.getElementById('edit-lang-gu').checked = (item.language === 'gu');
+                document.getElementById('edit-lang-bn').checked = (item.language === 'bn');
+                document.getElementById('edit-lang-te').checked = (item.language === 'te');
+                document.getElementById('edit-lang-ta').checked = (item.language === 'ta');
+                document.getElementById('edit-lang-kn').checked = (item.language === 'kn');
+                document.getElementById('edit-lang-pa').checked = (item.language === 'pa');
 
                 document.getElementById('edit-current-file-text').textContent = `Current: ${item.file_path.split('/').pop()}`;
             })

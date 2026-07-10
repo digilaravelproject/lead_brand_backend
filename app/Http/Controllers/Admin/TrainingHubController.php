@@ -30,7 +30,7 @@ class TrainingHubController extends Controller
             'type' => ['required', 'in:pdf,video'],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'language' => ['required', 'string', 'in:en,mr,hi,gu'],
+            'language' => ['required', 'string', 'in:en,mr,hi,gu,bn,te,ta,kn,pa'],
             'files' => ['required', 'array'],
             'files.*' => $request->type === 'pdf' 
                 ? ['file', 'mimes:pdf', 'max:2097152'] // Max 2GB for PDFs
@@ -124,7 +124,7 @@ class TrainingHubController extends Controller
             'type' => ['required', 'in:pdf,video'],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'language' => ['required', 'string', 'in:en,mr,hi,gu'],
+            'language' => ['required', 'string', 'in:en,mr,hi,gu,bn,te,ta,kn,pa'],
             'file' => $request->type === 'pdf' 
                 ? ['nullable', 'file', 'mimes:pdf', 'max:2097152'] 
                 : ['nullable', 'file', 'mimes:mp4,mov,avi,mkv,webm', 'max:2097152'],
