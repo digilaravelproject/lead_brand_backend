@@ -34,7 +34,7 @@
                             <td class="py-4 px-6 font-mono text-xs text-slate-500">#{{ $user->id }}</td>
                             <td class="py-4 px-6">
                                 <div class="flex items-center space-x-3">
-                                    <div class="h-10 w-10 bg-slate-850 rounded-xl flex items-center justify-center font-bold text-indigo-400 text-sm overflow-hidden border border-slate-800/80">
+                                    <div class="h-10 w-10 bg-slate-850 rounded-xl flex items-center justify-center font-bold text-amber-400 text-sm overflow-hidden border border-slate-800/80">
                                         @if($user->profile_photo)
                                             <img src="{{ asset($user->profile_photo) }}" alt="Avatar" class="h-full w-full object-cover">
                                         @else
@@ -58,7 +58,7 @@
                             </td>
                             <td class="py-4 px-6 text-right space-x-2">
                                 <button onclick="viewUser({{ $user->id }})" 
-                                        class="inline-flex items-center p-1.5 rounded-lg border border-slate-700/60 hover:bg-indigo-600/10 text-slate-400 hover:text-indigo-400 transition-colors"
+                                        class="inline-flex items-center p-1.5 rounded-lg border border-slate-700/60 hover:bg-amber-600/10 text-slate-400 hover:text-amber-400 transition-colors"
                                         title="View Details">
                                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -119,7 +119,7 @@
                 </div>
                 <div>
                     <h4 class="text-base font-bold text-white" id="view-name">Loading...</h4>
-                    <span class="text-xs text-indigo-400 font-semibold" id="view-destination">Destination</span>
+                    <span class="text-xs text-amber-400 font-semibold" id="view-destination">Destination</span>
                 </div>
             </div>
 
@@ -197,32 +197,32 @@
                 <div>
                     <label for="edit-name" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Full Name</label>
                     <input type="text" name="name" id="edit-name" required
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                 </div>
 
                 <div>
                     <label for="edit-email" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Email Address</label>
                     <input type="email" name="email" id="edit-email" required
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label for="edit-phone" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Phone Number</label>
                         <input type="text" name="phone_number" id="edit-phone"
-                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     </div>
                     <div>
                         <label for="edit-destination" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Destination</label>
                         <input type="text" name="destination" id="edit-destination"
-                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     </div>
                 </div>
 
                 <div class="border-t border-slate-800 pt-3.5">
                     <label for="edit-password" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Change Password (Optional)</label>
                     <input type="password" name="password" id="edit-password" placeholder="Leave blank to keep current password"
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-660 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-660 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                 </div>
             </div>
 
@@ -232,7 +232,7 @@
                     Cancel
                 </button>
                 <button type="submit" 
-                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-sm">
+                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm">
                     Apply Updates
                 </button>
             </div>

@@ -13,7 +13,7 @@
         </div>
         <div>
             <button onclick="openAddModal()" 
-                    class="flex items-center justify-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 rounded-xl transition-all font-semibold text-sm transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
+                    class="flex items-center justify-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white shadow-md shadow-amber-500/10 hover:shadow-amber-500/20 rounded-xl transition-all font-semibold text-sm transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
@@ -42,7 +42,7 @@
                             <td class="py-4 px-6 font-mono text-xs text-slate-500">#{{ $tool->id }}</td>
                             <td class="py-4 px-6">
                                 <div class="flex items-center">
-                                    <div class="h-10 w-10 bg-indigo-600/10 border border-indigo-500/20 text-indigo-400 rounded-xl flex items-center justify-center font-bold">
+                                    <div class="h-10 w-10 bg-amber-600/10 border border-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center font-bold">
                                         @if($tool->icon == 'combo_plans')
                                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg>
                                         @elseif($tool->icon == 'combo_posters')
@@ -73,7 +73,7 @@
                             </td>
                             <td class="py-4 px-6 text-right space-x-2">
                                 <a href="{{ route('admin.tools.manage', $tool->id) }}" 
-                                   class="inline-flex items-center p-1.5 rounded-lg border border-slate-700/60 hover:bg-indigo-600/10 text-slate-400 hover:text-indigo-400 transition-colors"
+                                   class="inline-flex items-center p-1.5 rounded-lg border border-slate-700/60 hover:bg-amber-600/10 text-slate-400 hover:text-amber-400 transition-colors"
                                    title="Manage Subtools & Media">
                                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -133,18 +133,18 @@
             <div>
                 <label for="add-title" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Tool Title <span class="text-red-500">*</span></label>
                 <input type="text" name="title" id="add-title" required placeholder="e.g. Combo Plans"
-                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
             </div>
 
             <div>
                 <label for="add-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Description Context (Optional)</label>
                 <textarea name="description" id="add-description" rows="3" placeholder="Brief outline of what this tool contains..."
-                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm resize-none"></textarea>
+                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm resize-none"></textarea>
             </div>
 
             <div>
                 <label for="add-icon" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Branding Icon Symbol</label>
-                <select name="icon" id="add-icon" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                <select name="icon" id="add-icon" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     <option value="combo_plans">Combo Plans (Stacked layers)</option>
                     <option value="combo_posters">Combo Posters (Image Grid Layout)</option>
                     <option value="concept_brochures">Concept Brochures (Open Book)</option>
@@ -158,7 +158,7 @@
 
             <div>
                 <label for="add-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Status</label>
-                <select name="status" id="add-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                <select name="status" id="add-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     <option value="1">Active (Enabled)</option>
                     <option value="0">Inactive (Disabled)</option>
                 </select>
@@ -172,7 +172,7 @@
                 Cancel
             </button>
             <button type="submit" 
-                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-sm">
+                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm">
                 Create Tool
             </button>
         </div>
@@ -199,18 +199,18 @@
             <div>
                 <label for="edit-title" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Tool Title <span class="text-red-500">*</span></label>
                 <input type="text" name="title" id="edit-title" required
-                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
             </div>
 
             <div>
                 <label for="edit-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Description Context</label>
                 <textarea name="description" id="edit-description" rows="3"
-                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm resize-none"></textarea>
+                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm resize-none"></textarea>
             </div>
 
             <div>
                 <label for="edit-icon" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Branding Icon Symbol</label>
-                <select name="icon" id="edit-icon" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                <select name="icon" id="edit-icon" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     <option value="combo_plans">Combo Plans (Stacked layers)</option>
                     <option value="combo_posters">Combo Posters (Image Grid Layout)</option>
                     <option value="concept_brochures">Concept Brochures (Open Book)</option>
@@ -224,7 +224,7 @@
 
             <div>
                 <label for="edit-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Status</label>
-                <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     <option value="1">Active (Enabled)</option>
                     <option value="0">Inactive (Disabled)</option>
                 </select>
@@ -238,7 +238,7 @@
                 Cancel
             </button>
             <button type="submit" 
-                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-sm">
+                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm">
                 Save Updates
             </button>
         </div>

@@ -21,10 +21,10 @@
                     </svg>
                 </span>
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by lead, phone, or agent..." 
-                       class="w-full bg-slate-900 border border-slate-800/80 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all">
+                       class="w-full bg-slate-900 border border-slate-800/80 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all">
             </div>
             <div class="flex items-center gap-2 w-full sm:w-auto">
-                <button type="submit" class="w-full sm:w-auto px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-xl transition-all shadow-md shadow-indigo-550/15">
+                <button type="submit" class="w-full sm:w-auto px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm rounded-xl transition-all shadow-md shadow-amber-550/15">
                     Filter
                 </button>
                 @if(request('search'))
@@ -63,7 +63,7 @@
                             <td class="py-4 px-6 text-slate-450 font-mono text-xs">{{ $lead->phone_number }}</td>
                             <td class="py-4 px-6 text-center">
                                 <select onchange="changeLeadStatus({{ $lead->id }}, this)" 
-                                        class="bg-slate-950/60 border border-slate-800 rounded-xl py-1.5 px-3 text-xs text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all font-medium cursor-pointer">
+                                        class="bg-slate-950/60 border border-slate-800 rounded-xl py-1.5 px-3 text-xs text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all font-medium cursor-pointer">
                                     <option value="hot_lead" {{ $lead->status == 'hot_lead' ? 'selected' : '' }}>Hot Lead</option>
                                     <option value="appointment" {{ $lead->status == 'appointment' ? 'selected' : '' }}>Appointment</option>
                                     <option value="followup" {{ $lead->status == 'followup' ? 'selected' : '' }}>Follow Up</option>
@@ -78,7 +78,7 @@
                             </td>
                             <td class="py-4 px-6 text-right space-x-2">
                                 <button onclick="viewLead({{ $lead->id }})" 
-                                        class="inline-flex items-center p-1.5 rounded-lg border border-slate-700/60 hover:bg-indigo-600/10 text-slate-400 hover:text-indigo-400 transition-colors"
+                                        class="inline-flex items-center p-1.5 rounded-lg border border-slate-700/60 hover:bg-amber-600/10 text-slate-400 hover:text-amber-400 transition-colors"
                                         title="View Details">
                                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -225,19 +225,19 @@
                 <div>
                     <label for="edit-fullname" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Lead Name</label>
                     <input type="text" name="full_name" id="edit-fullname" required
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                 </div>
 
                 <div>
                     <label for="edit-phone" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Phone Number</label>
                     <input type="text" name="phone_number" id="edit-phone" required
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label for="edit-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Category Status</label>
-                        <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm cursor-pointer">
+                        <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm cursor-pointer">
                             <option value="hot_lead">Hot Lead</option>
                             <option value="appointment">Appointment</option>
                             <option value="followup">Follow Up</option>
@@ -247,7 +247,7 @@
 
                     <div>
                         <label for="edit-isactive" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Active Status</label>
-                        <select name="is_active" id="edit-isactive" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm cursor-pointer">
+                        <select name="is_active" id="edit-isactive" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm cursor-pointer">
                             <option value="1">Active / Display</option>
                             <option value="0">Deactivated / Hidden</option>
                         </select>
@@ -261,7 +261,7 @@
                     Cancel
                 </button>
                 <button type="submit" 
-                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-sm">
+                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm">
                     Save Updates
                 </button>
             </div>

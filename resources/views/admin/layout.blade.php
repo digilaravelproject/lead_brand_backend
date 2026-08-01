@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf_token" content="{{ csrf_token() }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin Dashboard') - LeadBrand</title>
+    <title>@yield('title', 'Admin Dashboard') - AdvisorX Pro Admin</title>
+    <link rel="icon" type="image/jpeg" href="{{ asset('images/advisorx-pro-logo.jpg') }}">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,11 +25,11 @@
             background: rgba(15, 23, 42, 0.05);
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.2);
+            background: rgba(245, 158, 11, 0.2);
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(99, 102, 241, 0.4);
+            background: rgba(245, 158, 11, 0.4);
         }
     </style>
     @yield('styles')
@@ -42,15 +43,13 @@
     <aside id="admin-sidebar" class="fixed inset-y-0 left-0 w-72 bg-slate-900 border-r border-slate-800/80 z-50 transform -translate-x-full md:translate-x-0 md:sticky md:top-0 md:h-screen transition-transform duration-300 cubic-bezier(0.16, 1, 0.3, 1) flex flex-col">
         <!-- Sidebar Brand -->
         <div class="h-20 flex items-center px-6 border-b border-slate-800/80">
-            <div class="flex items-center space-x-3">
-                <div class="h-10 w-10 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center shadow-md shadow-indigo-500/20">
-                    <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                </div>
+            <div class="flex items-center space-x-3 min-w-0">
+                <img src="{{ asset('images/advisorx-pro-logo.jpg') }}"
+                     alt="AdvisorX Pro logo"
+                     class="h-12 w-12 flex-shrink-0 rounded-xl object-cover border border-amber-400/40 shadow-md shadow-amber-500/20">
                 <div>
-                    <h2 class="text-lg font-bold text-white leading-none tracking-tight">LeadBrand</h2>
-                    <span class="text-xs text-indigo-400 font-semibold tracking-wider uppercase">Admin Portal</span>
+                    <h2 class="text-base font-bold text-white leading-tight tracking-tight">AdvisorX Pro Admin</h2>
+                    <span class="text-xs text-amber-400 font-semibold tracking-wider uppercase">Admin Portal</span>
                 </div>
             </div>
         </div>
@@ -59,7 +58,7 @@
         <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
             <!-- Dashboard Link -->
             <a href="{{ route('admin.dashboard') }}" 
-               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.dashboard') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.dashboard') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
                 <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
                 </svg>
@@ -68,7 +67,7 @@
 
             <!-- Manage Users Link -->
             <a href="{{ route('admin.users.index') }}" 
-               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.users.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.users.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
                 <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
@@ -77,7 +76,7 @@
 
             <!-- Manage Banners Link -->
             <a href="{{ route('admin.banners.index') }}" 
-               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.banners.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.banners.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
                 <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -86,7 +85,7 @@
 
             <!-- Manage Training Categories Link -->
             <a href="{{ route('admin.training-categories.index') }}" 
-               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.training-categories.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.training-categories.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
                 <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -95,7 +94,7 @@
 
             <!-- Manage Training Hub Link -->
             <a href="{{ route('admin.training-hubs.index') }}" 
-               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.training-hubs.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.training-hubs.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
                 <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
@@ -104,7 +103,7 @@
 
             <!-- Business Tools Link -->
             <a href="{{ route('admin.tools.index') }}" 
-               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.tools.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.tools.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
                 <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -114,7 +113,7 @@
 
             <!-- Manage Leads Link -->
             <a href="{{ route('admin.leads.index') }}" 
-               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.leads.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.leads.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
                 <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
@@ -123,7 +122,7 @@
 
             <!-- Calendar Content Link -->
             <a href="{{ route('admin.calendar-contents.index') }}" 
-               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.calendar-contents.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.calendar-contents.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
                 <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -132,7 +131,7 @@
 
             <!-- Manage Static Pages Link -->
             <a href="{{ route('admin.pages.index') }}" 
-               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.pages.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.pages.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
                 <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
@@ -141,7 +140,7 @@
 
             <!-- Manage FAQs Link -->
             <a href="{{ route('admin.faqs.index') }}" 
-               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.faqs.*') ? 'bg-indigo-600/15 text-indigo-400 border-l-4 border-indigo-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.faqs.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
                 <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -189,7 +188,7 @@
                 <div class="relative">
                     <button onclick="toggleDropdown('profile-dropdown')" 
                             class="flex items-center space-x-3 p-1.5 rounded-2xl hover:bg-slate-800/50 border border-transparent hover:border-slate-800/80 transition-all focus:outline-none text-left">
-                        <div class="h-10 w-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-extrabold uppercase shadow-sm overflow-hidden">
+                        <div class="h-10 w-10 rounded-xl bg-amber-600 flex items-center justify-center text-white font-extrabold uppercase shadow-sm overflow-hidden">
                             @if(Auth::guard('admin')->user()->profile_photo)
                                 <img src="{{ asset(Auth::guard('admin')->user()->profile_photo) }}" alt="Avatar" class="h-full w-full object-cover">
                             @else
@@ -283,7 +282,7 @@
             <div class="p-6 overflow-y-auto space-y-5 flex-1 scrollbar">
                 <!-- Profile Image Selection -->
                 <div class="flex items-center space-x-5">
-                    <div class="h-20 w-20 rounded-2xl bg-indigo-600 flex items-center justify-center text-white font-extrabold text-2xl uppercase shadow-md overflow-hidden relative group border border-slate-700/50" id="avatar-preview-box">
+                    <div class="h-20 w-20 rounded-2xl bg-amber-600 flex items-center justify-center text-white font-extrabold text-2xl uppercase shadow-md overflow-hidden relative group border border-slate-700/50" id="avatar-preview-box">
                         @if(Auth::guard('admin')->user()->profile_photo)
                             <img src="{{ asset(Auth::guard('admin')->user()->profile_photo) }}" alt="Avatar" id="avatar-preview-img" class="h-full w-full object-cover">
                         @else
@@ -293,7 +292,7 @@
                     <div>
                         <label for="profile_photo" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Change Profile Photo</label>
                         <input type="file" name="profile_photo" id="profile_photo" accept="image/*" onchange="previewAvatar(this)"
-                               class="block w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                               class="block w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                         <p class="text-xs text-slate-500 mt-1">Accepts PNG, JPG, JPEG up to 2MB.</p>
                     </div>
                 </div>
@@ -301,13 +300,13 @@
                 <div>
                     <label for="profile_name" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Display Name</label>
                     <input type="text" name="name" id="profile_name" value="{{ Auth::guard('admin')->user()->name }}" required
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                 </div>
 
                 <div>
                     <label for="profile_email" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Email Address</label>
                     <input type="email" name="email" id="profile_email" value="{{ Auth::guard('admin')->user()->email }}" required
-                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                           class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                 </div>
 
                 <div class="border-t border-slate-800 pt-4">
@@ -317,13 +316,13 @@
                         <div>
                             <label for="profile_password" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">New Password</label>
                             <input type="password" name="password" id="profile_password"
-                                   class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm"
+                                   class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm"
                                    placeholder="Min. 6 chars">
                         </div>
                         <div>
                             <label for="profile_password_confirmation" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Confirm Password</label>
                             <input type="password" name="password_confirmation" id="profile_password_confirmation"
-                                   class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm"
+                                   class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm"
                                    placeholder="Repeat password">
                         </div>
                     </div>
@@ -337,7 +336,7 @@
                     Cancel
                 </button>
                 <button type="submit" 
-                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md shadow-indigo-500/10 transition-colors text-sm font-semibold">
+                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white shadow-md shadow-amber-500/10 transition-colors text-sm font-semibold">
                     Save Changes
                 </button>
             </div>

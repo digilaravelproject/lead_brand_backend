@@ -13,7 +13,7 @@
         </div>
         <div>
             <button onclick="openAddModal()" 
-                    class="flex items-center justify-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 rounded-xl transition-all font-semibold text-sm transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
+                    class="flex items-center justify-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white shadow-md shadow-amber-500/10 hover:shadow-amber-500/20 rounded-xl transition-all font-semibold text-sm transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
@@ -40,7 +40,7 @@
                     @forelse($trainings as $item)
                         <tr class="hover:bg-slate-800/20 transition-colors" id="training-row-{{ $item->id }}">
                             <td class="py-4 px-6 font-mono text-xs text-slate-500">#{{ $item->id }}</td>
-                            <td class="py-4 px-6 text-indigo-400 font-bold text-xs uppercase">{{ $item->category->category_name }}</td>
+                            <td class="py-4 px-6 text-amber-400 font-bold text-xs uppercase">{{ $item->category->category_name }}</td>
                             <td class="py-4 px-6">
                                 @if($item->type === 'pdf')
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">
@@ -63,7 +63,7 @@
                             </td>
                             <td class="py-4 px-6 text-right space-x-2">
                                 <button onclick="viewTraining({{ $item->id }})" 
-                                        class="inline-flex items-center p-1.5 rounded-lg border border-slate-700/60 hover:bg-indigo-600/10 text-slate-400 hover:text-indigo-400 transition-colors"
+                                        class="inline-flex items-center p-1.5 rounded-lg border border-slate-700/60 hover:bg-amber-600/10 text-slate-400 hover:text-amber-400 transition-colors"
                                         title="Play/Read Media">
                                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -125,7 +125,7 @@
                 <!-- Training Category -->
                 <div>
                     <label for="add-category" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Category <span class="text-red-500">*</span></label>
-                    <select name="training_category_id" id="add-category" required class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                    <select name="training_category_id" id="add-category" required class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                         <option value="" disabled selected>Select Category</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->category_name }}</option>
@@ -146,7 +146,7 @@
                             <span>Videos</span>
                         </label>
                         <!-- Floating bg -->
-                        <div id="type-pill" class="absolute top-1 bottom-1 w-[48%] bg-indigo-600 rounded-lg transition-all duration-300 z-0"></div>
+                        <div id="type-pill" class="absolute top-1 bottom-1 w-[48%] bg-amber-600 rounded-lg transition-all duration-300 z-0"></div>
                         <span class="absolute inset-0 flex justify-between z-10 pointer-events-none">
                             <span class="flex-1 text-center py-2.5 text-xs font-bold text-white" id="text-pdf">PDF Guides</span>
                             <span class="flex-1 text-center py-2.5 text-xs font-bold text-slate-400" id="text-video">Videos</span>
@@ -158,7 +158,7 @@
             <div>
                 <label for="add-title" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Resource Title <span class="text-red-500">*</span></label>
                 <input type="text" name="title" id="add-title" required placeholder="e.g. Sales Portal Tutorial"
-                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-650 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-650 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
             </div>
 
             <!-- Language Selection Radio Buttons -->
@@ -166,39 +166,39 @@
                 <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Language <span class="text-red-500">*</span></label>
                 <div class="flex flex-wrap gap-4 items-center bg-slate-950/40 border border-slate-800 rounded-xl p-3">
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="en" checked class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-en">
+                        <input type="radio" name="language" value="en" checked class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="add-lang-en">
                         <span>English</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="mr" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-mr">
+                        <input type="radio" name="language" value="mr" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="add-lang-mr">
                         <span>Marathi</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="hi" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-hi">
+                        <input type="radio" name="language" value="hi" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="add-lang-hi">
                         <span>Hindi</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-gu">
+                        <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="add-lang-gu">
                         <span>Gujrati</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="bn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-bn">
+                        <input type="radio" name="language" value="bn" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="add-lang-bn">
                         <span>Bengali</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="te" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-te">
+                        <input type="radio" name="language" value="te" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="add-lang-te">
                         <span>Telugu</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="ta" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-ta">
+                        <input type="radio" name="language" value="ta" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="add-lang-ta">
                         <span>Tamil</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="kn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-kn">
+                        <input type="radio" name="language" value="kn" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="add-lang-kn">
                         <span>Kannada</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="pa" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="add-lang-pa">
+                        <input type="radio" name="language" value="pa" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="add-lang-pa">
                         <span>Panjabi</span>
                     </label>
                 </div>
@@ -207,14 +207,14 @@
             <div>
                 <label for="add-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Summary / Instructions (Optional)</label>
                 <textarea name="description" id="add-description" rows="3" placeholder="Brief outline of topics covered..."
-                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-650 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm resize-none"></textarea>
+                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-650 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm resize-none"></textarea>
             </div>
 
             <!-- Upload Field (multiple select) -->
             <div>
                 <label for="add-files" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5" id="upload-label-text">Select PDF File(s) <span class="text-red-500">*</span></label>
                 <input type="file" name="files[]" id="add-files" required multiple accept="application/pdf"
-                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-1.5" id="upload-help-text">You can select multiple PDFs. Suffixes (- Part 1, Part 2...) will be added automatically to their titles.</p>
             </div>
 
@@ -222,13 +222,13 @@
             <div id="add-thumbnail-container" class="hidden">
                 <label for="add-thumbnail" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Video Thumbnail Image (Optional)</label>
                 <input type="file" name="thumbnail" id="add-thumbnail" accept="image/*"
-                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-1.5">Accepts PNG, JPG, JPEG, WEBP. This thumbnail will represent the video resource.</p>
             </div>
 
             <div>
                 <label for="add-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Publish Status</label>
-                <select name="status" id="add-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                <select name="status" id="add-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     <option value="1">Active (Published)</option>
                     <option value="0">Inactive (Draft)</option>
                 </select>
@@ -242,7 +242,7 @@
                 Cancel
             </button>
             <button type="submit" 
-                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-sm">
+                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm">
                 Upload & Publish
             </button>
         </div>
@@ -257,7 +257,7 @@
         <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
             <div>
                 <h3 class="text-lg font-bold text-white" id="view-title-text">Loading Media...</h3>
-                <span class="text-xs text-indigo-400 font-bold uppercase tracking-wider" id="view-category-text">Category</span>
+                <span class="text-xs text-amber-400 font-bold uppercase tracking-wider" id="view-category-text">Category</span>
             </div>
             <button onclick="closeMediaModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -276,7 +276,7 @@
             <div id="pdf-viewer-container" class="hidden">
                 <iframe id="view-pdf-frame" src="" class="w-full h-[450px] rounded-2xl border border-slate-800 bg-slate-955"></iframe>
                 <div class="mt-2 text-center">
-                    <a id="view-pdf-link" href="" target="_blank" class="inline-flex items-center space-x-1 text-xs text-indigo-400 hover:text-indigo-300 font-semibold hover:underline">
+                    <a id="view-pdf-link" href="" target="_blank" class="inline-flex items-center space-x-1 text-xs text-amber-400 hover:text-amber-300 font-semibold hover:underline">
                         <span>Open PDF in new tab</span>
                         <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                     </a>
@@ -317,7 +317,7 @@
                 <!-- Training Category -->
                 <div>
                     <label for="edit-category" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Category <span class="text-red-500">*</span></label>
-                    <select name="training_category_id" id="edit-category" required class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                    <select name="training_category_id" id="edit-category" required class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->category_name }}</option>
                         @endforeach
@@ -337,7 +337,7 @@
             <div>
                 <label for="edit-title" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Resource Title <span class="text-red-500">*</span></label>
                 <input type="text" name="title" id="edit-title" required
-                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
             </div>
 
             <!-- Language Selection Radio Buttons -->
@@ -345,39 +345,39 @@
                 <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Language <span class="text-red-500">*</span></label>
                 <div class="flex flex-wrap gap-4 items-center bg-slate-950/40 border border-slate-800 rounded-xl p-3">
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="en" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-en">
+                        <input type="radio" name="language" value="en" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="edit-lang-en">
                         <span>English</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="mr" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-mr">
+                        <input type="radio" name="language" value="mr" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="edit-lang-mr">
                         <span>Marathi</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="hi" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-hi">
+                        <input type="radio" name="language" value="hi" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="edit-lang-hi">
                         <span>Hindi</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-gu">
+                        <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="edit-lang-gu">
                         <span>Gujrati</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="bn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-bn">
+                        <input type="radio" name="language" value="bn" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="edit-lang-bn">
                         <span>Bengali</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="te" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-te">
+                        <input type="radio" name="language" value="te" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="edit-lang-te">
                         <span>Telugu</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="ta" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-ta">
+                        <input type="radio" name="language" value="ta" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="edit-lang-ta">
                         <span>Tamil</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="kn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-kn">
+                        <input type="radio" name="language" value="kn" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="edit-lang-kn">
                         <span>Kannada</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="pa" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40" id="edit-lang-pa">
+                        <input type="radio" name="language" value="pa" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40" id="edit-lang-pa">
                         <span>Panjabi</span>
                     </label>
                 </div>
@@ -386,30 +386,30 @@
             <div>
                 <label for="edit-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Summary / Instructions</label>
                 <textarea name="description" id="edit-description" rows="3"
-                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm resize-none"></textarea>
+                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm resize-none"></textarea>
             </div>
 
             <!-- Optional File Replacement -->
             <div>
                 <label for="edit-file" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5" id="edit-upload-label">Replace File (Optional)</label>
                 <input type="file" name="file" id="edit-file"
-                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-1.5">Leave blank to keep existing file. Uploading replaces the old file.</p>
-                <span class="block text-xs text-indigo-400 truncate mt-1 font-mono" id="edit-current-file-text"></span>
+                <span class="block text-xs text-amber-400 truncate mt-1 font-mono" id="edit-current-file-text"></span>
             </div>
 
             <!-- Optional Video Thumbnail Replacement (Hidden by default) -->
             <div id="edit-thumbnail-container" class="hidden">
                 <label for="edit-thumbnail" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Replace Thumbnail Image (Optional)</label>
                 <input type="file" name="thumbnail" id="edit-thumbnail" accept="image/*"
-                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-1.5">Leave blank to keep existing thumbnail. Uploading replaces the old one.</p>
-                <span class="block text-xs text-indigo-400 truncate mt-1 font-mono" id="edit-current-thumbnail-text"></span>
+                <span class="block text-xs text-amber-400 truncate mt-1 font-mono" id="edit-current-thumbnail-text"></span>
             </div>
 
             <div>
                 <label for="edit-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Publish Status</label>
-                <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     <option value="1">Active (Published)</option>
                     <option value="0">Inactive (Draft)</option>
                 </select>
@@ -423,7 +423,7 @@
                 Cancel
             </button>
             <button type="submit" 
-                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-sm">
+                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm">
                 Save Updates
             </button>
         </div>

@@ -12,13 +12,13 @@
     .animate-slide-up {
         animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    .stat-card-glow-indigo:hover { box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.25); }
-    .stat-card-glow-purple:hover { box-shadow: 0 10px 30px -10px rgba(168, 85, 247, 0.25); }
+    .stat-card-glow-gold:hover { box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.25); }
+    .stat-card-glow-yellow:hover { box-shadow: 0 10px 30px -10px rgba(234, 179, 8, 0.25); }
     .stat-card-glow-amber:hover { box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.25); }
     .stat-card-glow-sky:hover { box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.25); }
     .stat-card-glow-emerald:hover { box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.25); }
     .stat-card-glow-rose:hover { box-shadow: 0 10px 30px -10px rgba(244, 63, 94, 0.25); }
-    .stat-card-glow-pink:hover { box-shadow: 0 10px 30px -10px rgba(236, 72, 153, 0.25); }
+    .stat-card-glow-orange:hover { box-shadow: 0 10px 30px -10px rgba(249, 115, 22, 0.25); }
     .stat-card-glow-teal:hover { box-shadow: 0 10px 30px -10px rgba(20, 184, 166, 0.25); }
 </style>
 @endsection
@@ -26,18 +26,18 @@
 @section('content')
 <div class="space-y-8 animate-slide-up">
     <!-- Welcome section -->
-    <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-indigo-950/20 to-slate-900 border border-slate-800/80 rounded-3xl p-6 md:p-8">
+    <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-amber-950/20 to-slate-900 border border-slate-800/80 rounded-3xl p-6 md:p-8">
         <!-- Floating shapes -->
-        <div class="absolute right-0 top-0 -mt-8 -mr-8 h-40 w-40 rounded-full bg-indigo-500/10 blur-3xl"></div>
-        <div class="absolute right-20 bottom-0 -mb-8 h-32 w-32 rounded-full bg-purple-500/10 blur-2xl"></div>
+        <div class="absolute right-0 top-0 -mt-8 -mr-8 h-40 w-40 rounded-full bg-amber-500/10 blur-3xl"></div>
+        <div class="absolute right-20 bottom-0 -mb-8 h-32 w-32 rounded-full bg-yellow-500/10 blur-2xl"></div>
 
         <div class="relative flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
                 <h1 class="text-2xl md:text-3xl font-extrabold text-white">Welcome back, {{ Auth::guard('admin')->user()->name }}!</h1>
-                <p class="text-slate-400 mt-1">Here is a quick summary of what is happening with LeadBrand today.</p>
+                <p class="text-slate-400 mt-1">Here is a quick summary of what is happening with AdvisorX Pro today.</p>
             </div>
-            <div class="flex items-center space-x-2 bg-slate-800/50 backdrop-blur-md px-4 py-2 border border-slate-700/50 rounded-2xl text-xs font-bold text-indigo-400 w-fit">
-                <span class="h-2 w-2 bg-indigo-500 rounded-full animate-ping"></span>
+            <div class="flex items-center space-x-2 bg-slate-800/50 backdrop-blur-md px-4 py-2 border border-slate-700/50 rounded-2xl text-xs font-bold text-amber-400 w-fit">
+                <span class="h-2 w-2 bg-amber-500 rounded-full animate-ping"></span>
                 <span>System Online</span>
             </div>
         </div>
@@ -47,19 +47,19 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- Users Card -->
-        <div class="bg-slate-900 border border-slate-800/80 rounded-3xl p-6 transition-all duration-300 transform hover:-translate-y-1 stat-card-glow-indigo group flex flex-col justify-between min-h-[145px]">
+        <div class="bg-slate-900 border border-slate-800/80 rounded-3xl p-6 transition-all duration-300 transform hover:-translate-y-1 stat-card-glow-gold group flex flex-col justify-between min-h-[145px]">
             <div class="flex justify-between items-start">
                 <div>
                     <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Registered Users</span>
                     <h3 class="text-3xl font-black text-white mt-2">{{ $usersCount }}</h3>
                 </div>
-                <div class="h-11 w-11 bg-indigo-600/10 border border-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-md">
+                <div class="h-11 w-11 bg-amber-600/10 border border-amber-500/20 rounded-xl flex items-center justify-center text-amber-400 group-hover:bg-amber-600 group-hover:text-white transition-all duration-300 shadow-md">
                     <svg class="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                 </div>
             </div>
-            <div class="mt-4 flex items-center justify-between text-xs font-semibold text-indigo-400">
+            <div class="mt-4 flex items-center justify-between text-xs font-semibold text-amber-400">
                 <a href="{{ route('admin.users.index') }}" class="hover:underline flex items-center space-x-1">
                     <span>Manage all users</span>
                     <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -68,19 +68,19 @@
         </div>
 
         <!-- Banners Card -->
-        <div class="bg-slate-900 border border-slate-800/80 rounded-3xl p-6 transition-all duration-300 transform hover:-translate-y-1 stat-card-glow-purple group flex flex-col justify-between min-h-[145px]">
+        <div class="bg-slate-900 border border-slate-800/80 rounded-3xl p-6 transition-all duration-300 transform hover:-translate-y-1 stat-card-glow-yellow group flex flex-col justify-between min-h-[145px]">
             <div class="flex justify-between items-start">
                 <div>
                     <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Banners</span>
                     <h3 class="text-3xl font-black text-white mt-2">{{ $bannersCount }}</h3>
                 </div>
-                <div class="h-11 w-11 bg-purple-600/10 border border-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300 shadow-md">
+                <div class="h-11 w-11 bg-yellow-600/10 border border-yellow-500/20 rounded-xl flex items-center justify-center text-yellow-400 group-hover:bg-yellow-600 group-hover:text-white transition-all duration-300 shadow-md">
                     <svg class="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                 </div>
             </div>
-            <div class="mt-4 flex items-center justify-between text-xs font-semibold text-purple-400">
+            <div class="mt-4 flex items-center justify-between text-xs font-semibold text-yellow-400">
                 <a href="{{ route('admin.banners.index') }}" class="hover:underline flex items-center space-x-1">
                     <span>Manage banners</span>
                     <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -175,19 +175,19 @@
         </div>
 
         <!-- Static Pages Card -->
-        <div class="bg-slate-900 border border-slate-800/80 rounded-3xl p-6 transition-all duration-300 transform hover:-translate-y-1 stat-card-glow-pink group flex flex-col justify-between min-h-[145px]">
+        <div class="bg-slate-900 border border-slate-800/80 rounded-3xl p-6 transition-all duration-300 transform hover:-translate-y-1 stat-card-glow-orange group flex flex-col justify-between min-h-[145px]">
             <div class="flex justify-between items-start">
                 <div>
                     <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Static Pages</span>
                     <h3 class="text-3xl font-black text-white mt-2">{{ $pagesCount }}</h3>
                 </div>
-                <div class="h-11 w-11 bg-pink-600/10 border border-pink-500/20 rounded-xl flex items-center justify-center text-pink-400 group-hover:bg-pink-600 group-hover:text-white transition-all duration-300 shadow-md">
+                <div class="h-11 w-11 bg-orange-600/10 border border-orange-500/20 rounded-xl flex items-center justify-center text-orange-400 group-hover:bg-orange-600 group-hover:text-white transition-all duration-300 shadow-md">
                     <svg class="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                 </div>
             </div>
-            <div class="mt-4 flex items-center justify-between text-xs font-semibold text-pink-400">
+            <div class="mt-4 flex items-center justify-between text-xs font-semibold text-orange-400">
                 <a href="{{ route('admin.pages.index') }}" class="hover:underline flex items-center space-x-1">
                     <span>Manage pages</span>
                     <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -225,7 +225,7 @@
         <div class="bg-slate-900 border border-slate-800/80 rounded-3xl p-6 flex flex-col">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-base font-bold text-white">Recent Registrations</h3>
-                <a href="{{ route('admin.users.index') }}" class="text-xs text-indigo-400 font-semibold hover:underline">View All</a>
+                <a href="{{ route('admin.users.index') }}" class="text-xs text-amber-400 font-semibold hover:underline">View All</a>
             </div>
             
             <div class="flex-1 overflow-x-auto">
@@ -242,7 +242,7 @@
                             <tr class="text-slate-300 hover:bg-slate-800/20 transition-colors">
                                 <td class="py-3.5 pl-2">
                                     <div class="flex items-center space-x-3">
-                                        <div class="h-9 w-9 bg-slate-800 rounded-xl flex items-center justify-center font-bold text-indigo-400 text-xs overflow-hidden">
+                                        <div class="h-9 w-9 bg-slate-800 rounded-xl flex items-center justify-center font-bold text-amber-400 text-xs overflow-hidden">
                                             @if($user->profile_photo)
                                                 <img src="{{ asset($user->profile_photo) }}" alt="Avatar" class="h-full w-full object-cover">
                                             @else
@@ -283,8 +283,8 @@
                             $badgeColor = 'bg-slate-700';
                             if ($notification->type === 'training') $badgeColor = 'bg-sky-500';
                             elseif ($notification->type === 'tools') $badgeColor = 'bg-emerald-500';
-                            elseif ($notification->type === 'banner') $badgeColor = 'bg-purple-500';
-                            elseif ($notification->type === 'user') $badgeColor = 'bg-indigo-500';
+                            elseif ($notification->type === 'banner') $badgeColor = 'bg-yellow-500';
+                            elseif ($notification->type === 'user') $badgeColor = 'bg-amber-500';
                         @endphp
                         <span class="h-2.5 w-2.5 rounded-full {{ $badgeColor }} mt-1.5 flex-shrink-0 animate-pulse"></span>
                         

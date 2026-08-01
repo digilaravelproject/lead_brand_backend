@@ -27,7 +27,7 @@
                 <span>Add Subtool</span>
             </button>
             <button onclick="openModal('upload-media-modal')" 
-                    class="flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 rounded-xl transition-all font-semibold text-xs cursor-pointer">
+                    class="flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white shadow-md shadow-amber-500/10 hover:shadow-amber-500/20 rounded-xl transition-all font-semibold text-xs cursor-pointer">
                 <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                 </svg>
@@ -43,7 +43,7 @@
                 <span class="block text-xs text-slate-500 font-semibold uppercase tracking-wider">Subtools count</span>
                 <span class="text-xl font-bold text-white mt-1 block">{{ $tool->subtools->count() }}</span>
             </div>
-            <div class="h-9 w-9 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+            <div class="h-9 w-9 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z"/></svg>
             </div>
         </div>
@@ -76,7 +76,7 @@
                     @endif
                 </span>
             </div>
-            <div class="h-9 w-9 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+            <div class="h-9 w-9 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
         </div>
@@ -88,7 +88,7 @@
         <!-- DIRECT TOOL MEDIA (If no subtools or media directly at root) -->
         <div class="bg-slate-900 border border-slate-800/80 rounded-3xl p-6 shadow-sm">
             <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center space-x-2">
-                <span class="h-2 w-2 rounded-full bg-indigo-500"></span>
+                <span class="h-2 w-2 rounded-full bg-amber-500"></span>
                 <span>Direct Media / Root Assets (No Subtool)</span>
             </h2>
             
@@ -143,7 +143,7 @@
                                         </td>
                                         <td class="py-3 px-4">
                                             @if($media->pdf)
-                                                <a href="{{ asset($media->pdf) }}" target="_blank" class="inline-flex items-center space-x-1 text-indigo-400 hover:text-indigo-300 font-bold">
+                                                <a href="{{ asset($media->pdf) }}" target="_blank" class="inline-flex items-center space-x-1 text-amber-400 hover:text-amber-300 font-bold">
                                                     <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                     </svg>
@@ -184,7 +184,7 @@
         <!-- SUBTOOL MEDIA GROUPS -->
         <div class="space-y-6">
             <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center space-x-2">
-                <span class="h-2 w-2 rounded-full bg-purple-500"></span>
+                <span class="h-2 w-2 rounded-full bg-yellow-500"></span>
                 <span>Subtool Assets Directories</span>
             </h2>
 
@@ -193,7 +193,7 @@
                     <!-- Title/Action -->
                     <div class="flex items-center justify-between border-b border-slate-800/60 pb-3">
                         <div class="flex items-center space-x-2.5">
-                            <div class="h-7 w-7 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center">
+                            <div class="h-7 w-7 rounded-lg bg-yellow-500/10 text-yellow-400 flex items-center justify-center">
                                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"/></svg>
                             </div>
                             <div>
@@ -262,7 +262,7 @@
                                                 </td>
                                                 <td class="py-3 px-4">
                                                     @if($media->pdf)
-                                                        <a href="{{ asset($media->pdf) }}" target="_blank" class="inline-flex items-center space-x-1 text-indigo-400 hover:text-indigo-300 font-bold">
+                                                        <a href="{{ asset($media->pdf) }}" target="_blank" class="inline-flex items-center space-x-1 text-amber-400 hover:text-amber-300 font-bold">
                                                             <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                             </svg>
@@ -329,18 +329,18 @@
             <div>
                 <label for="subtool-title" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Subtool Title <span class="text-red-500">*</span></label>
                 <input type="text" name="title" id="subtool-title" required placeholder="e.g. Child Plan"
-                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                       class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
             </div>
 
             <div>
                 <label for="subtool-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Brief Overview (Optional)</label>
                 <textarea name="description" id="subtool-description" rows="3" placeholder="Brief outline..."
-                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm resize-none"></textarea>
+                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm resize-none"></textarea>
             </div>
 
             <div>
                 <label for="subtool-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Publish Status</label>
-                <select name="status" id="subtool-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                <select name="status" id="subtool-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     <option value="1">Active (Visible)</option>
                     <option value="0">Inactive (Hidden)</option>
                 </select>
@@ -354,7 +354,7 @@
                 Cancel
             </button>
             <button type="submit" 
-                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-sm">
+                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm">
                 Add Subtool Folder
             </button>
         </div>
@@ -381,7 +381,7 @@
             <!-- Select target folder (direct or subtool) -->
             <div>
                 <label for="media-subtool" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Target Destination <span class="text-red-500">*</span></label>
-                <select name="subtool_id" id="media-subtool" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                <select name="subtool_id" id="media-subtool" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     <option value="">Directly to root (No Subtool)</option>
                     @foreach($tool->subtools as $subtool)
                         <option value="{{ $subtool->id }}">Subtool Directory: {{ $subtool->title }}</option>
@@ -394,39 +394,39 @@
                 <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Select Language <span class="text-red-500">*</span></label>
                 <div class="flex flex-wrap gap-4 items-center bg-slate-950/40 border border-slate-800 rounded-xl p-3">
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="en" checked class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <input type="radio" name="language" value="en" checked class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40">
                         <span>English</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="mr" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <input type="radio" name="language" value="mr" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40">
                         <span>Marathi</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="hi" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <input type="radio" name="language" value="hi" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40">
                         <span>Hindi</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <input type="radio" name="language" value="gu" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40">
                         <span>Gujrati</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="bn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <input type="radio" name="language" value="bn" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40">
                         <span>Bengali</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="te" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <input type="radio" name="language" value="te" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40">
                         <span>Telugu</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="ta" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <input type="radio" name="language" value="ta" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40">
                         <span>Tamil</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="kn" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <input type="radio" name="language" value="kn" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40">
                         <span>Kannada</span>
                     </label>
                     <label class="inline-flex items-center text-xs font-medium text-slate-300 cursor-pointer select-none">
-                        <input type="radio" name="language" value="pa" class="mr-2 h-4 w-4 text-indigo-600 border-slate-800 bg-slate-900 focus:ring-indigo-500/40">
+                        <input type="radio" name="language" value="pa" class="mr-2 h-4 w-4 text-amber-600 border-slate-800 bg-slate-900 focus:ring-amber-500/40">
                         <span>Panjabi</span>
                     </label>
                 </div>
@@ -436,7 +436,7 @@
             <div>
                 <label for="media-files" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Select Files <span class="text-red-500">*</span></label>
                 <input type="file" name="files[]" id="media-files" required multiple accept="image/*,video/*"
-                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-2">You can select multiple images (PNG, JPG, JPEG, GIF) or videos (MP4, WEBM) up to 100MB per file. File name will be used as media title.</p>
             </div>
 
@@ -444,7 +444,7 @@
             <div id="tool-media-thumbnail-container" class="hidden">
                 <label for="tool-media-thumbnail" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Video Thumbnail (Optional)</label>
                 <input type="file" name="thumbnail" id="tool-media-thumbnail" accept="image/*"
-                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-1.5">Accepts PNG, JPG, JPEG, WEBP. This thumbnail will represent the video resource.</p>
             </div>
 
@@ -452,7 +452,7 @@
             <div>
                 <label for="media-info-image" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Info Image (Optional)</label>
                 <input type="file" name="info_image" id="media-info-image" accept="image/*"
-                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-1.5">Optional informational image to store alongside the main media upload.</p>
             </div>
 
@@ -460,7 +460,7 @@
             <div>
                 <label for="media-pdf" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">PDF Document (Optional)</label>
                 <input type="file" name="pdf" id="media-pdf" accept="application/pdf"
-                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                       class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                 <p class="text-xs text-slate-500 mt-1.5">Accepts PDF files up to 20MB.</p>
             </div>
 
@@ -468,7 +468,7 @@
             <div>
                 <label for="media-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Description (Optional)</label>
                 <textarea name="description" id="media-description" rows="3" placeholder="Enter media description..."
-                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm resize-none"></textarea>
+                          class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-655 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm resize-none"></textarea>
             </div>
         </div>
 
@@ -479,7 +479,7 @@
                 Cancel
             </button>
             <button type="submit" 
-                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-sm">
+                    class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm">
                 Start Upload
             </button>
         </div>

@@ -13,7 +13,7 @@
         </div>
         <div>
             <button onclick="openAddModal()" 
-                    class="flex items-center justify-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 rounded-xl transition-all font-semibold text-sm transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
+                    class="flex items-center justify-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white shadow-md shadow-amber-500/10 hover:shadow-amber-500/20 rounded-xl transition-all font-semibold text-sm transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
@@ -44,7 +44,7 @@
                                 <div class="flex flex-wrap gap-2">
                                     @php
                                         $langs = [
-                                            'en' => ['name' => 'English', 'color' => 'indigo'],
+                                            'en' => ['name' => 'English', 'color' => 'amber'],
                                             'hi' => ['name' => 'Hindi', 'color' => 'red'],
                                             'gu' => ['name' => 'Gujarati', 'color' => 'amber'],
                                             'mr' => ['name' => 'Marathi', 'color' => 'emerald'],
@@ -52,7 +52,7 @@
                                             'te' => ['name' => 'Telugu', 'color' => 'cyan'],
                                             'ta' => ['name' => 'Tamil', 'color' => 'sky'],
                                             'kn' => ['name' => 'Kannada', 'color' => 'pink'],
-                                            'pa' => ['name' => 'Panjabi', 'color' => 'violet']
+                                            'pa' => ['name' => 'Panjabi', 'color' => 'yellow']
                                         ];
                                     @endphp
 
@@ -139,11 +139,11 @@
                     <div>
                         <label for="add-year" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Calendar Year</label>
                         <input type="number" name="year" id="add-year" required placeholder="e.g. {{ date('Y') }}" min="2000" max="2100"
-                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     </div>
                     <div>
                         <label for="add-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Status</label>
-                        <select name="status" id="add-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-350 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                        <select name="status" id="add-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-350 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                             <option value="1">Active (Published)</option>
                             <option value="0">Inactive (Hidden)</option>
                         </select>
@@ -151,52 +151,52 @@
                 </div>
 
                 <div class="border-t border-slate-800/80 pt-4">
-                    <h4 class="text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-3">Upload PDFs (Max 50MB per file)</h4>
+                    <h4 class="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-3">Upload PDFs (Max 50MB per file)</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label for="add-pdf-en" class="block text-xs font-medium text-slate-400 mb-1">English PDF</label>
                             <input type="file" name="pdf_en" id="add-pdf-en" accept=".pdf"
-                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                         </div>
                         <div>
                             <label for="add-pdf-hi" class="block text-xs font-medium text-slate-400 mb-1">Hindi PDF</label>
                             <input type="file" name="pdf_hi" id="add-pdf-hi" accept=".pdf"
-                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                         </div>
                         <div>
                             <label for="add-pdf-gu" class="block text-xs font-medium text-slate-400 mb-1">Gujarati PDF</label>
                             <input type="file" name="pdf_gu" id="add-pdf-gu" accept=".pdf"
-                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                         </div>
                         <div>
                             <label for="add-pdf-mr" class="block text-xs font-medium text-slate-400 mb-1">Marathi PDF</label>
                             <input type="file" name="pdf_mr" id="add-pdf-mr" accept=".pdf"
-                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                         </div>
                         <div>
                             <label for="add-pdf-bn" class="block text-xs font-medium text-slate-400 mb-1">Bengali PDF</label>
                             <input type="file" name="pdf_bn" id="add-pdf-bn" accept=".pdf"
-                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                         </div>
                         <div>
                             <label for="add-pdf-te" class="block text-xs font-medium text-slate-400 mb-1">Telugu PDF</label>
                             <input type="file" name="pdf_te" id="add-pdf-te" accept=".pdf"
-                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                         </div>
                         <div>
                             <label for="add-pdf-ta" class="block text-xs font-medium text-slate-400 mb-1">Tamil PDF</label>
                             <input type="file" name="pdf_ta" id="add-pdf-ta" accept=".pdf"
-                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                         </div>
                         <div>
                             <label for="add-pdf-kn" class="block text-xs font-medium text-slate-400 mb-1">Kannada PDF</label>
                             <input type="file" name="pdf_kn" id="add-pdf-kn" accept=".pdf"
-                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                         </div>
                         <div>
                             <label for="add-pdf-pa" class="block text-xs font-medium text-slate-400 mb-1">Panjabi PDF</label>
                             <input type="file" name="pdf_pa" id="add-pdf-pa" accept=".pdf"
-                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                   class="block w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                         </div>
                     </div>
                 </div>
@@ -208,7 +208,7 @@
                     Cancel
                 </button>
                 <button type="submit" 
-                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-sm cursor-pointer shadow-md shadow-indigo-500/10">
+                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm cursor-pointer shadow-md shadow-amber-500/10">
                     Publish Year
                 </button>
             </div>
@@ -236,11 +236,11 @@
                     <div>
                         <label for="edit-year" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Calendar Year</label>
                         <input type="number" name="year" id="edit-year" required min="2000" max="2100"
-                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                     </div>
                     <div>
                         <label for="edit-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Status</label>
-                        <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-350 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm">
+                        <select name="status" id="edit-status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-350 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                             <option value="1">Active (Published)</option>
                             <option value="0">Inactive (Hidden)</option>
                         </select>
@@ -248,7 +248,7 @@
                 </div>
 
                 <div class="border-t border-slate-800/80 pt-4">
-                    <h4 class="text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-3">Upload / Overwrite PDFs</h4>
+                    <h4 class="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-3">Upload / Overwrite PDFs</h4>
                     
                     <div class="space-y-4">
                         <!-- English -->
@@ -259,7 +259,7 @@
                             </div>
                             <div>
                                 <input type="file" name="pdf_en" id="edit-pdf-en" accept=".pdf"
-                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                             </div>
                         </div>
 
@@ -271,7 +271,7 @@
                             </div>
                             <div>
                                 <input type="file" name="pdf_hi" id="edit-pdf-hi" accept=".pdf"
-                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                             </div>
                         </div>
 
@@ -283,7 +283,7 @@
                             </div>
                             <div>
                                 <input type="file" name="pdf_gu" id="edit-pdf-gu" accept=".pdf"
-                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                             </div>
                         </div>
 
@@ -295,7 +295,7 @@
                             </div>
                             <div>
                                 <input type="file" name="pdf_mr" id="edit-pdf-mr" accept=".pdf"
-                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                             </div>
                         </div>
 
@@ -307,7 +307,7 @@
                             </div>
                             <div>
                                 <input type="file" name="pdf_bn" id="edit-pdf-bn" accept=".pdf"
-                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                             </div>
                         </div>
 
@@ -319,7 +319,7 @@
                             </div>
                             <div>
                                 <input type="file" name="pdf_te" id="edit-pdf-te" accept=".pdf"
-                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                             </div>
                         </div>
 
@@ -331,7 +331,7 @@
                             </div>
                             <div>
                                 <input type="file" name="pdf_ta" id="edit-pdf-ta" accept=".pdf"
-                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                             </div>
                         </div>
 
@@ -343,7 +343,7 @@
                             </div>
                             <div>
                                 <input type="file" name="pdf_kn" id="edit-pdf-kn" accept=".pdf"
-                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                             </div>
                         </div>
 
@@ -355,7 +355,7 @@
                             </div>
                             <div>
                                 <input type="file" name="pdf_pa" id="edit-pdf-pa" accept=".pdf"
-                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-400 hover:file:bg-indigo-600/20 file:cursor-pointer cursor-pointer">
+                                       class="block w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded-lg file:border-0 file:text-[10px] file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer">
                             </div>
                         </div>
                     </div>
@@ -368,7 +368,7 @@
                     Cancel
                 </button>
                 <button type="submit" 
-                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-sm cursor-pointer shadow-md shadow-indigo-500/10">
+                        class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm cursor-pointer shadow-md shadow-amber-500/10">
                     Save Updates
                 </button>
             </div>
@@ -463,7 +463,7 @@
                     const label = document.getElementById(`current-pdf-${lang}-label`);
                     if (content && content.pdf_path) {
                         const filename = content.pdf_path.split('/').pop();
-                        label.innerHTML = `Uploaded: <a href="{{ asset('') }}${content.pdf_path}" target="_blank" class="text-indigo-400 hover:text-indigo-300 font-semibold underline">${filename}</a>`;
+                        label.innerHTML = `Uploaded: <a href="{{ asset('') }}${content.pdf_path}" target="_blank" class="text-amber-400 hover:text-amber-300 font-semibold underline">${filename}</a>`;
                     } else {
                         label.innerHTML = '<span class="text-slate-550">Not uploaded yet</span>';
                     }
