@@ -39,7 +39,7 @@
                         <th class="py-4 px-6">Created At</th>
                         <th class="py-4 px-6">Expired At</th>
                         <th class="py-4 px-6">Subscription</th>
-                        <th class="py-4 px-6 text-right">Actions</th>
+                        <th class="py-4 px-6 text-right min-w-[250px]">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-800/40 text-slate-300">
@@ -73,7 +73,8 @@
                             <td class="py-4 px-6 text-xs text-slate-400 whitespace-nowrap">{{ $user->created_at->format('d M Y') }}<div class="text-slate-600 mt-1">{{ $user->created_at->format('h:i A') }}</div></td>
                             <td class="py-4 px-6 text-xs whitespace-nowrap"><span class="{{ $user->hasExpiredTrial() ? 'text-red-400' : 'text-slate-300' }}">{{ optional($user->subscription_ends_at)->format('d M Y') ?: 'No expiry' }}</span>@if($user->subscription_ends_at)<div class="text-slate-600 mt-1">{{ $user->subscription_ends_at->format('h:i A') }}</div>@endif</td>
                             <td class="py-4 px-6 text-xs"><div class="{{ $user->hasSubscriptionAccess() ? 'text-emerald-400' : 'text-red-400' }}">{{ $user->hasSubscriptionAccess() ? 'Active subscription' : 'Expired subscription' }}</div><div class="text-slate-500">{{ optional($user->subscription_ends_at)->format('d M Y') ?: 'No expiry' }}</div><div class="mt-1 capitalize text-slate-400">{{ $user->approval_status }}</div></td>
-                            <td class="py-4 px-6 text-right space-x-2">
+                            <td class="py-4 px-6 text-right whitespace-nowrap">
+                                <div class="flex items-center justify-end gap-2 flex-nowrap min-w-max">
                                 <button onclick="viewUser({{ $user->id }})" 
                                         class="inline-flex items-center p-1.5 rounded-lg border border-slate-700/60 hover:bg-amber-600/10 text-slate-400 hover:text-amber-400 transition-colors"
                                         title="View Details">
@@ -98,6 +99,7 @@
                                 </button>
                                 <form method="POST" action="{{ route('admin.users.approval', $user->id) }}" class="inline">@csrf<input type="hidden" name="approval_status" value="approved"><button class="inline-flex items-center p-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-colors {{ $user->approval_status === 'approved' ? 'opacity-50' : '' }}" title="Approve user" aria-label="Approve user"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></button></form>
                                 <form method="POST" action="{{ route('admin.users.approval', $user->id) }}" class="inline">@csrf<input type="hidden" name="approval_status" value="disapproved"><button class="inline-flex items-center p-1.5 rounded-lg border border-orange-500/20 bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 transition-colors {{ $user->approval_status === 'disapproved' ? 'opacity-50' : '' }}" title="Disapprove user" aria-label="Disapprove user"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></form>
+                                </div>
                             </td>
                         </tr>
                     @empty
