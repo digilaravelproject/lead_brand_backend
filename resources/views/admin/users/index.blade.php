@@ -11,6 +11,17 @@
             <h1 class="text-xl font-bold text-white">Registered Users</h1>
             <p class="text-xs text-slate-400 mt-0.5">View and manage customer registrations, profile photos, and settings.</p>
         </div>
+        <button onclick="document.getElementById('create-user-panel').classList.toggle('hidden')" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-sm font-semibold">Create User</button>
+    </div>
+
+    <div id="create-user-panel" class="{{ $errors->any() ? '' : 'hidden' }} bg-slate-900 border border-slate-800 rounded-2xl p-5">
+        <h2 class="font-bold text-white mb-4">Create User with 4-Day Trial</h2>
+        <form method="POST" action="{{ route('admin.users.store') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">@csrf
+            <input name="name" value="{{ old('name') }}" required placeholder="Full name" class="bg-slate-950 border border-slate-700 rounded-xl p-3 text-white">
+            <input type="email" name="email" value="{{ old('email') }}" required placeholder="Email" class="bg-slate-950 border border-slate-700 rounded-xl p-3 text-white">
+            <input name="phone_number" value="{{ old('phone_number') }}" placeholder="Phone number" class="bg-slate-950 border border-slate-700 rounded-xl p-3 text-white">
+            <button class="bg-amber-600 rounded-xl px-5 py-3 font-semibold text-white">Create User</button>
+        </form>
     </div>
 
     <!-- Users Table Card -->
@@ -25,6 +36,7 @@
                         <th class="py-4 px-6">Phone Number</th>
                         <th class="py-4 px-6">Destination</th>
                         <th class="py-4 px-6">Brand Logo</th>
+                        <th class="py-4 px-6">Subscription</th>
                         <th class="py-4 px-6 text-right">Actions</th>
                     </tr>
                 </thead>
@@ -44,6 +56,7 @@
                                     <div class="font-bold text-white">{{ $user->name }}</div>
                                 </div>
                             </td>
+                            <td class="py-4 px-6 text-xs"><div class="{{ $user->hasExpiredTrial() ? 'text-red-400' : 'text-emerald-400' }}">{{ $user->subscription_ends_at ? ($user->hasExpiredTrial() ? 'Trial expired' : 'Trial active') : 'Legacy account' }}</div><div class="text-slate-500">{{ optional($user->subscription_ends_at)->format('d M Y') }}</div></td>
                             <td class="py-4 px-6 text-slate-300">{{ $user->email }}</td>
                             <td class="py-4 px-6 text-slate-400">{{ $user->phone_number ?: 'N/A' }}</td>
                             <td class="py-4 px-6 text-slate-400 text-xs">{{ $user->destination ?: 'N/A' }}</td>
@@ -79,11 +92,15 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
                                 </button>
+                                @if($user->hasExpiredTrial())
+                                    <form method="POST" action="{{ route('admin.users.approval', $user->id) }}" class="inline">@csrf<input type="hidden" name="approval_status" value="approved"><button class="text-emerald-400 text-xs font-semibold" title="Approve subscription">Approve</button></form>
+                                    <form method="POST" action="{{ route('admin.users.approval', $user->id) }}" class="inline">@csrf<input type="hidden" name="approval_status" value="disapproved"><button class="text-orange-400 text-xs font-semibold" title="Disapprove subscription">Disapprove</button></form>
+                                @endif
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center py-12 text-slate-500">No users found.</td>
+                            <td colspan="8" class="text-center py-12 text-slate-500">No users found.</td>
                         </tr>
                     @endforelse
                 </tbody>

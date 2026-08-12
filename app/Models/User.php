@@ -20,6 +20,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'dealer_id',
         'name',
         'email',
         'google_id',
@@ -31,6 +32,9 @@ class User extends Authenticatable
         'destination',
         'logo',
         'language',
+        'subscription_started_at',
+        'subscription_ends_at',
+        'approval_status',
     ];
 
     /**
@@ -55,6 +59,8 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'otp_expires_at' => 'datetime',
+            'subscription_started_at' => 'datetime',
+            'subscription_ends_at' => 'datetime',
         ];
     }
 
@@ -64,5 +70,24 @@ class User extends Authenticatable
     public function leads()
     {
         return $this->hasMany(Lead::class);
+    }
+
+    public function dealer()
+    {
+        return $this->belongsTo(Dealer::class);
+    }
+
+    public function hasExpiredTrial(): bool
+    {
+        return $this->subscription_ends_at !== null && $this->subscription_ends_at->isPast();
+    }
+
+    public function hasSubscriptionAccess(): bool
+    {
+        if ($this->subscription_ends_at === null) {
+            return true;
+        }
+
+        return ! $this->hasExpiredTrial() || $this->approval_status === 'approved';
     }
 }

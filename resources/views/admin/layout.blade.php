@@ -74,6 +74,15 @@
                 <span>Manage Users</span>
             </a>
 
+            <!-- Manage Dealers Link -->
+            <a href="{{ route('admin.dealers.index') }}"
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.dealers.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+                <svg class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-2M9 9h.01M9 13h.01M9 17h.01M16 13h.01M16 17h.01" />
+                </svg>
+                <span>Manage Dealers</span>
+            </a>
+
             <!-- Manage Banners Link -->
             <a href="{{ route('admin.banners.index') }}" 
                class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.banners.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">

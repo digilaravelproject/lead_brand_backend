@@ -3,59 +3,68 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use App\Models\User;
-use Exception;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-
     public function googleLogin(Request $request)
     {
         try {
             $request->validate([
                 'google_id' => 'required|string',
-                'email'     => 'required|email',
-                'name'      => 'nullable|string',
+                'email' => 'required|email',
+                'name' => 'nullable|string',
                 'profile_photo' => 'nullable|string',
             ]);
 
             $user = User::where('email', $request->email)
-                        ->orWhere('google_id', $request->google_id)
-                        ->first();
+                ->orWhere('google_id', $request->google_id)
+                ->first();
 
-            if (!$user) {
+            if (! $user) {
                 // Register user automatically
                 $user = User::create([
-                    'email'     => $request->email,
+                    'email' => $request->email,
                     'google_id' => $request->google_id,
-                    'name'      => $request->name ?? '',
+                    'name' => $request->name ?? '',
                     'profile_photo' => $request->profile_photo ?? null,
                 ]);
             } else {
                 // Link google_id if not already linked
                 if ($request->filled('google_id')) {
                     $user->update([
-                        'google_id' => $request->google_id
+                        'google_id' => $request->google_id,
                     ]);
                 }
                 // Fill details if they are empty
                 if ($request->filled('name')) {
                     $user->update([
-                        'name' => $request->name
+                        'name' => $request->name,
                     ]);
                 }
                 if ($request->filled('profile_photo')) {
                     $user->update([
-                        'profile_photo' => $request->profile_photo
+                        'profile_photo' => $request->profile_photo,
                     ]);
                 }
+            }
+
+            if (! $user->hasSubscriptionAccess()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $user->approval_status === 'disapproved'
+                        ? 'Your subscription has been disapproved by the dealer.'
+                        : 'Your four-day free subscription has ended and is awaiting dealer approval.',
+                ], 403);
             }
 
             // Revoke old tokens
@@ -65,11 +74,11 @@ class AuthController extends Controller
 
             if ($isNew) {
                 return response()->json([
-                    'status'  => true,
+                    'status' => true,
                     'message' => 'Google login success - profile incomplete',
-                    'data'    => [
+                    'data' => [
                         'is_new' => 1,
-                        'user'   => $user,
+                        'user' => $user,
                     ],
                 ], 200);
             }
@@ -77,26 +86,27 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
-                'status'  => true,
+                'status' => true,
                 'message' => 'Login successful',
-                'data'    => [
-                    'is_new'       => 0,
+                'data' => [
+                    'is_new' => 0,
                     'access_token' => $token,
-                    'token_type'   => 'Bearer',
-                    'user'         => $user,
+                    'token_type' => 'Bearer',
+                    'user' => $user,
                 ],
             ], 200);
 
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return response()->json([
-                'status'  => false,
-                'message' => $e->errors()
+                'status' => false,
+                'message' => $e->errors(),
             ], 422);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             \Log::error($e);
+
             return response()->json([
-                'status'  => false,
-                'message' => 'Something went wrong. Please try again.'
+                'status' => false,
+                'message' => 'Something went wrong. Please try again.',
             ], 500);
         }
     }
@@ -130,6 +140,7 @@ class AuthController extends Controller
             return response()->json(['status' => true, 'message' => 'OTP sent', 'data' => ['email' => $email, 'expires_at' => $user->otp_expires_at, 'is_new' => $isNew]], 200);
         } catch (Exception $e) {
             Log::error('sendOtp error: '.$e->getMessage());
+
             return response()->json(['status' => false, 'message' => 'Failed to send OTP', 'error' => $e->getMessage()], 500);
         }
     }
@@ -157,6 +168,15 @@ class AuthController extends Controller
 
             if ($user->otp_expires_at && Carbon::now()->greaterThan($user->otp_expires_at)) {
                 return response()->json(['status' => false, 'message' => 'OTP expired'], 400);
+            }
+
+            if (! $user->hasSubscriptionAccess()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $user->approval_status === 'disapproved'
+                        ? 'Your subscription has been disapproved by the dealer.'
+                        : 'Your four-day free subscription has ended and is awaiting dealer approval.',
+                ], 403);
             }
 
             $user->email_verified_at = Carbon::now();
@@ -194,6 +214,7 @@ class AuthController extends Controller
             ], 200);
         } catch (Exception $e) {
             Log::error('verifyOtp error: '.$e->getMessage());
+
             return response()->json(['status' => false, 'message' => 'Failed to verify OTP', 'error' => $e->getMessage()], 500);
         }
     }
@@ -225,6 +246,7 @@ class AuthController extends Controller
             return response()->json(['status' => true, 'message' => 'OTP resent', 'data' => ['email' => $email, 'expires_at' => $user->otp_expires_at]], 200);
         } catch (Exception $e) {
             Log::error('resendOtp error: '.$e->getMessage());
+
             return response()->json(['status' => false, 'message' => 'Failed to resend OTP', 'error' => $e->getMessage()], 500);
         }
     }
@@ -276,6 +298,7 @@ class AuthController extends Controller
             return response()->json(['status' => true, 'message' => 'Profile updated', 'data' => ['user' => $user]], 200);
         } catch (Exception $e) {
             Log::error('updateProfile error: '.$e->getMessage());
+
             return response()->json(['status' => false, 'message' => 'Failed to update profile', 'error' => $e->getMessage()], 500);
         }
     }
@@ -325,6 +348,7 @@ class AuthController extends Controller
             ], 200);
         } catch (Exception $e) {
             Log::error('completeSetup error: '.$e->getMessage());
+
             return response()->json(['status' => false, 'message' => 'Failed to complete setup', 'error' => $e->getMessage()], 500);
         }
     }
@@ -333,7 +357,7 @@ class AuthController extends Controller
     {
         try {
             $user = $request->user();
-            if (!$user) {
+            if (! $user) {
                 return response()->json(['status' => false, 'message' => 'Unauthenticated'], 401);
             }
 
@@ -352,11 +376,12 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'Language updated successfully',
                 'data' => [
-                    'user' => $user
-                ]
+                    'user' => $user,
+                ],
             ], 200);
         } catch (Exception $e) {
             Log::error('updateLanguage error: '.$e->getMessage());
+
             return response()->json(['status' => false, 'message' => 'Failed to update language', 'error' => $e->getMessage()], 500);
         }
     }
@@ -367,6 +392,7 @@ class AuthController extends Controller
             return response()->json(['status' => true, 'data' => ['user' => $request->user()]], 200);
         } catch (Exception $e) {
             Log::error('me error: '.$e->getMessage());
+
             return response()->json(['status' => false, 'message' => 'Failed to fetch user', 'error' => $e->getMessage()], 500);
         }
     }
@@ -378,9 +404,11 @@ class AuthController extends Controller
             if ($token) {
                 $token->delete();
             }
+
             return response()->json(['status' => true, 'message' => 'Logged out'], 200);
         } catch (Exception $e) {
             Log::error('logout error: '.$e->getMessage());
+
             return response()->json(['status' => false, 'message' => 'Failed to logout', 'error' => $e->getMessage()], 500);
         }
     }

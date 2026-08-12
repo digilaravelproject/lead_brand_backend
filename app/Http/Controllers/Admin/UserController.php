@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -14,8 +16,31 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->paginate(10);
+        $users = User::whereNull('dealer_id')->latest()->paginate(10);
+
         return view('admin.users.index', compact('users'));
+    }
+
+    /** Create a user directly under the admin with a four-day trial. */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'phone_number' => ['nullable', 'string', 'max:30'],
+            'password' => ['nullable', 'string', 'min:8'],
+        ]);
+
+        $now = now();
+        User::create($validated + [
+            'password' => $validated['password'] ?? Str::password(12),
+            'subscription_started_at' => $now,
+            'subscription_ends_at' => $now->copy()->addDays(4),
+            'approval_status' => 'pending',
+        ]);
+
+        return redirect()->route('admin.users.index')
+            ->with('success', 'User created with a four-day free subscription.');
     }
 
     /**
@@ -24,6 +49,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
+
         return response()->json($user);
     }
 
@@ -36,7 +62,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'phone_number' => ['nullable', 'string', 'max:20'],
             'destination' => ['nullable', 'string', 'max:255'],
             'password' => ['nullable', 'string', 'min:6'],
@@ -60,13 +86,13 @@ class UserController extends Controller
             }
 
             $file = $request->file('profile_photo');
-            $filename = time() . '_photo_' . preg_replace('/[^A-Za-z0-9\-.]/', '', $file->getClientOriginalName());
+            $filename = time().'_photo_'.preg_replace('/[^A-Za-z0-9\-.]/', '', $file->getClientOriginalName());
             $destinationPath = public_path('uploads/users');
-            if (!file_exists($destinationPath)) {
+            if (! file_exists($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
             $file->move($destinationPath, $filename);
-            $user->profile_photo = 'uploads/users/' . $filename;
+            $user->profile_photo = 'uploads/users/'.$filename;
         }
 
         // Handle Logo Upload
@@ -76,13 +102,13 @@ class UserController extends Controller
             }
 
             $file = $request->file('logo');
-            $filename = time() . '_logo_' . preg_replace('/[^A-Za-z0-9\-.]/', '', $file->getClientOriginalName());
+            $filename = time().'_logo_'.preg_replace('/[^A-Za-z0-9\-.]/', '', $file->getClientOriginalName());
             $destinationPath = public_path('uploads/users');
-            if (!file_exists($destinationPath)) {
+            if (! file_exists($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
             $file->move($destinationPath, $filename);
-            $user->logo = 'uploads/users/' . $filename;
+            $user->logo = 'uploads/users/'.$filename;
         }
 
         $user->save();
@@ -91,13 +117,31 @@ class UserController extends Controller
             ->with('success', 'User updated successfully.');
     }
 
+    public function approval(Request $request, int $id)
+    {
+        $user = User::findOrFail($id);
+        $validated = $request->validate([
+            'approval_status' => ['required', 'in:approved,disapproved'],
+        ]);
+
+        if (! $user->hasExpiredTrial()) {
+            throw ValidationException::withMessages([
+                'approval_status' => 'Approval can only be changed after the four-day trial has ended.',
+            ]);
+        }
+
+        $user->update(['approval_status' => $validated['approval_status']]);
+
+        return back()->with('success', 'User subscription status updated.');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        
+
         // Delete uploaded files
         if ($user->profile_photo && file_exists(public_path($user->profile_photo))) {
             @unlink(public_path($user->profile_photo));
