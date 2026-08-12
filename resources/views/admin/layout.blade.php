@@ -312,13 +312,26 @@
                            class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
                 </div>
 
-                <div>
-                    <label for="profile_email" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Email Address</label>
+                  <div>
+                      <label for="profile_email" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Email Address</label>
                     <input type="email" name="email" id="profile_email" value="{{ Auth::guard('admin')->user()->email }}" required
                            class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
-                </div>
+                  </div>
 
-                <div class="border-t border-slate-800 pt-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                          <label for="profile_phone_number" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Mobile Number</label>
+                          <input type="text" name="phone_number" id="profile_phone_number" value="{{ old('phone_number', Auth::guard('admin')->user()->phone_number) }}" maxlength="30"
+                                 class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
+                      </div>
+                      <div>
+                          <label for="profile_alternative_phone_number" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Alternate Mobile Number</label>
+                          <input type="text" name="alternative_phone_number" id="profile_alternative_phone_number" value="{{ old('alternative_phone_number', Auth::guard('admin')->user()->alternative_phone_number) }}" maxlength="30"
+                                 class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-3 px-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
+                      </div>
+                  </div>
+
+                  <div class="border-t border-slate-800 pt-4">
                     <p class="text-xs text-slate-400 mb-4">Leave password fields blank if you do not want to change it.</p>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

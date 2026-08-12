@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\UserWelcomeMail;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -32,12 +34,14 @@ class UserController extends Controller
         ]);
 
         $now = now();
-        User::create($validated + [
+        $user = User::create($validated + [
             'password' => $validated['password'] ?? Str::password(12),
             'subscription_started_at' => $now,
             'subscription_ends_at' => $now->copy()->addDays(4),
             'approval_status' => 'pending',
         ]);
+
+        Mail::to($user->email)->send(new UserWelcomeMail($user, Auth::guard('admin')->user()));
 
         return redirect()->route('admin.users.index')
             ->with('success', 'User created with a four-day free subscription.');
@@ -123,12 +127,6 @@ class UserController extends Controller
         $validated = $request->validate([
             'approval_status' => ['required', 'in:approved,disapproved'],
         ]);
-
-        if (! $user->hasExpiredTrial()) {
-            throw ValidationException::withMessages([
-                'approval_status' => 'Approval can only be changed after the four-day trial has ended.',
-            ]);
-        }
 
         $user->update(['approval_status' => $validated['approval_status']]);
 

@@ -108,7 +108,6 @@
                                     <th class="py-3 px-4 w-[10%]">Type</th>
                                     <th class="py-3 px-4 w-[15%]">PDF File</th>
                                     <th class="py-3 px-4 w-[15%]">Info Image</th>
-                                    <th class="py-3 px-4 w-[15%]">Info Image</th>
                                     <th class="py-3 px-4 w-[15%]">Description</th>
                                     <th class="py-3 px-4 text-right w-[10%]">Actions</th>
                                 </tr>
@@ -164,6 +163,9 @@
                                             {{ $media->description ?: '-' }}
                                         </td>
                                         <td class="py-3 px-4 text-right">
+                                            <button type="button" onclick="editMedia({{ Illuminate\Support\Js::from($media) }})" class="inline-block p-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded-lg transition-colors" title="Edit root media">
+                                                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                            </button>
                                             <form action="{{ route('admin.tools.media.destroy', $media->id) }}" method="POST" onsubmit="return confirm('Delete this media?');" class="inline-block">
                                                 @csrf
                                                 @method('DELETE')
@@ -201,7 +203,10 @@
                                 <p class="text-[10px] text-slate-400 mt-0.5">{{ $subtool->description ?: 'No details provided.' }}</p>
                             </div>
                         </div>
-                        <div>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="editSubtool({{ Illuminate\Support\Js::from($subtool) }})" class="text-xs text-amber-400 hover:text-amber-300 font-semibold px-2.5 py-1.5 rounded-lg border border-amber-500/20 hover:bg-amber-500/10 transition-all">
+                                Edit Subtool
+                            </button>
                             <form action="{{ route('admin.tools.subtools.destroy', $subtool->id) }}" method="POST" onsubmit="return confirm('Delete this subtool and all its media files? This cannot be undone.');" class="inline">
                                 @csrf
                                 @method('DELETE')
@@ -228,6 +233,7 @@
                                             <th class="py-3 px-4 w-[10%]">Language</th>
                                             <th class="py-3 px-4 w-[10%]">Type</th>
                                             <th class="py-3 px-4 w-[15%]">PDF File</th>
+                                            <th class="py-3 px-4 w-[15%]">Info Image</th>
                                             <th class="py-3 px-4 w-[20%]">Description</th>
                                             <th class="py-3 px-4 text-right w-[10%]">Actions</th>
                                         </tr>
@@ -283,6 +289,9 @@
                                                     {{ $media->description ?: '-' }}
                                                 </td>
                                                 <td class="py-3 px-4 text-right">
+                                                    <button type="button" onclick="editMedia({{ Illuminate\Support\Js::from($media) }})" class="inline-block p-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded-lg transition-colors" title="Edit media">
+                                                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                                    </button>
                                                     <form action="{{ route('admin.tools.media.destroy', $media->id) }}" method="POST" onsubmit="return confirm('Delete this media?');" class="inline-block">
                                                         @csrf
                                                         @method('DELETE')
@@ -358,6 +367,45 @@
                 Add Subtool Folder
             </button>
         </div>
+    </form>
+</div>
+
+<!-- Edit Subtool Modal -->
+<div id="edit-subtool-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal('edit-subtool-modal')"></div>
+    <form id="edit-subtool-form" method="POST" class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl z-10 animate-fade-in max-h-[90vh] flex flex-col">@csrf
+        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
+            <h3 class="text-lg font-bold text-white">Edit Subtool Category Folder</h3>
+            <button type="button" onclick="closeModal('edit-subtool-modal')" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>
+        <div class="p-6 overflow-y-auto space-y-4 flex-1 scrollbar">
+            <div><label for="edit-subtool-title" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Subtool Title <span class="text-red-500">*</span></label><input id="edit-subtool-title" name="title" required class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm"></div>
+            <div><label for="edit-subtool-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Brief Overview (Optional)</label><textarea id="edit-subtool-description" name="description" rows="3" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm resize-none"></textarea></div>
+            <div><label for="edit-subtool-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Publish Status</label><select id="edit-subtool-status" name="status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm"><option value="1">Active (Visible)</option><option value="0">Inactive (Hidden)</option></select></div>
+        </div>
+        <div class="border-t border-slate-800 px-6 py-4 flex justify-end space-x-3 bg-slate-950/40 flex-shrink-0"><button type="button" onclick="closeModal('edit-subtool-modal')" class="px-5 py-2.5 rounded-xl border border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors text-sm font-semibold">Cancel</button><button class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm">Update Subtool Folder</button></div>
+    </form>
+</div>
+
+<!-- Edit Subtool Media Modal -->
+<div id="edit-media-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeModal('edit-media-modal')"></div>
+    <form id="edit-media-form" method="POST" enctype="multipart/form-data" class="relative w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl z-10 animate-fade-in max-h-[90vh] flex flex-col">@csrf
+        <div class="px-6 py-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
+            <div><h3 class="text-lg font-bold text-white" id="edit-media-modal-title">Edit Marketing Media</h3><p class="text-xs text-slate-500 mt-1" id="edit-media-location"></p></div>
+            <button type="button" onclick="closeModal('edit-media-modal')" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>
+        <div class="p-6 overflow-y-auto space-y-4 flex-1 scrollbar">
+            <div id="edit-media-existing" class="rounded-2xl border border-slate-800 bg-slate-950/40 p-4"><span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Currently Uploaded Assets</span><div class="grid grid-cols-2 gap-3"><div><small class="text-slate-500">Main media</small><div id="edit-main-preview" class="mt-1 h-28 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex items-center justify-center text-xs text-slate-600"></div></div><div><small class="text-slate-500">Video thumbnail</small><div id="edit-thumbnail-preview" class="mt-1 h-28 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex items-center justify-center text-xs text-slate-600"></div></div><div><small class="text-slate-500">Info image</small><div id="edit-info-preview" class="mt-1 h-24 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden flex items-center justify-center text-xs text-slate-600"></div></div><div><small class="text-slate-500">PDF document</small><div id="edit-pdf-preview" class="mt-1 h-24 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center text-xs text-slate-600"></div></div></div></div>
+            <div><label for="edit-media-title" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Title <span class="text-red-500">*</span></label><input id="edit-media-title" name="title" required class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm"></div>
+            <div class="grid grid-cols-2 gap-4"><div><label for="edit-media-language" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Language</label><select id="edit-media-language" name="language" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 text-sm">@foreach(['en','mr','hi','gu','bn','te','ta','kn','pa'] as $language)<option value="{{ $language }}">{{ strtoupper($language) }}</option>@endforeach</select></div><div><label for="edit-media-status" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Status</label><select id="edit-media-status" name="status" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-slate-300 text-sm"><option value="1">Active</option><option value="0">Inactive</option></select></div></div>
+            <div><label for="edit-media-description" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Description (Optional)</label><textarea id="edit-media-description" name="description" rows="3" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white text-sm resize-none"></textarea></div>
+            <p class="text-xs text-slate-500">Choose a new file only when replacing the current one.</p>
+            @foreach([['file','Main Image / Video','image/*,video/*'],['thumbnail','Video Thumbnail','image/*'],['info_image','Info Image','image/*'],['pdf','PDF Document','application/pdf']] as [$field,$label,$accept])
+                <div><label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">{{ $label }}</label><input type="file" name="{{ $field }}" accept="{{ $accept }}" class="block w-full text-sm text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600/10 file:text-amber-400 hover:file:bg-amber-600/20 file:cursor-pointer cursor-pointer"></div>
+            @endforeach
+        </div>
+        <div class="border-t border-slate-800 px-6 py-4 flex justify-end space-x-3 bg-slate-950/40 flex-shrink-0"><button type="button" onclick="closeModal('edit-media-modal')" class="px-5 py-2.5 rounded-xl border border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white transition-colors text-sm font-semibold">Cancel</button><button class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-semibold text-sm">Apply Updates</button></div>
     </form>
 </div>
 
@@ -489,6 +537,49 @@
 
 @section('scripts')
 <script>
+    const mediaAssetBase = @json(rtrim(asset('/'), '/'));
+
+    function mediaAssetUrl(path) {
+        if (!path) return '';
+        if (/^(https?:)?\/\//i.test(path) || path.startsWith('data:')) return path;
+        return `${mediaAssetBase}/${String(path).replace(/^\/+/, '')}`;
+    }
+
+    function imagePreview(path, alt) {
+        return path ? `<img src="${mediaAssetUrl(path)}" alt="${alt}" class="h-full w-full object-contain">` : '<span>Not uploaded</span>';
+    }
+
+    function editSubtool(subtool) {
+        document.getElementById('edit-subtool-form').action = `{{ url('admin/tools/subtools') }}/${subtool.id}/update`;
+        document.getElementById('edit-subtool-title').value = subtool.title || '';
+        document.getElementById('edit-subtool-description').value = subtool.description || '';
+        document.getElementById('edit-subtool-status').value = Number(subtool.status) ? '1' : '0';
+        openModal('edit-subtool-modal');
+    }
+
+    function editMedia(media) {
+        document.getElementById('edit-media-form').action = `{{ url('admin/tools/media') }}/${media.id}/update`;
+        document.getElementById('edit-media-modal-title').textContent = media.subtool_id ? 'Edit Subtool Media' : 'Edit Root Media';
+        document.getElementById('edit-media-location').textContent = media.subtool_id ? 'Subtool asset' : 'Direct Media / Root Asset (No Subtool)';
+        document.getElementById('edit-media-title').value = media.title || '';
+        document.getElementById('edit-media-language').value = media.language || 'en';
+        document.getElementById('edit-media-description').value = media.description || '';
+        document.getElementById('edit-media-status').value = Number(media.status) ? '1' : '0';
+
+        const mainPreview = document.getElementById('edit-main-preview');
+        mainPreview.innerHTML = media.media_type === 'video' && media.file_path
+            ? `<video src="${mediaAssetUrl(media.file_path)}" poster="${mediaAssetUrl(media.thumbnail)}" controls class="h-full w-full object-contain"></video>`
+            : imagePreview(media.file_path, 'Current main media');
+        document.getElementById('edit-thumbnail-preview').innerHTML = imagePreview(media.thumbnail, 'Current video thumbnail');
+        document.getElementById('edit-info-preview').innerHTML = imagePreview(media.info_image, 'Current info image');
+        document.getElementById('edit-pdf-preview').innerHTML = media.pdf
+            ? `<a href="${mediaAssetUrl(media.pdf)}" target="_blank" class="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-semibold"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>View current PDF</a>`
+            : '<span>Not uploaded</span>';
+
+        document.querySelectorAll('#edit-media-form input[type="file"]').forEach(input => input.value = '');
+        openModal('edit-media-modal');
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         const fileInput = document.getElementById('media-files');
         if (fileInput) {

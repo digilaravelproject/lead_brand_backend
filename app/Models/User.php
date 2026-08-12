@@ -84,6 +84,10 @@ class User extends Authenticatable
 
     public function hasSubscriptionAccess(): bool
     {
+        if ($this->approval_status === 'disapproved') {
+            return false;
+        }
+
         if ($this->subscription_ends_at === null) {
             return true;
         }

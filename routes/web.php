@@ -113,8 +113,10 @@ Route::prefix('admin')->group(function () {
             // Subtools & Media management specific to a Tool
             Route::get('{id}/manage', [ToolController::class, 'manage'])->name('admin.tools.manage');
             Route::post('{id}/subtools', [ToolController::class, 'storeSubtool'])->name('admin.tools.subtools.store');
+            Route::post('subtools/{subtoolId}/update', [ToolController::class, 'updateSubtool'])->name('admin.tools.subtools.update');
             Route::delete('subtools/{subtoolId}', [ToolController::class, 'destroySubtool'])->name('admin.tools.subtools.destroy');
             Route::post('{id}/media', [ToolController::class, 'storeMedia'])->name('admin.tools.media.store');
+            Route::post('media/{mediaId}/update', [ToolController::class, 'updateMedia'])->name('admin.tools.media.update');
             Route::delete('media/{mediaId}', [ToolController::class, 'destroyMedia'])->name('admin.tools.media.destroy');
         });
 

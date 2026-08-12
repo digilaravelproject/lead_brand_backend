@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Mail\OtpMail;
+use App\Models\Admin;
+use App\Models\Dealer;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
@@ -114,8 +116,13 @@ class AuthController extends Controller
     public function sendOtp(Request $request)
     {
         try {
+            if ($request->filled('refer_code')) {
+                $request->merge(['refer_code' => strtoupper(trim($request->input('refer_code')))]);
+            }
+
             $v = Validator::make($request->all(), [
                 'email' => 'required|email',
+                'refer_code' => 'nullable|string|size:8|exists:dealers,referral_code',
             ]);
 
             if ($v->fails()) {
@@ -124,7 +131,23 @@ class AuthController extends Controller
 
             $email = $request->input('email');
 
-            $user = User::firstOrCreate(['email' => $email], ['name' => '']);
+            $dealer = $request->filled('refer_code')
+                ? Dealer::where('referral_code', strtoupper($request->input('refer_code')))->first()
+                : null;
+
+            $now = now();
+            $user = User::firstOrCreate(['email' => $email], [
+                'name' => '',
+                'dealer_id' => $dealer?->id,
+                'password' => '',
+                'subscription_started_at' => $now,
+                'subscription_ends_at' => $now->copy()->addDays(4),
+                'approval_status' => 'pending',
+            ]);
+
+            if (! $user->hasSubscriptionAccess()) {
+                return $this->subscriptionDeniedResponse($user);
+            }
 
             $otp = (string) random_int(1000, 9999);
             $user->otp = $otp;
@@ -171,12 +194,7 @@ class AuthController extends Controller
             }
 
             if (! $user->hasSubscriptionAccess()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => $user->approval_status === 'disapproved'
-                        ? 'Your subscription has been disapproved by the dealer.'
-                        : 'Your four-day free subscription has ended and is awaiting dealer approval.',
-                ], 403);
+                return $this->subscriptionDeniedResponse($user);
             }
 
             $user->email_verified_at = Carbon::now();
@@ -194,6 +212,7 @@ class AuthController extends Controller
                     'message' => 'OTP verified - profile incomplete',
                     'data' => [
                         'is_new' => 1,
+                        'is_expired' => 1,
                         'user' => $user,
                     ],
                 ], 200);
@@ -207,6 +226,7 @@ class AuthController extends Controller
                 'message' => 'OTP verified successfully',
                 'data' => [
                     'is_new' => 0,
+                    'is_expired' => 1,
                     'access_token' => $token,
                     'token_type' => 'Bearer',
                     'user' => $user,
@@ -389,7 +409,18 @@ class AuthController extends Controller
     public function me(Request $request)
     {
         try {
-            return response()->json(['status' => true, 'data' => ['user' => $request->user()]], 200);
+            $user = $request->user()->load('dealer');
+            $data = ['user' => $user];
+
+            if ($user->dealer) {
+                $data['dealer'] = $user->dealer;
+                $data['admin'] = null;
+            } else {
+                $data['dealer'] = null;
+                $data['admin'] = Admin::query()->first();
+            }
+
+            return response()->json(['status' => true, 'data' => $data], 200);
         } catch (Exception $e) {
             Log::error('me error: '.$e->getMessage());
 
@@ -411,5 +442,16 @@ class AuthController extends Controller
 
             return response()->json(['status' => false, 'message' => 'Failed to logout', 'error' => $e->getMessage()], 500);
         }
+    }
+
+    private function subscriptionDeniedResponse(User $user)
+    {
+        return response()->json([
+            'status' => false,
+            'message' => $user->approval_status === 'disapproved'
+                ? 'Your account has not been approved.'
+                : 'Your four-day free subscription has ended and is awaiting approval.',
+            'data' => ['is_expired' => 0],
+        ], 403);
     }
 }

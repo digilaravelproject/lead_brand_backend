@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tool;
-use App\Models\Subtool;
-use App\Models\ToolMedia;
 use App\Models\Notification;
+use App\Models\Subtool;
+use App\Models\Tool;
+use App\Models\ToolMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -18,6 +18,7 @@ class ToolController extends Controller
     public function index()
     {
         $tools = Tool::latest()->paginate(10);
+
         return view('admin.tools.index', compact('tools'));
     }
 
@@ -53,6 +54,7 @@ class ToolController extends Controller
     public function show($id)
     {
         $tool = Tool::findOrFail($id);
+
         return response()->json($tool);
     }
 
@@ -93,7 +95,7 @@ class ToolController extends Controller
         return response()->json([
             'success' => true,
             'status' => $tool->status,
-            'message' => 'Tool status toggled successfully.'
+            'message' => 'Tool status toggled successfully.',
         ]);
     }
 
@@ -103,7 +105,7 @@ class ToolController extends Controller
     public function destroy($id)
     {
         $tool = Tool::findOrFail($id);
-        
+
         // Retrieve and delete all associated media files physically
         $mediaItems = ToolMedia::where('tool_id', $tool->id)->get();
         foreach ($mediaItems as $media) {
@@ -133,6 +135,7 @@ class ToolController extends Controller
     public function manage($id)
     {
         $tool = Tool::with(['subtools', 'media', 'subtools.media'])->findOrFail($id);
+
         return view('admin.tools.manage', compact('tool'));
     }
 
@@ -190,6 +193,22 @@ class ToolController extends Controller
             ->with('success', 'Subtool and all its media deleted successfully.');
     }
 
+    /** Update a subtool folder and its publish status. */
+    public function updateSubtool(Request $request, $subtoolId)
+    {
+        $subtool = Subtool::findOrFail($subtoolId);
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'status' => ['required', 'in:0,1'],
+        ]);
+
+        $subtool->update($validated);
+
+        return redirect()->route('admin.tools.manage', $subtool->tool_id)
+            ->with('success', 'Subtool updated successfully.');
+    }
+
     /**
      * Store uploaded media under tool or subtool.
      */
@@ -216,37 +235,37 @@ class ToolController extends Controller
         $thumbnailPath = null;
         if ($request->hasFile('thumbnail')) {
             $thumb = $request->file('thumbnail');
-            $thumbName = time() . '_tool_thumb_' . preg_replace('/[^A-Za-z0-9\-.]/', '', $thumb->getClientOriginalName());
+            $thumbName = time().'_tool_thumb_'.preg_replace('/[^A-Za-z0-9\-.]/', '', $thumb->getClientOriginalName());
             $thumbDest = public_path('uploads/tools/thumbnails');
-            if (!file_exists($thumbDest)) {
+            if (! file_exists($thumbDest)) {
                 File::makeDirectory($thumbDest, 0755, true);
             }
             $thumb->move($thumbDest, $thumbName);
-            $thumbnailPath = 'uploads/tools/thumbnails/' . $thumbName;
+            $thumbnailPath = 'uploads/tools/thumbnails/'.$thumbName;
         }
 
         $pdfPath = null;
         if ($request->hasFile('pdf')) {
             $pdfFile = $request->file('pdf');
-            $pdfName = time() . '_tool_pdf_' . preg_replace('/[^A-Za-z0-9\-.]/', '', $pdfFile->getClientOriginalName());
+            $pdfName = time().'_tool_pdf_'.preg_replace('/[^A-Za-z0-9\-.]/', '', $pdfFile->getClientOriginalName());
             $pdfDest = public_path('uploads/tools/pdfs');
-            if (!file_exists($pdfDest)) {
+            if (! file_exists($pdfDest)) {
                 File::makeDirectory($pdfDest, 0755, true);
             }
             $pdfFile->move($pdfDest, $pdfName);
-            $pdfPath = 'uploads/tools/pdfs/' . $pdfName;
+            $pdfPath = 'uploads/tools/pdfs/'.$pdfName;
         }
 
         $infoImagePath = null;
         if ($request->hasFile('info_image')) {
             $infoImage = $request->file('info_image');
-            $infoImageName = time() . '_tool_info_' . preg_replace('/[^A-Za-z0-9\-.]/', '', $infoImage->getClientOriginalName());
+            $infoImageName = time().'_tool_info_'.preg_replace('/[^A-Za-z0-9\-.]/', '', $infoImage->getClientOriginalName());
             $infoImageDest = public_path('uploads/tools/info_images');
-            if (!file_exists($infoImageDest)) {
+            if (! file_exists($infoImageDest)) {
                 File::makeDirectory($infoImageDest, 0755, true);
             }
             $infoImage->move($infoImageDest, $infoImageName);
-            $infoImagePath = 'uploads/tools/info_images/' . $infoImageName;
+            $infoImagePath = 'uploads/tools/info_images/'.$infoImageName;
         }
 
         $files = $request->file('files');
@@ -261,13 +280,13 @@ class ToolController extends Controller
             }
 
             // Clean filename
-            $filename = time() . '_' . $index . '_' . preg_replace('/[^A-Za-z0-9\-.]/', '', $file->getClientOriginalName());
+            $filename = time().'_'.$index.'_'.preg_replace('/[^A-Za-z0-9\-.]/', '', $file->getClientOriginalName());
             $destinationPath = public_path('uploads/tools');
-            if (!file_exists($destinationPath)) {
+            if (! file_exists($destinationPath)) {
                 File::makeDirectory($destinationPath, 0755, true);
             }
             $file->move($destinationPath, $filename);
-            $filePath = 'uploads/tools/' . $filename;
+            $filePath = 'uploads/tools/'.$filename;
 
             // Generate clean title from original filename
             $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -305,7 +324,7 @@ class ToolController extends Controller
                 'is_read' => false,
             ]);
         } catch (\Exception $e) {
-            logger()->error('Notification creation failed for Business Tools upload: ' . $e->getMessage());
+            logger()->error('Notification creation failed for Business Tools upload: '.$e->getMessage());
         }
 
         return redirect()->route('admin.tools.manage', $tool->id)
@@ -344,5 +363,59 @@ class ToolController extends Controller
 
         return redirect()->route('admin.tools.manage', $toolId)
             ->with('success', 'Media item deleted successfully.');
+    }
+
+    /** Update all editable data and optional files for an uploaded media item. */
+    public function updateMedia(Request $request, $mediaId)
+    {
+        $media = ToolMedia::findOrFail($mediaId);
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'language' => ['required', 'in:en,mr,hi,gu,bn,te,ta,kn,pa'],
+            'description' => ['nullable', 'string'],
+            'status' => ['required', 'in:0,1'],
+            'file' => ['nullable', 'file', 'max:2097152'],
+            'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
+            'info_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
+            'pdf' => ['nullable', 'file', 'mimes:pdf', 'max:20480'],
+        ]);
+
+        $media->fill(collect($validated)->only(['title', 'language', 'description', 'status'])->all());
+
+        if ($request->hasFile('file')) {
+            $this->deletePublicFile($media->file_path);
+            $file = $request->file('file');
+            $media->file_path = $this->moveUploadedFile($file, 'uploads/tools', 'tool_media');
+            $media->media_type = str_contains((string) $file->getMimeType(), 'video') ? 'video' : 'image';
+        }
+        foreach (['thumbnail' => 'uploads/tools/thumbnails', 'info_image' => 'uploads/tools/info_images', 'pdf' => 'uploads/tools/pdfs'] as $field => $directory) {
+            if ($request->hasFile($field)) {
+                $this->deletePublicFile($media->{$field});
+                $media->{$field} = $this->moveUploadedFile($request->file($field), $directory, 'tool_'.$field);
+            }
+        }
+        $media->save();
+
+        return redirect()->route('admin.tools.manage', $media->tool_id)
+            ->with('success', 'Subtool media updated successfully.');
+    }
+
+    private function moveUploadedFile($file, string $directory, string $prefix): string
+    {
+        $destination = public_path($directory);
+        if (! file_exists($destination)) {
+            File::makeDirectory($destination, 0755, true);
+        }
+        $filename = now()->format('YmdHisv').'_'.$prefix.'_'.preg_replace('/[^A-Za-z0-9\-.]/', '', $file->getClientOriginalName());
+        $file->move($destination, $filename);
+
+        return $directory.'/'.$filename;
+    }
+
+    private function deletePublicFile(?string $path): void
+    {
+        if ($path && file_exists(public_path($path))) {
+            @unlink(public_path($path));
+        }
     }
 }

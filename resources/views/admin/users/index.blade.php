@@ -36,6 +36,8 @@
                         <th class="py-4 px-6">Phone Number</th>
                         <th class="py-4 px-6">Destination</th>
                         <th class="py-4 px-6">Brand Logo</th>
+                        <th class="py-4 px-6">Created At</th>
+                        <th class="py-4 px-6">Expired At</th>
                         <th class="py-4 px-6">Subscription</th>
                         <th class="py-4 px-6 text-right">Actions</th>
                     </tr>
@@ -56,7 +58,6 @@
                                     <div class="font-bold text-white">{{ $user->name }}</div>
                                 </div>
                             </td>
-                            <td class="py-4 px-6 text-xs"><div class="{{ $user->hasExpiredTrial() ? 'text-red-400' : 'text-emerald-400' }}">{{ $user->subscription_ends_at ? ($user->hasExpiredTrial() ? 'Trial expired' : 'Trial active') : 'Legacy account' }}</div><div class="text-slate-500">{{ optional($user->subscription_ends_at)->format('d M Y') }}</div></td>
                             <td class="py-4 px-6 text-slate-300">{{ $user->email }}</td>
                             <td class="py-4 px-6 text-slate-400">{{ $user->phone_number ?: 'N/A' }}</td>
                             <td class="py-4 px-6 text-slate-400 text-xs">{{ $user->destination ?: 'N/A' }}</td>
@@ -69,6 +70,9 @@
                                     <span class="text-xs text-slate-600">No Logo</span>
                                 @endif
                             </td>
+                            <td class="py-4 px-6 text-xs text-slate-400 whitespace-nowrap">{{ $user->created_at->format('d M Y') }}<div class="text-slate-600 mt-1">{{ $user->created_at->format('h:i A') }}</div></td>
+                            <td class="py-4 px-6 text-xs whitespace-nowrap"><span class="{{ $user->hasExpiredTrial() ? 'text-red-400' : 'text-slate-300' }}">{{ optional($user->subscription_ends_at)->format('d M Y') ?: 'No expiry' }}</span>@if($user->subscription_ends_at)<div class="text-slate-600 mt-1">{{ $user->subscription_ends_at->format('h:i A') }}</div>@endif</td>
+                            <td class="py-4 px-6 text-xs"><div class="{{ $user->hasSubscriptionAccess() ? 'text-emerald-400' : 'text-red-400' }}">{{ $user->hasSubscriptionAccess() ? 'Active subscription' : 'Expired subscription' }}</div><div class="text-slate-500">{{ optional($user->subscription_ends_at)->format('d M Y') ?: 'No expiry' }}</div><div class="mt-1 capitalize text-slate-400">{{ $user->approval_status }}</div></td>
                             <td class="py-4 px-6 text-right space-x-2">
                                 <button onclick="viewUser({{ $user->id }})" 
                                         class="inline-flex items-center p-1.5 rounded-lg border border-slate-700/60 hover:bg-amber-600/10 text-slate-400 hover:text-amber-400 transition-colors"
@@ -92,15 +96,13 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
                                 </button>
-                                @if($user->hasExpiredTrial())
-                                    <form method="POST" action="{{ route('admin.users.approval', $user->id) }}" class="inline">@csrf<input type="hidden" name="approval_status" value="approved"><button class="text-emerald-400 text-xs font-semibold" title="Approve subscription">Approve</button></form>
-                                    <form method="POST" action="{{ route('admin.users.approval', $user->id) }}" class="inline">@csrf<input type="hidden" name="approval_status" value="disapproved"><button class="text-orange-400 text-xs font-semibold" title="Disapprove subscription">Disapprove</button></form>
-                                @endif
+                                <form method="POST" action="{{ route('admin.users.approval', $user->id) }}" class="inline">@csrf<input type="hidden" name="approval_status" value="approved"><button class="inline-flex items-center p-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-colors {{ $user->approval_status === 'approved' ? 'opacity-50' : '' }}" title="Approve user" aria-label="Approve user"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></button></form>
+                                <form method="POST" action="{{ route('admin.users.approval', $user->id) }}" class="inline">@csrf<input type="hidden" name="approval_status" value="disapproved"><button class="inline-flex items-center p-1.5 rounded-lg border border-orange-500/20 bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 transition-colors {{ $user->approval_status === 'disapproved' ? 'opacity-50' : '' }}" title="Disapprove user" aria-label="Disapprove user"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></form>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center py-12 text-slate-500">No users found.</td>
+                            <td colspan="10" class="text-center py-12 text-slate-500">No users found.</td>
                         </tr>
                     @endforelse
                 </tbody>

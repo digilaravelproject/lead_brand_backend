@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Admin;
 use App\Models\Dealer;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
@@ -14,7 +15,7 @@ class UserWelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public User $user, public Dealer $dealer) {}
+    public function __construct(public User $user, public Dealer|Admin $owner) {}
 
     public function envelope(): Envelope
     {

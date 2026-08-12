@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
-use App\Models\Admin;
 
 class AuthController extends Controller
 {
@@ -33,6 +32,7 @@ class AuthController extends Controller
 
         if (Auth::guard('admin')->attempt($credentials, $remember)) {
             $request->session()->regenerate();
+
             return redirect()->intended(route('admin.dashboard'))
                 ->with('success', 'Welcome back, Admin!');
         }
@@ -65,13 +65,17 @@ class AuthController extends Controller
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:admins,email,' . $admin->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:admins,email,'.$admin->id],
+            'phone_number' => ['nullable', 'string', 'max:30'],
+            'alternative_phone_number' => ['nullable', 'string', 'max:30'],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
             'profile_photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
 
         $admin->name = $request->name;
         $admin->email = $request->email;
+        $admin->phone_number = $request->phone_number;
+        $admin->alternative_phone_number = $request->alternative_phone_number;
 
         if ($request->filled('password')) {
             $admin->password = Hash::make($request->password);
@@ -84,15 +88,15 @@ class AuthController extends Controller
             }
 
             $file = $request->file('profile_photo');
-            $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-.]/', '', $file->getClientOriginalName());
+            $filename = time().'_'.preg_replace('/[^A-Za-z0-9\-.]/', '', $file->getClientOriginalName());
             $destinationPath = public_path('uploads/admins');
-            
-            if (!file_exists($destinationPath)) {
+
+            if (! file_exists($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
-            
+
             $file->move($destinationPath, $filename);
-            $admin->profile_photo = 'uploads/admins/' . $filename;
+            $admin->profile_photo = 'uploads/admins/'.$filename;
         }
 
         $admin->save();
