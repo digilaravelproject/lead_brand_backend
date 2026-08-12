@@ -17,7 +17,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-left">
                 <thead class="bg-slate-950/40 text-xs text-slate-400 uppercase">
-                    <tr><th class="px-6 py-4">Dealer</th><th class="px-6 py-4">Phone</th><th class="px-6 py-4">Referral</th><th class="px-6 py-4">Users</th><th class="px-6 py-4">Status</th><th class="px-6 py-4 text-right">Actions</th></tr>
+                    <tr><th class="px-6 py-4">Dealer</th><th class="px-6 py-4">Phone</th><th class="px-6 py-4">Referral</th><th class="px-6 py-4">Users</th><th class="px-6 py-4">Status</th><th class="px-6 py-4 text-right min-w-[210px]">Actions</th></tr>
                 </thead>
                 <tbody class="divide-y divide-slate-800/50">
                     @forelse($dealers as $dealer)
@@ -27,11 +27,12 @@
                         <td class="px-6 py-4 font-mono text-amber-400">{{ $dealer->referral_code }}</td>
                         <td class="px-6 py-4"><span class="text-white font-semibold">{{ $dealer->users_count }}</span><span class="text-slate-500"> / {{ $dealer->user_limit }}</span></td>
                         <td class="px-6 py-4"><span class="px-2.5 py-1 rounded-full text-xs {{ $dealer->is_active ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400' }}">{{ $dealer->is_active ? 'Active' : 'Inactive' }}</span></td>
-                        <td class="px-6 py-4 text-right space-x-2">
-                            <a href="{{ route('admin.dealers.users', $dealer->id) }}" class="text-violet-400 hover:text-violet-300 text-xs font-semibold">View Users</a>
-                            <button onclick="viewDealer({{ $dealer->id }})" class="text-amber-400 hover:text-amber-300 text-xs font-semibold">View</button>
-                            <button onclick="editDealer({{ $dealer->id }})" class="text-sky-400 hover:text-sky-300 text-xs font-semibold">Edit</button>
-                            <form action="{{ route('admin.dealers.destroy', $dealer->id) }}" method="POST" class="inline" onsubmit="return confirm('Delete this dealer? Existing users will be retained.')">@csrf @method('DELETE')<button class="text-red-400 hover:text-red-300 text-xs font-semibold">Delete</button></form>
+                        <td class="px-6 py-4 text-right whitespace-nowrap"><div class="inline-flex items-center justify-end gap-2 flex-nowrap">
+                            <a href="{{ route('admin.dealers.users', $dealer->id) }}" class="inline-flex items-center p-1.5 rounded-lg border border-violet-500/20 bg-violet-500/10 text-violet-400 hover:bg-violet-500/20" title="View dealer users" aria-label="View dealer users"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></a>
+                            <button onclick="viewDealer({{ $dealer->id }})" class="inline-flex items-center p-1.5 rounded-lg border border-amber-500/20 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20" title="View dealer" aria-label="View dealer"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S3.732 16.057 2.458 12z"/></svg></button>
+                            <button onclick="editDealer({{ $dealer->id }})" class="inline-flex items-center p-1.5 rounded-lg border border-sky-500/20 bg-sky-500/10 text-sky-400 hover:bg-sky-500/20" title="Edit dealer" aria-label="Edit dealer"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>
+                            <form action="{{ route('admin.dealers.destroy', $dealer->id) }}" method="POST" class="inline-flex" onsubmit="return confirm('Delete this dealer? Existing users will be retained.')">@csrf @method('DELETE')<button class="inline-flex items-center p-1.5 rounded-lg border border-red-500/20 bg-red-500/10 text-red-400 hover:bg-red-500/20" title="Delete dealer" aria-label="Delete dealer"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button></form>
+                        </div>
                         </td>
                     </tr>
                     @empty

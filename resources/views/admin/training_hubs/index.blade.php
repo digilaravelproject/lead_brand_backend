@@ -61,7 +61,7 @@
                                     <div class="w-9 h-5 bg-slate-850 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-500 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500 peer-checked:after:bg-white border border-slate-800 peer-checked:border-emerald-400"></div>
                                 </label>
                             </td>
-                            <td class="py-4 px-6 text-right space-x-2">
+                            <td class="py-4 px-6 text-right space-x-2 whitespace-nowrap">
                                 <button onclick="viewTraining({{ $item->id }})" 
                                         class="inline-flex items-center p-1.5 rounded-lg border border-slate-700/60 hover:bg-amber-600/10 text-slate-400 hover:text-amber-400 transition-colors"
                                         title="Play/Read Media">

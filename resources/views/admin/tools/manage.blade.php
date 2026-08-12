@@ -162,7 +162,7 @@
                                         <td class="py-3 px-4 text-slate-400 truncate max-w-[200px]" title="{{ $media->description }}">
                                             {{ $media->description ?: '-' }}
                                         </td>
-                                        <td class="py-3 px-4 text-right">
+                                        <td class="py-3 px-4 text-right whitespace-nowrap">
                                             <button type="button" onclick="editMedia({{ Illuminate\Support\Js::from($media) }})" class="inline-block p-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded-lg transition-colors" title="Edit root media">
                                                 <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                             </button>
@@ -204,14 +204,14 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button type="button" onclick="editSubtool({{ Illuminate\Support\Js::from($subtool) }})" class="text-xs text-amber-400 hover:text-amber-300 font-semibold px-2.5 py-1.5 rounded-lg border border-amber-500/20 hover:bg-amber-500/10 transition-all">
-                                Edit Subtool
+                            <button type="button" onclick="editSubtool({{ Illuminate\Support\Js::from($subtool) }})" class="inline-flex items-center p-1.5 text-amber-400 hover:text-amber-300 rounded-lg border border-amber-500/20 bg-amber-500/10 hover:bg-amber-500/20 transition-all" title="Edit subtool" aria-label="Edit subtool">
+                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                             </button>
                             <form action="{{ route('admin.tools.subtools.destroy', $subtool->id) }}" method="POST" onsubmit="return confirm('Delete this subtool and all its media files? This cannot be undone.');" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-xs text-red-400 hover:text-red-300 font-semibold px-2.5 py-1.5 rounded-lg border border-red-500/10 hover:bg-red-500/10 transition-all">
-                                    Remove Subtool
+                                <button type="submit" class="inline-flex items-center p-1.5 text-red-400 hover:text-red-300 rounded-lg border border-red-500/20 bg-red-500/10 hover:bg-red-500/20 transition-all" title="Remove subtool" aria-label="Remove subtool">
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                 </button>
                             </form>
                         </div>
@@ -288,7 +288,7 @@
                                                 <td class="py-3 px-4 text-slate-400 truncate max-w-[200px]" title="{{ $media->description }}">
                                                     {{ $media->description ?: '-' }}
                                                 </td>
-                                                <td class="py-3 px-4 text-right">
+                                                <td class="py-3 px-4 text-right whitespace-nowrap">
                                                     <button type="button" onclick="editMedia({{ Illuminate\Support\Js::from($media) }})" class="inline-block p-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded-lg transition-colors" title="Edit media">
                                                         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                                     </button>
