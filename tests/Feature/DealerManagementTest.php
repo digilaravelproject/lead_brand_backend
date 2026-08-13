@@ -55,6 +55,14 @@ class DealerManagementTest extends TestCase
         ])->assertSessionHasErrors('email');
     }
 
+    public function test_dealer_login_page_displays_the_advisorx_logo(): void
+    {
+        $this->get(route('dealer.login'))
+            ->assertOk()
+            ->assertSee(asset('images/advisorx-pro-logo.jpg'))
+            ->assertSee('alt="AdvisorX Pro logo"', false);
+    }
+
     public function test_dealer_cannot_create_more_users_than_assigned_limit(): void
     {
         Mail::fake();

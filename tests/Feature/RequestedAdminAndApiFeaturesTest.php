@@ -33,6 +33,48 @@ class RequestedAdminAndApiFeaturesTest extends TestCase
         $this->assertTrue($user->subscription_started_at->copy()->addDays(4)->isSameSecond($user->subscription_ends_at));
     }
 
+    public function test_send_otp_rejects_a_new_user_when_referred_dealer_limit_is_reached(): void
+    {
+        Mail::fake();
+        $dealer = $this->dealer();
+        $dealer->update(['user_limit' => 5]);
+
+        User::factory()->count(5)->create(['dealer_id' => $dealer->id]);
+
+        $this->postJson('/api/auth/send-otp', [
+            'email' => 'sixth-user@example.com',
+            'refer_code' => $dealer->referral_code,
+        ])->assertConflict()
+            ->assertJson([
+                'status' => false,
+                'message' => 'This dealer has reached the assigned user limit of 5. Registration is not allowed.',
+            ]);
+
+        $this->assertDatabaseMissing('users', ['email' => 'sixth-user@example.com']);
+        $this->assertSame(5, $dealer->users()->count());
+        Mail::assertNothingSent();
+    }
+
+    public function test_send_otp_allows_an_existing_user_to_login_when_dealer_limit_is_reached(): void
+    {
+        Mail::fake();
+        $dealer = $this->dealer();
+        $dealer->update(['user_limit' => 1]);
+        $user = User::factory()->create([
+            'dealer_id' => $dealer->id,
+            'subscription_started_at' => now(),
+            'subscription_ends_at' => now()->addDays(4),
+            'approval_status' => 'pending',
+        ]);
+
+        $this->postJson('/api/auth/send-otp', [
+            'email' => $user->email,
+            'refer_code' => $dealer->referral_code,
+        ])->assertOk()->assertJsonPath('message', 'OTP sent');
+
+        $this->assertSame(1, $dealer->users()->count());
+    }
+
     public function test_send_otp_assigns_user_to_admin_and_rejects_disapproved_user(): void
     {
         Mail::fake();

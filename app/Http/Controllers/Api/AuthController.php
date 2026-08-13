@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -131,19 +132,46 @@ class AuthController extends Controller
 
             $email = $request->input('email');
 
-            $dealer = $request->filled('refer_code')
-                ? Dealer::where('referral_code', strtoupper($request->input('refer_code')))->first()
-                : null;
-
             $now = now();
-            $user = User::firstOrCreate(['email' => $email], [
-                'name' => '',
-                'dealer_id' => $dealer?->id,
-                'password' => '',
-                'subscription_started_at' => $now,
-                'subscription_ends_at' => $now->copy()->addDays(4),
-                'approval_status' => 'pending',
-            ]);
+            $registration = DB::transaction(function () use ($request, $email, $now) {
+                $existingUser = User::where('email', $email)->first();
+
+                if ($existingUser) {
+                    return ['user' => $existingUser, 'dealer' => null];
+                }
+
+                $dealer = $request->filled('refer_code')
+                    ? Dealer::where('referral_code', $request->input('refer_code'))->lockForUpdate()->first()
+                    : null;
+
+                if ($dealer && $dealer->users()->count() >= $dealer->user_limit) {
+                    return ['user' => null, 'dealer' => $dealer];
+                }
+
+                return [
+                    'user' => User::create([
+                        'email' => $email,
+                        'name' => '',
+                        'dealer_id' => $dealer?->id,
+                        'password' => '',
+                        'subscription_started_at' => $now,
+                        'subscription_ends_at' => $now->copy()->addDays(4),
+                        'approval_status' => 'pending',
+                    ]),
+                    'dealer' => null,
+                ];
+            });
+
+            if (! $registration['user']) {
+                $dealer = $registration['dealer'];
+
+                return response()->json([
+                    'status' => false,
+                    'message' => "This dealer has reached the assigned user limit of {$dealer->user_limit}. Registration is not allowed.",
+                ], 409);
+            }
+
+            $user = $registration['user'];
 
             if (! $user->hasSubscriptionAccess()) {
                 return $this->subscriptionDeniedResponse($user);
