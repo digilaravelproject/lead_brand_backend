@@ -3,6 +3,13 @@
 @section('title', 'Manage Users')
 @section('page_title', 'User Accounts')
 
+@section('styles')
+<style>
+    #edit-subscription-start::-webkit-calendar-picker-indicator,
+    #edit-subscription-end::-webkit-calendar-picker-indicator { filter: invert(1); opacity: .8; cursor: pointer; }
+</style>
+@endsection
+
 @section('content')
 <div class="space-y-6">
     <!-- Top Bar -->
@@ -240,6 +247,19 @@
                     </div>
                 </div>
 
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="edit-subscription-start" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Start Date</label>
+                        <input type="datetime-local" name="subscription_started_at" id="edit-subscription-start" required
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
+                    </div>
+                    <div>
+                        <label for="edit-subscription-end" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">End Date</label>
+                        <input type="datetime-local" name="subscription_ends_at" id="edit-subscription-end" required
+                               class="w-full bg-slate-950/60 border border-slate-800 rounded-xl py-2.5 px-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-sm">
+                    </div>
+                </div>
+
                 <div class="border-t border-slate-800 pt-3.5">
                     <label for="edit-password" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Change Password (Optional)</label>
                     <input type="password" name="password" id="edit-password" placeholder="Leave blank to keep current password"
@@ -345,12 +365,20 @@
             });
     }
 
+    function formatDateTimeLocal(value) {
+        if (!value) return '';
+        const match = String(value).match(/^(\d{4}-\d{2}-\d{2})[T ](\d{2}:\d{2})/);
+        return match ? `${match[1]}T${match[2]}` : '';
+    }
+
     function editUser(id) {
         document.getElementById('edit-user-form').action = `${baseUrl}/${id}/update`;
         document.getElementById('edit-name').value = '';
         document.getElementById('edit-email').value = '';
         document.getElementById('edit-phone').value = '';
         document.getElementById('edit-destination').value = '';
+        document.getElementById('edit-subscription-start').value = '';
+        document.getElementById('edit-subscription-end').value = '';
         document.getElementById('edit-password').value = '';
         document.getElementById('edit-photo-preview').innerHTML = '';
         document.getElementById('edit-logo-preview').innerHTML = '';
@@ -364,6 +392,8 @@
                 document.getElementById('edit-email').value = user.email;
                 document.getElementById('edit-phone').value = user.phone_number || '';
                 document.getElementById('edit-destination').value = user.destination || '';
+                document.getElementById('edit-subscription-start').value = formatDateTimeLocal(user.subscription_started_at);
+                document.getElementById('edit-subscription-end').value = formatDateTimeLocal(user.subscription_ends_at);
 
                 const photoPreview = document.getElementById('edit-photo-preview');
                 if (user.profile_photo) {

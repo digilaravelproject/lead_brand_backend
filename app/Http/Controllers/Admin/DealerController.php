@@ -28,6 +28,8 @@ class DealerController extends Controller
             'alternative_phone_number' => ['nullable', 'string', 'max:30'],
             'email' => ['required', 'email', 'max:255', 'unique:dealers,email'],
             'user_limit' => ['required', 'integer', 'min:0'],
+        ], [
+            'email.unique' => 'A dealer with this email address already exists.',
         ]);
 
         $plainPassword = $this->makePassword($validated['name']);

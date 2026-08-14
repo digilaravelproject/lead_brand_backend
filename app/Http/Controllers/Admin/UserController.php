@@ -69,6 +69,8 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'phone_number' => ['nullable', 'string', 'max:20'],
             'destination' => ['nullable', 'string', 'max:255'],
+            'subscription_started_at' => ['required', 'date'],
+            'subscription_ends_at' => ['required', 'date', 'after_or_equal:subscription_started_at'],
             'password' => ['nullable', 'string', 'min:6'],
             'profile_photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
@@ -78,6 +80,8 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;
         $user->destination = $request->destination;
+        $user->subscription_started_at = $request->subscription_started_at;
+        $user->subscription_ends_at = $request->subscription_ends_at;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

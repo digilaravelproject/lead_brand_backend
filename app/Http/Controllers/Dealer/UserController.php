@@ -67,6 +67,8 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'phone_number' => ['nullable', 'string', 'max:30'],
+            'subscription_started_at' => ['required', 'date'],
+            'subscription_ends_at' => ['required', 'date', 'after_or_equal:subscription_started_at'],
         ]);
         $user->update($validated);
 

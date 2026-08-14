@@ -38,6 +38,71 @@ class DealerManagementTest extends TestCase
         );
     }
 
+    public function test_duplicate_dealer_email_error_is_displayed_in_the_create_popup(): void
+    {
+        $admin = Admin::firstOrFail();
+        $this->dealer(['email' => 'existing@example.com']);
+
+        $response = $this->actingAs($admin, 'admin')->from(route('admin.dealers.index'))->post(route('admin.dealers.store'), [
+            'name' => 'Duplicate Dealer',
+            'phone_number' => '9876543210',
+            'email' => 'existing@example.com',
+            'user_limit' => 10,
+        ]);
+
+        $response->assertRedirect(route('admin.dealers.index'))
+            ->assertSessionHasErrors(['email' => 'A dealer with this email address already exists.']);
+
+        $this->actingAs($admin, 'admin')->get(route('admin.dealers.index'))
+            ->assertSeeInOrder([
+                'name="email"',
+                'A dealer with this email address already exists.',
+            ], false)
+            ->assertDontSee('Dealer could not be saved');
+    }
+
+    public function test_admin_and_dealer_can_update_user_subscription_dates(): void
+    {
+        $admin = Admin::firstOrFail();
+        $adminUser = User::factory()->create([
+            'dealer_id' => null,
+            'subscription_started_at' => now()->subDay(),
+            'subscription_ends_at' => now()->addDays(3),
+        ]);
+
+        $this->actingAs($admin, 'admin')->get(route('admin.users.index'))
+            ->assertOk()
+            ->assertSee('type="datetime-local" name="subscription_started_at"', false)
+            ->assertSee('type="datetime-local" name="subscription_ends_at"', false);
+
+        $this->actingAs($admin, 'admin')->post(route('admin.users.update', $adminUser), [
+            'name' => $adminUser->name,
+            'email' => $adminUser->email,
+            'subscription_started_at' => '2026-08-10 09:30:00',
+            'subscription_ends_at' => '2026-08-20 18:45:00',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame('2026-08-10 09:30:00', $adminUser->fresh()->subscription_started_at->format('Y-m-d H:i:s'));
+        $this->assertSame('2026-08-20 18:45:00', $adminUser->fresh()->subscription_ends_at->format('Y-m-d H:i:s'));
+
+        $dealer = $this->dealer();
+        $dealerUser = $this->userFor($dealer, now()->addDays(2), 'subscription@example.com');
+        $this->actingAs($dealer, 'dealer')->get(route('dealer.users.index'))
+            ->assertOk()
+            ->assertSee('type="datetime-local" name="subscription_started_at"', false)
+            ->assertSee('type="datetime-local" name="subscription_ends_at"', false);
+
+        $this->actingAs($dealer, 'dealer')->post(route('dealer.users.update', $dealerUser), [
+            'name' => $dealerUser->name,
+            'email' => $dealerUser->email,
+            'subscription_started_at' => '2026-08-11 08:00:00',
+            'subscription_ends_at' => '2026-08-25 17:15:00',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame('2026-08-11 08:00:00', $dealerUser->fresh()->subscription_started_at->format('Y-m-d H:i:s'));
+        $this->assertSame('2026-08-25 17:15:00', $dealerUser->fresh()->subscription_ends_at->format('Y-m-d H:i:s'));
+    }
+
     public function test_dealer_login_works_and_inactive_dealer_cannot_login(): void
     {
         $dealer = $this->dealer(['password' => 'DealerTest@123']);
