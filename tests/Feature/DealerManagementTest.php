@@ -73,7 +73,8 @@ class DealerManagementTest extends TestCase
         $this->actingAs($admin, 'admin')->get(route('admin.users.index'))
             ->assertOk()
             ->assertSee('type="datetime-local" name="subscription_started_at"', false)
-            ->assertSee('type="datetime-local" name="subscription_ends_at"', false);
+            ->assertSee('type="datetime-local" name="subscription_ends_at"', false)
+            ->assertSee("oneYearAfterDateTimeLocal(user.created_at)", false);
 
         $this->actingAs($admin, 'admin')->post(route('admin.users.update', $adminUser), [
             'name' => $adminUser->name,
@@ -85,12 +86,21 @@ class DealerManagementTest extends TestCase
         $this->assertSame('2026-08-10 09:30:00', $adminUser->fresh()->subscription_started_at->format('Y-m-d H:i:s'));
         $this->assertSame('2026-08-20 18:45:00', $adminUser->fresh()->subscription_ends_at->format('Y-m-d H:i:s'));
 
+        $adminMaximum = $adminUser->created_at->copy()->addYear();
+        $this->actingAs($admin, 'admin')->post(route('admin.users.update', $adminUser), [
+            'name' => $adminUser->name,
+            'email' => $adminUser->email,
+            'subscription_started_at' => $adminMaximum->copy()->subDay()->format('Y-m-d H:i:s'),
+            'subscription_ends_at' => $adminMaximum->copy()->addMinute()->format('Y-m-d H:i:s'),
+        ])->assertSessionHasErrors('subscription_ends_at');
+
         $dealer = $this->dealer();
         $dealerUser = $this->userFor($dealer, now()->addDays(2), 'subscription@example.com');
         $this->actingAs($dealer, 'dealer')->get(route('dealer.users.index'))
             ->assertOk()
             ->assertSee('type="datetime-local" name="subscription_started_at"', false)
-            ->assertSee('type="datetime-local" name="subscription_ends_at"', false);
+            ->assertSee('type="datetime-local" name="subscription_ends_at"', false)
+            ->assertSee("oneYearAfterDateTimeLocal(user.created_at)", false);
 
         $this->actingAs($dealer, 'dealer')->post(route('dealer.users.update', $dealerUser), [
             'name' => $dealerUser->name,
@@ -101,6 +111,14 @@ class DealerManagementTest extends TestCase
 
         $this->assertSame('2026-08-11 08:00:00', $dealerUser->fresh()->subscription_started_at->format('Y-m-d H:i:s'));
         $this->assertSame('2026-08-25 17:15:00', $dealerUser->fresh()->subscription_ends_at->format('Y-m-d H:i:s'));
+
+        $dealerMaximum = $dealerUser->created_at->copy()->addYear();
+        $this->actingAs($dealer, 'dealer')->post(route('dealer.users.update', $dealerUser), [
+            'name' => $dealerUser->name,
+            'email' => $dealerUser->email,
+            'subscription_started_at' => $dealerMaximum->copy()->subDay()->format('Y-m-d H:i:s'),
+            'subscription_ends_at' => $dealerMaximum->copy()->addMinute()->format('Y-m-d H:i:s'),
+        ])->assertSessionHasErrors('subscription_ends_at');
     }
 
     public function test_dealer_login_works_and_inactive_dealer_cannot_login(): void
@@ -199,16 +217,23 @@ class DealerManagementTest extends TestCase
             ->assertOk();
     }
 
-    public function test_existing_api_token_stops_working_when_trial_expires(): void
+    public function test_user_profile_endpoint_ignores_subscription_and_approval_status(): void
     {
         $dealer = $this->dealer();
         $user = $this->userFor($dealer, now()->subMinute());
         $token = $user->createToken('test')->plainTextToken;
 
-        $this->withToken($token)->getJson('/api/user')->assertForbidden();
+        $this->withToken($token)->getJson('/api/user')
+            ->assertOk()
+            ->assertJsonPath('data.user.id', $user->id)
+            ->assertJsonPath('data.dealer.id', $dealer->id)
+            ->assertJsonPath('data.admin', null);
 
-        $user->update(['approval_status' => 'approved']);
-        $this->withToken($token)->getJson('/api/user')->assertOk();
+        $user->update(['approval_status' => 'disapproved']);
+        $this->withToken($token)->getJson('/api/user')
+            ->assertOk()
+            ->assertJsonPath('data.user.approval_status', 'disapproved')
+            ->assertJsonPath('data.dealer.id', $dealer->id);
     }
 
     private function dealer(array $attributes = []): Dealer

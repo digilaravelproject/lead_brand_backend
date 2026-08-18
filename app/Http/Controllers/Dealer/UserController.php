@@ -68,7 +68,12 @@ class UserController extends Controller
             'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'phone_number' => ['nullable', 'string', 'max:30'],
             'subscription_started_at' => ['required', 'date'],
-            'subscription_ends_at' => ['required', 'date', 'after_or_equal:subscription_started_at'],
+            'subscription_ends_at' => [
+                'required',
+                'date',
+                'after_or_equal:subscription_started_at',
+                'before_or_equal:'.$user->created_at->copy()->addYear()->format('Y-m-d H:i:s'),
+            ],
         ]);
         $user->update($validated);
 

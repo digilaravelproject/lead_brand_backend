@@ -371,6 +371,19 @@
         return match ? `${match[1]}T${match[2]}` : '';
     }
 
+    function oneYearAfterDateTimeLocal(value) {
+        const formatted = formatDateTimeLocal(value);
+        if (!formatted) return '';
+
+        const [date, time] = formatted.split('T');
+        const [year, month, day] = date.split('-').map(Number);
+        const [hour, minute] = time.split(':').map(Number);
+        const maximum = new Date(year + 1, month - 1, day, hour, minute);
+        const pad = number => String(number).padStart(2, '0');
+
+        return `${maximum.getFullYear()}-${pad(maximum.getMonth() + 1)}-${pad(maximum.getDate())}T${pad(maximum.getHours())}:${pad(maximum.getMinutes())}`;
+    }
+
     function editUser(id) {
         document.getElementById('edit-user-form').action = `${baseUrl}/${id}/update`;
         document.getElementById('edit-name').value = '';
@@ -379,6 +392,7 @@
         document.getElementById('edit-destination').value = '';
         document.getElementById('edit-subscription-start').value = '';
         document.getElementById('edit-subscription-end').value = '';
+        document.getElementById('edit-subscription-end').max = '';
         document.getElementById('edit-password').value = '';
         document.getElementById('edit-photo-preview').innerHTML = '';
         document.getElementById('edit-logo-preview').innerHTML = '';
@@ -394,6 +408,7 @@
                 document.getElementById('edit-destination').value = user.destination || '';
                 document.getElementById('edit-subscription-start').value = formatDateTimeLocal(user.subscription_started_at);
                 document.getElementById('edit-subscription-end').value = formatDateTimeLocal(user.subscription_ends_at);
+                document.getElementById('edit-subscription-end').max = oneYearAfterDateTimeLocal(user.created_at);
 
                 const photoPreview = document.getElementById('edit-photo-preview');
                 if (user.profile_photo) {

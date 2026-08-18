@@ -20,8 +20,11 @@ Route::prefix('auth')->group(function () {
     Route::post('google-login', [AuthController::class, 'googleLogin']);
 });
 
+// The profile endpoint must remain available to every authenticated user so the
+// client can display the user and their dealer/admin, regardless of subscription.
+Route::middleware('auth:sanctum')->get('user', [AuthController::class, 'me']);
+
 Route::middleware(['auth:sanctum', EnsureUserSubscriptionAccess::class])->group(function () {
-    Route::get('user', [AuthController::class, 'me']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('user/update-profile', [AuthController::class, 'updateProfile']);
     Route::post('user/language', [AuthController::class, 'updateLanguage']);

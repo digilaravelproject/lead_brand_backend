@@ -437,7 +437,7 @@ class AuthController extends Controller
     public function me(Request $request)
     {
         try {
-            $user = $request->user()->load('dealer');
+            $user = $request->user()->refresh()->load('dealer');
             $data = ['user' => $user];
 
             if ($user->dealer) {
