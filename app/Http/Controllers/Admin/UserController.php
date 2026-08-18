@@ -137,6 +137,12 @@ class UserController extends Controller
             'approval_status' => ['required', 'in:approved,disapproved'],
         ]);
 
+        if (! $user->hasExpiredTrial()) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'approval_status' => 'Approval can only be changed after the subscription has ended.',
+            ]);
+        }
+
         $user->update(['approval_status' => $validated['approval_status']]);
 
         return back()->with('success', 'User subscription status updated.');

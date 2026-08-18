@@ -181,7 +181,7 @@ class RequestedAdminAndApiFeaturesTest extends TestCase
             ->assertSee('Edit root media');
     }
 
-    public function test_admin_can_approve_or_disapprove_during_active_trial_and_listing_shows_dates(): void
+    public function test_admin_cannot_approve_or_disapprove_during_active_trial_but_can_after_ends_and_listing_shows_dates_accordingly(): void
     {
         $admin = Admin::firstOrFail();
         $user = User::factory()->create([
@@ -192,18 +192,39 @@ class RequestedAdminAndApiFeaturesTest extends TestCase
 
         $this->actingAs($admin, 'admin')->post(route('admin.users.approval', $user), [
             'approval_status' => 'disapproved',
-        ])->assertSessionHasNoErrors();
-        $this->assertSame('disapproved', $user->fresh()->approval_status);
+        ])->assertSessionHasErrors('approval_status');
+        $this->assertSame('pending', $user->fresh()->approval_status);
 
         $this->actingAs($admin, 'admin')->post(route('admin.users.approval', $user), [
             'approval_status' => 'approved',
-        ])->assertSessionHasNoErrors();
-        $this->assertSame('approved', $user->fresh()->approval_status);
+        ])->assertSessionHasErrors('approval_status');
+        $this->assertSame('pending', $user->fresh()->approval_status);
 
         $this->actingAs($admin, 'admin')->get(route('admin.users.index'))
             ->assertOk()
             ->assertSee('Created At')
             ->assertSee('Expired At')
+            ->assertDontSee('Approve user')
+            ->assertDontSee('Disapprove user');
+
+        $expiredUser = User::factory()->create([
+            'subscription_started_at' => now()->subDays(5),
+            'subscription_ends_at' => now()->subDays(1),
+            'approval_status' => 'pending',
+        ]);
+
+        $this->actingAs($admin, 'admin')->post(route('admin.users.approval', $expiredUser), [
+            'approval_status' => 'disapproved',
+        ])->assertSessionHasNoErrors();
+        $this->assertSame('disapproved', $expiredUser->fresh()->approval_status);
+
+        $this->actingAs($admin, 'admin')->post(route('admin.users.approval', $expiredUser), [
+            'approval_status' => 'approved',
+        ])->assertSessionHasNoErrors();
+        $this->assertSame('approved', $expiredUser->fresh()->approval_status);
+
+        $this->actingAs($admin, 'admin')->get(route('admin.users.index'))
+            ->assertOk()
             ->assertSee('Approve user')
             ->assertSee('Disapprove user');
     }
