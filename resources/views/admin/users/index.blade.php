@@ -13,12 +13,24 @@
 @section('content')
 <div class="space-y-6">
     <!-- Top Bar -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
             <h1 class="text-xl font-bold text-white">Registered Users</h1>
             <p class="text-xs text-slate-400 mt-0.5">View and manage customer registrations, profile photos, and settings.</p>
         </div>
-        <button onclick="document.getElementById('create-user-panel').classList.toggle('hidden')" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-sm font-semibold">Create User</button>
+        <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+            <!-- Search Form -->
+            <form method="GET" action="{{ route('admin.users.index') }}" class="relative w-full sm:w-80">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-500">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </span>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name, email or phone..." 
+                       class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-xs">
+            </form>
+            <button onclick="document.getElementById('create-user-panel').classList.toggle('hidden')" class="px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold whitespace-nowrap">Create User</button>
+        </div>
     </div>
 
     <div id="create-user-panel" class="{{ $errors->any() ? '' : 'hidden' }} bg-slate-900 border border-slate-800 rounded-2xl p-5">

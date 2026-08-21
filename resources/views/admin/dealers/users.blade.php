@@ -5,15 +5,27 @@
 
 @section('content')
 <div class="space-y-6">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
             <a href="{{ route('admin.dealers.index') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-amber-400 hover:text-amber-300">&larr; Back to dealers</a>
             <h1 class="mt-2 text-xl font-bold text-white">Users created by {{ $dealer->name }}</h1>
             <p class="mt-1 text-xs text-slate-400">Review only the accounts belonging to this dealer.</p>
         </div>
-        <div class="rounded-2xl border border-violet-500/20 bg-violet-500/10 px-5 py-3 text-right">
-            <div class="text-xs font-semibold uppercase tracking-wider text-violet-300">User allowance</div>
-            <div class="mt-1 text-xl font-bold text-white">{{ $dealer->users_count }} <span class="text-sm font-normal text-slate-400">/ {{ $dealer->user_limit }}</span></div>
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <!-- Search Form -->
+            <form method="GET" action="{{ route('admin.dealers.users', $dealer->id) }}" class="relative w-full sm:w-80">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-500">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </span>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search dealer users..." 
+                       class="w-full bg-slate-950/80 border border-slate-800 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-all text-xs">
+            </form>
+            <div class="rounded-2xl border border-violet-500/20 bg-violet-500/10 px-5 py-2 text-right">
+                <div class="text-[10px] font-semibold uppercase tracking-wider text-violet-300">User allowance</div>
+                <div class="mt-0.5 text-base font-bold text-white">{{ $dealer->users_count }} <span class="text-xs font-normal text-slate-400">/ {{ $dealer->user_limit }}</span></div>
+            </div>
         </div>
     </div>
 

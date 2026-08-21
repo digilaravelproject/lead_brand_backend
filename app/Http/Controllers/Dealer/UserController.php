@@ -15,10 +15,21 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $dealer = Auth::guard('dealer')->user();
-        $users = $dealer->users()->latest()->paginate(10);
+        $query = $dealer->users();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone_number', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->latest()->paginate(10)->withQueryString();
         $usedSlots = $dealer->users()->count();
 
         return view('dealer.users.index', compact('dealer', 'users', 'usedSlots'));

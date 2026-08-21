@@ -62,10 +62,21 @@ class DealerController extends Controller
         ]);
     }
 
-    public function users(int $id)
+    public function users(Request $request, int $id)
     {
         $dealer = Dealer::withCount('users')->findOrFail($id);
-        $users = $dealer->users()->latest()->paginate(10);
+        $query = $dealer->users();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone_number', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->latest()->paginate(10)->withQueryString();
 
         return view('admin.dealers.users', compact('dealer', 'users'));
     }
