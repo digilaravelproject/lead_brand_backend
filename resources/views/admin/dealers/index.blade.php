@@ -3,6 +3,17 @@
 @section('title', 'Manage Dealers')
 @section('page_title', 'Dealer Accounts')
 
+@section('styles')
+<style>
+    #dealer-subscription-start::-webkit-calendar-picker-indicator,
+    #dealer-subscription-end::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        opacity: .85;
+        cursor: pointer;
+    }
+</style>
+@endsection
+
 @section('content')
 <div class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -57,6 +68,11 @@
             <label class="text-xs text-slate-400">User Count<input id="dealer-limit" type="number" min="0" name="user_limit" value="{{ old('user_limit', 0) }}" required class="mt-1 w-full bg-slate-950 border @error('user_limit') border-red-500 @else border-slate-700 @enderror rounded-xl px-4 py-2.5 text-white">@error('user_limit')<span role="alert" class="mt-1.5 block text-xs text-red-400">{{ $message }}</span>@enderror</label>
             <label id="referral-wrap" class="hidden text-xs text-slate-400">Referral Code<input id="dealer-referral" name="referral_code" maxlength="8" class="mt-1 w-full uppercase bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white"></label>
             <label id="status-wrap" class="hidden text-xs text-slate-400">Status<select id="dealer-status" name="is_active" class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white"><option value="1">Active</option><option value="0">Inactive</option></select></label>
+            <div id="subscription-wrap" class="hidden sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <label class="text-xs text-slate-400">Subscription Start Date<input id="dealer-subscription-start" type="date" readonly aria-readonly="true" class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white"></label>
+                <label class="text-xs text-slate-400">Subscription End Date<input id="dealer-subscription-end" type="date" name="subscription_ends_at" class="mt-1 w-full bg-slate-950 border @error('subscription_ends_at') border-red-500 @else border-slate-700 @enderror rounded-xl px-4 py-2.5 text-white">@error('subscription_ends_at')<span role="alert" class="mt-1.5 block text-xs text-red-400">{{ $message }}</span>@enderror</label>
+                <span class="sm:col-span-2 text-xs text-slate-500">Extend the end date to renew dealer and dealer-user access.</span>
+            </div>
             <label id="password-wrap" class="hidden sm:col-span-2 text-xs text-slate-400">New Password (optional)<input id="dealer-password" type="password" name="password" class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white"></label>
             <div class="sm:col-span-2 text-xs text-slate-500" id="auto-help">An 8-character referral code and password based on the dealer name will be generated and emailed immediately.</div>
             <div class="sm:col-span-2 flex justify-end gap-3 mt-2"><button type="button" onclick="closeDealerModal('dealer-form-modal')" class="px-4 py-2 text-slate-300">Cancel</button><button class="px-5 py-2.5 bg-amber-600 rounded-xl text-white font-semibold">Save Dealer</button></div>
@@ -78,19 +94,19 @@ function closeDealerModal(id){ const el=document.getElementById(id); el.classLis
 function openDealerCreate(){
     document.getElementById('dealer-form').reset(); document.getElementById('dealer-form').action=dealerBase;
     document.getElementById('dealer-form-title').textContent='Create Dealer';
-    ['referral-wrap','status-wrap','password-wrap'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+    ['referral-wrap','status-wrap','subscription-wrap','password-wrap'].forEach(id=>document.getElementById(id).classList.add('hidden'));
     document.getElementById('auto-help').classList.remove('hidden'); showDealerModal('dealer-form-modal');
 }
 async function getDealer(id){ const response=await fetch(`${dealerBase}/${id}`); if(!response.ok) throw new Error('Unable to load dealer'); return response.json(); }
 async function viewDealer(id){
     showDealerModal('dealer-view-modal'); const d=await getDealer(id);
-    const fields=[['Name',d.name],['Email',d.email],['Login password',d.login_password],['Phone',d.phone_number],['Alternative phone',d.alternative_phone_number||'N/A'],['Referral code',d.referral_code],['User allowance',`${d.users_count} used / ${d.user_limit}`],['Remaining slots',d.remaining_user_slots],['Status',d.is_active?'Active':'Inactive'],['Created',new Date(d.created_at).toLocaleString()]];
+    const fields=[['Name',d.name],['Email',d.email],['Login password',d.login_password],['Phone',d.phone_number],['Alternative phone',d.alternative_phone_number||'N/A'],['Referral code',d.referral_code],['Plan','Free subscription'],['Subscription status',d.subscription_status],['Subscription starts',new Date(d.subscription_started_at).toLocaleDateString()],['Subscription ends',new Date(d.subscription_ends_at).toLocaleDateString()],['User allowance',`${d.users_count} used / ${d.user_limit}`],['Remaining slots',d.remaining_user_slots],['Account status',d.is_active?'Active':'Inactive'],['Created',new Date(d.created_at).toLocaleString()]];
     document.getElementById('dealer-view-content').innerHTML=fields.map(([k,v])=>`<div class="bg-slate-950/50 rounded-xl p-3"><span class="block text-xs text-slate-500 uppercase">${k}</span><span class="text-white break-all">${v}</span></div>`).join('');
 }
 async function editDealer(id){
     const d=await getDealer(id); document.getElementById('dealer-form').action=`${dealerBase}/${id}/update`; document.getElementById('dealer-form-title').textContent='Update Dealer';
-    document.getElementById('dealer-name').value=d.name; document.getElementById('dealer-phone').value=d.phone_number; document.getElementById('dealer-alt-phone').value=d.alternative_phone_number||''; document.getElementById('dealer-email').value=d.email; document.getElementById('dealer-limit').value=d.user_limit; document.getElementById('dealer-limit').min=d.users_count; document.getElementById('dealer-referral').value=d.referral_code; document.getElementById('dealer-status').value=d.is_active?'1':'0'; document.getElementById('dealer-password').value='';
-    ['referral-wrap','status-wrap','password-wrap'].forEach(x=>document.getElementById(x).classList.remove('hidden')); document.getElementById('auto-help').classList.add('hidden'); showDealerModal('dealer-form-modal');
+    document.getElementById('dealer-name').value=d.name; document.getElementById('dealer-phone').value=d.phone_number; document.getElementById('dealer-alt-phone').value=d.alternative_phone_number||''; document.getElementById('dealer-email').value=d.email; document.getElementById('dealer-limit').value=d.user_limit; document.getElementById('dealer-limit').min=d.users_count; document.getElementById('dealer-referral').value=d.referral_code; document.getElementById('dealer-status').value=d.is_active?'1':'0'; document.getElementById('dealer-subscription-start').value=d.subscription_started_at ? d.subscription_started_at.slice(0,10) : ''; document.getElementById('dealer-subscription-end').value=d.subscription_ends_at ? d.subscription_ends_at.slice(0,10) : ''; document.getElementById('dealer-password').value='';
+    ['referral-wrap','status-wrap','subscription-wrap','password-wrap'].forEach(x=>document.getElementById(x).classList.remove('hidden')); document.getElementById('auto-help').classList.add('hidden'); showDealerModal('dealer-form-modal');
 }
 @if($errors->any()) openDealerCreate(); @endif
 </script>

@@ -40,29 +40,20 @@ Route::middleware(['auth:sanctum', EnsureUserSubscriptionAccess::class])->group(
         Route::put('{id}', [LeadController::class, 'update']);
         Route::delete('{id}', [LeadController::class, 'destroy']);
     });
+
+    // Subscription content and functionality
+    Route::get('banners', [BannerController::class, 'index']);
+    Route::get('banners/{id}', [BannerController::class, 'show']);
+    Route::get('faqs', [FaqController::class, 'index']);
+    Route::get('pages/{page_name}', [PageController::class, 'show']);
+    Route::get('training-categories', [TrainingController::class, 'getCategories']);
+    Route::get('trainings', [TrainingController::class, 'getTrainings']);
+    Route::get('trainings/search', [TrainingController::class, 'search']);
+    Route::get('trainings/{id}', [TrainingController::class, 'show']);
+    Route::get('notifications', [NotificationController::class, 'index']);
+    Route::post('notifications/mark-all-read', [NotificationController::class, 'markAllRead']);
+    Route::get('notifications/{id}', [NotificationController::class, 'show']);
+    Route::get('tools/media/{id}', [ToolController::class, 'showMedia']);
+    Route::get('tools', [ToolController::class, 'index']);
+    Route::get('tools/{id}', [ToolController::class, 'show']);
 });
-
-// Banners APIs
-Route::get('banners', [BannerController::class, 'index']);
-Route::get('banners/{id}', [BannerController::class, 'show']);
-
-// Public content routes
-Route::get('faqs', [FaqController::class, 'index']);
-Route::get('pages/{page_name}', [PageController::class, 'show']);
-
-// Public training routes
-Route::get('training-categories', [TrainingController::class, 'getCategories']);
-Route::get('trainings', [TrainingController::class, 'getTrainings']);
-Route::get('trainings/search', [TrainingController::class, 'search']);
-Route::get('trainings/{id}', [TrainingController::class, 'show']);
-
-// Notifications routes
-Route::get('notifications', [NotificationController::class, 'index']);
-Route::post('notifications/mark-all-read', [NotificationController::class, 'markAllRead']);
-
-// Tools routes
-Route::get('tools', [ToolController::class, 'index']);
-Route::get('tools/{id}', [ToolController::class, 'show']);
-Route::get('tools/media/{id}', [ToolController::class, 'showMedia']);
-
-Route::get('notifications/{id}', [NotificationController::class, 'show']);

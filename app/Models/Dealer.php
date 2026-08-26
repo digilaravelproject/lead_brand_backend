@@ -20,6 +20,8 @@ class Dealer extends Authenticatable
         'user_limit',
         'referral_code',
         'is_active',
+        'subscription_started_at',
+        'subscription_ends_at',
     ];
 
     protected $hidden = ['password', 'login_password', 'remember_token'];
@@ -31,6 +33,8 @@ class Dealer extends Authenticatable
             'login_password' => 'encrypted',
             'is_active' => 'boolean',
             'user_limit' => 'integer',
+            'subscription_started_at' => 'datetime',
+            'subscription_ends_at' => 'datetime',
         ];
     }
 
@@ -42,5 +46,19 @@ class Dealer extends Authenticatable
     public function remainingUserSlots(): int
     {
         return max(0, $this->user_limit - $this->users()->count());
+    }
+
+    public function hasSubscriptionAccess(): bool
+    {
+        $endsAt = $this->subscription_ends_at ?? $this->created_at?->copy()->addYear();
+
+        return $this->is_active
+            && $endsAt !== null
+            && $endsAt->isFuture();
+    }
+
+    public function subscriptionStatus(): string
+    {
+        return $this->hasSubscriptionAccess() ? 'active' : 'expired';
     }
 }

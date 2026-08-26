@@ -65,6 +65,11 @@
     <div class="dealer-modal-backdrop" onclick="document.getElementById('profile-modal').classList.add('hidden')"></div>
     <div class="dealer-modal-card">
         <div class="dealer-modal-head"><div><h2>Dealer Profile</h2><div style="margin-top:4px;color:#858aa0;font-size:12px">Update your contact and login information</div></div><button type="button" class="dealer-close" onclick="document.getElementById('profile-modal').classList.add('hidden')">&times;</button></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;padding:15px;border:1px solid #e5e9f2;border-radius:14px;background:#f8fafc">
+            <div><span style="display:block;color:#858aa0;font-size:10px;text-transform:uppercase">Plan</span><strong style="font-size:13px">Free subscription</strong></div>
+            <div><span style="display:block;color:#858aa0;font-size:10px;text-transform:uppercase">Status</span><strong style="font-size:13px;color:{{ $layoutDealer->hasSubscriptionAccess() ? '#059669' : '#dc2626' }}">{{ ucfirst($layoutDealer->subscriptionStatus()) }}</strong></div>
+            <div><span style="display:block;color:#858aa0;font-size:10px;text-transform:uppercase">Valid until</span><strong style="font-size:13px">{{ optional($layoutDealer->subscription_ends_at)->format('d M Y') ?: 'Not set' }}</strong></div>
+        </div>
         <form method="POST" action="{{ route('dealer.profile.update') }}" class="dealer-form-grid">@csrf
             <label class="dealer-field full">Dealer Name<input name="name" value="{{ old('name', $layoutDealer->name) }}" required></label>
             <label class="dealer-field">Phone<input name="phone_number" value="{{ old('phone_number', $layoutDealer->phone_number) }}" required></label>

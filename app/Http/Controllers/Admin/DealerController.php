@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\DealerWelcomeMail;
 use App\Models\Dealer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -33,13 +34,16 @@ class DealerController extends Controller
         ]);
 
         $plainPassword = $this->makePassword($validated['name']);
+        $subscriptionStartedAt = now();
 
-        $dealer = DB::transaction(function () use ($validated, $plainPassword) {
+        $dealer = DB::transaction(function () use ($validated, $plainPassword, $subscriptionStartedAt) {
             $dealer = Dealer::create($validated + [
                 'password' => $plainPassword,
                 'login_password' => $plainPassword,
                 'referral_code' => $this->uniqueReferralCode(),
                 'is_active' => true,
+                'subscription_started_at' => $subscriptionStartedAt,
+                'subscription_ends_at' => $subscriptionStartedAt->copy()->addYear(),
             ]);
 
             Mail::to($dealer->email)->send(new DealerWelcomeMail($dealer, $plainPassword));
@@ -59,6 +63,7 @@ class DealerController extends Controller
             ...$dealer->toArray(),
             'login_password' => $dealer->login_password,
             'remaining_user_slots' => max(0, $dealer->user_limit - $dealer->users_count),
+            'subscription_status' => $dealer->subscriptionStatus(),
         ]);
     }
 
@@ -71,8 +76,8 @@ class DealerController extends Controller
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone_number', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone_number', 'like', "%{$search}%");
             });
         }
 
@@ -93,7 +98,10 @@ class DealerController extends Controller
             'referral_code' => ['required', 'alpha_num:ascii', 'size:8', Rule::unique('dealers')->ignore($dealer->id)],
             'is_active' => ['required', 'boolean'],
             'password' => ['nullable', 'string', 'min:8'],
+            'subscription_ends_at' => ['required', 'date'],
         ]);
+
+        $validated['subscription_ends_at'] = Carbon::parse($validated['subscription_ends_at'])->endOfDay();
 
         if (blank($validated['password'] ?? null)) {
             unset($validated['password']);

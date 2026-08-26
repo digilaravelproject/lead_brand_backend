@@ -62,12 +62,7 @@ class AuthController extends Controller
             }
 
             if (! $user->hasSubscriptionAccess()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => $user->approval_status === 'disapproved'
-                        ? 'Your subscription has been disapproved by the dealer.'
-                        : 'Your four-day free subscription has ended and is awaiting dealer approval.',
-                ], 403);
+                return $this->subscriptionDeniedResponse($user);
             }
 
             // Revoke old tokens
@@ -284,6 +279,10 @@ class AuthController extends Controller
                 return response()->json(['status' => false, 'message' => 'User not found'], 404);
             }
 
+            if (! $user->hasSubscriptionAccess()) {
+                return $this->subscriptionDeniedResponse($user);
+            }
+
             $otp = (string) random_int(1000, 9999);
             $user->otp = $otp;
             $user->otp_expires_at = Carbon::now()->addMinutes(10);
@@ -374,6 +373,10 @@ class AuthController extends Controller
                 return response()->json(['status' => false, 'message' => 'Email not verified'], 400);
             }
 
+            if (! $user->hasSubscriptionAccess()) {
+                return $this->subscriptionDeniedResponse($user);
+            }
+
             $user->name = $request->input('name');
             if ($request->hasFile('profile_photo')) {
                 $path = $request->file('profile_photo')->store('profile_photos', 'public');
@@ -443,9 +446,11 @@ class AuthController extends Controller
             if ($user->dealer) {
                 $data['dealer'] = $user->dealer;
                 $data['admin'] = null;
+                $data['admin_contact'] = $this->adminContact();
             } else {
                 $data['dealer'] = null;
                 $data['admin'] = Admin::query()->first();
+                $data['admin_contact'] = null;
             }
 
             return response()->json(['status' => true, 'data' => $data], 200);
@@ -474,12 +479,44 @@ class AuthController extends Controller
 
     private function subscriptionDeniedResponse(User $user)
     {
+        $user->loadMissing('dealer');
+        $dealerExpired = $user->dealer_id !== null && ! $user->dealer?->hasSubscriptionAccess();
+        $adminContact = $this->adminContact();
+
         return response()->json([
             'status' => false,
-            'message' => $user->approval_status === 'disapproved'
-                ? 'Your account has not been approved.'
-                : 'Your four-day free subscription has ended and is awaiting approval.',
-            'data' => ['is_expired' => 0],
+            'message' => $dealerExpired
+                ? 'Your dealer subscription has expired. Please contact the administrator to renew it.'
+                : ($user->approval_status === 'disapproved'
+                    ? 'Your account has not been approved.'
+                    : 'Your four-day free subscription has ended and is awaiting approval.'),
+            'data' => [
+                'is_expired' => 0,
+                'subscription_required' => true,
+                'dealer_subscription_expired' => $dealerExpired,
+                'dealer_subscription' => $user->dealer ? [
+                    'plan' => 'Free subscription',
+                    'started_at' => $user->dealer->subscription_started_at,
+                    'ends_at' => $user->dealer->subscription_ends_at,
+                    'status' => $user->dealer->subscriptionStatus(),
+                ] : null,
+                'admin_contact' => $adminContact,
+                'admin_mobile_numbers' => array_values(array_filter([
+                    $adminContact['phone_number'] ?? null,
+                    $adminContact['alternative_phone_number'] ?? null,
+                ])),
+            ],
         ], 403);
+    }
+
+    private function adminContact(): ?array
+    {
+        $admin = Admin::query()->first();
+
+        return $admin ? [
+            'name' => $admin->name,
+            'phone_number' => $admin->phone_number,
+            'alternative_phone_number' => $admin->alternative_phone_number,
+        ] : null;
     }
 }

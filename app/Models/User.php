@@ -84,6 +84,10 @@ class User extends Authenticatable
 
     public function hasSubscriptionAccess(): bool
     {
+        if ($this->dealer_id !== null && ! $this->dealer?->hasSubscriptionAccess()) {
+            return false;
+        }
+
         if ($this->approval_status === 'disapproved') {
             return false;
         }

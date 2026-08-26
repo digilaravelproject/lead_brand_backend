@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Admin;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,13 @@ class DealerAuthenticate
             Auth::guard('dealer')->logout();
 
             return redirect()->route('dealer.login')->withErrors(['email' => 'Your dealer account is inactive.']);
+        }
+
+        $dealer = Auth::guard('dealer')->user()->refresh();
+        if (! $dealer->hasSubscriptionAccess() && ! $request->routeIs('dealer.logout')) {
+            $admin = Admin::query()->first();
+
+            return response()->view('dealer.subscription-required', compact('dealer', 'admin'), 403);
         }
 
         return $next($request);
