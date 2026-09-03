@@ -22,9 +22,13 @@ class Dealer extends Authenticatable
         'is_active',
         'subscription_started_at',
         'subscription_ends_at',
+        'price',
+        'offer_price',
     ];
 
     protected $hidden = ['password', 'login_password', 'remember_token'];
+
+    protected $attributes = ['price' => 1000, 'offer_price' => 800];
 
     protected function casts(): array
     {
@@ -33,6 +37,8 @@ class Dealer extends Authenticatable
             'login_password' => 'encrypted',
             'is_active' => 'boolean',
             'user_limit' => 'integer',
+            'price' => 'decimal:2',
+            'offer_price' => 'decimal:2',
             'subscription_started_at' => 'datetime',
             'subscription_ends_at' => 'datetime',
         ];

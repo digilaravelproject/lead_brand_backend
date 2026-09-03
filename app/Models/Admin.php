@@ -22,6 +22,8 @@ class Admin extends Authenticatable
         'alternative_phone_number',
         'password',
         'profile_photo',
+        'price',
+        'offer_price',
     ];
 
     /**
@@ -34,6 +36,8 @@ class Admin extends Authenticatable
         'remember_token',
     ];
 
+    protected $attributes = ['price' => 1000, 'offer_price' => 800];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -43,6 +47,8 @@ class Admin extends Authenticatable
     {
         return [
             'password' => 'hashed',
+            'price' => 'decimal:2',
+            'offer_price' => 'decimal:2',
         ];
     }
 }

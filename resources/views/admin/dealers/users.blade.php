@@ -48,7 +48,7 @@
                             <td class="px-6 py-4 text-slate-300">{{ $user->phone_number ?: 'N/A' }}</td>
                             <td class="px-6 py-4"><div class="text-slate-300">{{ optional($user->subscription_ends_at)->format('d M Y, h:i A') ?: 'N/A' }}</div><div class="text-xs {{ $user->hasExpiredTrial() ? 'text-red-400' : 'text-emerald-400' }}">{{ $user->hasExpiredTrial() ? 'Expired' : 'Free trial active' }}</div></td>
                             <td class="px-6 py-4"><span class="rounded-full px-2.5 py-1 text-xs {{ $user->approval_status === 'approved' ? 'bg-emerald-500/10 text-emerald-400' : ($user->approval_status === 'disapproved' ? 'bg-red-500/10 text-red-400' : 'bg-amber-500/10 text-amber-400') }}">{{ ucfirst($user->approval_status) }}</span></td>
-                            <td class="px-6 py-4 text-right whitespace-nowrap"><button type="button" onclick="viewDealerUser({{ $user->id }})" class="inline-flex items-center p-1.5 rounded-lg border border-violet-500/20 bg-violet-500/10 text-violet-400 hover:bg-violet-500/20" title="View user" aria-label="View user"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S3.732 16.057 2.458 12z"/></svg></button></td>
+                            <td class="px-6 py-4 text-right whitespace-nowrap"><button type="button" onclick="viewUser({{ $user->id }})" class="inline-flex items-center p-1.5 rounded-lg border border-violet-500/20 bg-violet-500/10 text-violet-400 hover:bg-violet-500/20" title="View user" aria-label="View user"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S3.732 16.057 2.458 12z"/></svg></button><button type="button" onclick="editUser({{ $user->id }})" class="ml-3 text-sky-400 hover:underline" aria-label="Edit user">Edit</button></td>
                         </tr>
                     @empty
                         <tr><td colspan="5" class="px-6 py-12 text-center text-slate-500">This dealer has not created any users yet.</td></tr>
@@ -60,48 +60,9 @@
     </div>
 </div>
 
-<div id="dealer-user-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4">
-    <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm" onclick="closeDealerUser()"></div>
-    <div class="relative w-full max-w-lg rounded-3xl border border-slate-800 bg-slate-900 p-6 shadow-2xl">
-        <div class="flex items-center justify-between"><h2 class="text-lg font-bold text-white">User Details</h2><button type="button" onclick="closeDealerUser()" class="text-slate-400 hover:text-white">&times;</button></div>
-        <div id="dealer-user-content" class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2"></div>
-    </div>
-</div>
+@include('admin.users.partials.modals')
 @endsection
 
 @section('scripts')
-<script>
-const adminUserBase = @json(url('admin/users'));
-function closeDealerUser() {
-    const modal = document.getElementById('dealer-user-modal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-}
-async function viewDealerUser(id) {
-    const modal = document.getElementById('dealer-user-modal');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    const response = await fetch(`${adminUserBase}/${id}`);
-    const user = await response.json();
-    const fields = [
-        ['Name', user.name], ['Email', user.email], ['Phone', user.phone_number || 'N/A'],
-        ['Trial starts', user.subscription_started_at ? new Date(user.subscription_started_at).toLocaleString() : 'N/A'],
-        ['Trial ends', user.subscription_ends_at ? new Date(user.subscription_ends_at).toLocaleString() : 'N/A'],
-        ['Approval', user.approval_status]
-    ];
-    const content = document.getElementById('dealer-user-content');
-    content.replaceChildren(...fields.map(([label, value]) => {
-        const box = document.createElement('div');
-        box.className = 'rounded-xl border border-slate-800 bg-slate-950/50 p-3';
-        const key = document.createElement('span');
-        key.className = 'block text-xs uppercase text-slate-500';
-        key.textContent = label;
-        const text = document.createElement('span');
-        text.className = 'break-all text-sm font-semibold text-white';
-        text.textContent = value;
-        box.append(key, text);
-        return box;
-    }));
-}
-</script>
+@include('admin.users.partials.scripts')
 @endsection

@@ -76,6 +76,8 @@
             <label class="dealer-field">Alternative Phone<input name="alternative_phone_number" value="{{ old('alternative_phone_number', $layoutDealer->alternative_phone_number) }}"></label>
             <label class="dealer-field full">Email<input type="email" name="email" value="{{ old('email', $layoutDealer->email) }}" required></label>
             <label class="dealer-field full">Referral Code<input name="referral_code" maxlength="8" value="{{ old('referral_code', $layoutDealer->referral_code) }}" required style="text-transform:uppercase"></label>
+            <label class="dealer-field">Price<input name="price" type="number" min="0" max="99999999.99" step="0.01" required value="{{ old('price', $layoutDealer->price ?? 1000) }}"></label>
+            <label class="dealer-field">Offer Price<input name="offer_price" type="number" min="0" max="99999999.99" step="0.01" required value="{{ old('offer_price', $layoutDealer->offer_price ?? 800) }}"></label>
             <label class="dealer-field">New Password<input type="password" name="password"></label>
             <label class="dealer-field">Confirm Password<input type="password" name="password_confirmation"></label>
             <div class="dealer-modal-actions"><button class="dealer-button">Save Profile</button></div>

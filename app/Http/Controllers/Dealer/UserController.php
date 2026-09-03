@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\UserWelcomeMail;
 use App\Models\Dealer;
 use App\Models\User;
+use App\Services\UserProfileUpdater;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,8 +25,8 @@ class UserController extends Controller
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone_number', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone_number', 'like', "%{$search}%");
             });
         }
 
@@ -74,19 +75,7 @@ class UserController extends Controller
     public function update(Request $request, int $id)
     {
         $user = $this->findOwnedUser($id);
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
-            'phone_number' => ['nullable', 'string', 'max:30'],
-            'subscription_started_at' => ['required', 'date'],
-            'subscription_ends_at' => [
-                'required',
-                'date',
-                'after_or_equal:subscription_started_at',
-                'before_or_equal:'.$user->created_at->copy()->addYear()->format('Y-m-d H:i:s'),
-            ],
-        ]);
-        $user->update($validated);
+        app(UserProfileUpdater::class)->update($request, $user);
 
         return back()->with('success', 'User updated successfully.');
     }

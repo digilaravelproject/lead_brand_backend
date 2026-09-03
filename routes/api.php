@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\CalendarApiController;
 use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\LeadController;
+use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\ToolController;
@@ -45,6 +46,7 @@ Route::middleware(['auth:sanctum', EnsureUserSubscriptionAccess::class])->group(
     Route::get('banners', [BannerController::class, 'index']);
     Route::get('banners/{id}', [BannerController::class, 'show']);
     Route::get('faqs', [FaqController::class, 'index']);
+    Route::get('messages', [MessageController::class, 'index']);
     Route::get('pages/{page_name}', [PageController::class, 'show']);
     Route::get('training-categories', [TrainingController::class, 'getCategories']);
     Route::get('trainings', [TrainingController::class, 'getTrainings']);

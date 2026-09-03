@@ -68,9 +68,17 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:admins,email,'.$admin->id],
             'phone_number' => ['nullable', 'string', 'max:30'],
             'alternative_phone_number' => ['nullable', 'string', 'max:30'],
+            'price' => ['sometimes', 'required', 'numeric', 'min:0', 'max:99999999.99'],
+            'offer_price' => ['sometimes', 'required', 'numeric', 'min:0', 'max:99999999.99'],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
             'profile_photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
+
+        foreach (['price', 'offer_price'] as $field) {
+            if ($request->has($field)) {
+                $admin->{$field} = $request->input($field);
+            }
+        }
 
         $admin->name = $request->name;
         $admin->email = $request->email;

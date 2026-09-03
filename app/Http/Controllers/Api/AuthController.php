@@ -309,6 +309,8 @@ class AuthController extends Controller
             $v = Validator::make($request->all(), [
                 'name' => 'nullable|string|max:255',
                 'phone_number' => 'nullable|string|max:30',
+                'whatsapp_number' => 'nullable|string|max:30',
+                'address' => 'nullable|string|max:5000',
                 'destination' => 'nullable|string|max:255',
                 'logo' => 'nullable|file|image|max:5120',
                 'profile_photo' => 'nullable|file|image|max:5120',
@@ -340,6 +342,7 @@ class AuthController extends Controller
                 $user->logo = Storage::url($path);
             }
 
+            $user->fill($v->safe()->only(['whatsapp_number', 'address']));
             $user->save();
 
             return response()->json(['status' => true, 'message' => 'Profile updated', 'data' => ['user' => $user]], 200);
@@ -356,6 +359,8 @@ class AuthController extends Controller
             $v = Validator::make($request->all(), [
                 'email' => 'required|email',
                 'name' => 'required|string|max:255',
+                'whatsapp_number' => 'nullable|string|max:30',
+                'address' => 'nullable|string|max:5000',
                 // accept multipart/form-data file upload for profile_photo
                 'profile_photo' => 'nullable|file|image|max:5120',
             ]);
@@ -378,6 +383,7 @@ class AuthController extends Controller
             }
 
             $user->name = $request->input('name');
+            $user->fill($v->safe()->only(['whatsapp_number', 'address']));
             if ($request->hasFile('profile_photo')) {
                 $path = $request->file('profile_photo')->store('profile_photos', 'public');
                 // store accessible URL (requires `php artisan storage:link` in deployment)
@@ -495,6 +501,8 @@ class AuthController extends Controller
                 'subscription_required' => true,
                 'dealer_subscription_expired' => $dealerExpired,
                 'dealer_subscription' => $user->dealer ? [
+                    'price' => $user->dealer->price,
+                    'offer_price' => $user->dealer->offer_price,
                     'plan' => 'Free subscription',
                     'started_at' => $user->dealer->subscription_started_at,
                     'ends_at' => $user->dealer->subscription_ends_at,
@@ -514,6 +522,8 @@ class AuthController extends Controller
         $admin = Admin::query()->first();
 
         return $admin ? [
+            'price' => $admin->price,
+            'offer_price' => $admin->offer_price,
             'name' => $admin->name,
             'phone_number' => $admin->phone_number,
             'alternative_phone_number' => $admin->alternative_phone_number,

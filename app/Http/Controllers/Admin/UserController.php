@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\UserWelcomeMail;
 use App\Models\User;
+use App\Services\UserProfileUpdater;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -24,8 +25,8 @@ class UserController extends Controller
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone_number', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone_number', 'like', "%{$search}%");
             });
         }
 
@@ -63,7 +64,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('dealer')->findOrFail($id);
 
         return response()->json($user);
     }
@@ -74,71 +75,11 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        app(UserProfileUpdater::class)->update($request, $user);
 
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
-            'phone_number' => ['nullable', 'string', 'max:20'],
-            'destination' => ['nullable', 'string', 'max:255'],
-            'subscription_started_at' => ['required', 'date'],
-            'subscription_ends_at' => [
-                'required',
-                'date',
-                'after_or_equal:subscription_started_at',
-                'before_or_equal:'.$user->created_at->copy()->addYear()->format('Y-m-d H:i:s'),
-            ],
-            'password' => ['nullable', 'string', 'min:6'],
-            'profile_photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-            'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-        ]);
-
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone_number = $request->phone_number;
-        $user->destination = $request->destination;
-        $user->subscription_started_at = $request->subscription_started_at;
-        $user->subscription_ends_at = $request->subscription_ends_at;
-
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-
-        // Handle Profile Photo Upload
-        if ($request->hasFile('profile_photo')) {
-            if ($user->profile_photo && file_exists(public_path($user->profile_photo))) {
-                @unlink(public_path($user->profile_photo));
-            }
-
-            $file = $request->file('profile_photo');
-            $filename = time().'_photo_'.preg_replace('/[^A-Za-z0-9\-.]/', '', $file->getClientOriginalName());
-            $destinationPath = public_path('uploads/users');
-            if (! file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
-            }
-            $file->move($destinationPath, $filename);
-            $user->profile_photo = 'uploads/users/'.$filename;
-        }
-
-        // Handle Logo Upload
-        if ($request->hasFile('logo')) {
-            if ($user->logo && file_exists(public_path($user->logo))) {
-                @unlink(public_path($user->logo));
-            }
-
-            $file = $request->file('logo');
-            $filename = time().'_logo_'.preg_replace('/[^A-Za-z0-9\-.]/', '', $file->getClientOriginalName());
-            $destinationPath = public_path('uploads/users');
-            if (! file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
-            }
-            $file->move($destinationPath, $filename);
-            $user->logo = 'uploads/users/'.$filename;
-        }
-
-        $user->save();
-
-        return redirect()->route('admin.users.index')
-            ->with('success', 'User updated successfully.');
+        return $user->dealer_id
+            ? redirect()->route('admin.dealers.users', $user->dealer_id)->with('success', 'User updated successfully.')
+            : redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
     public function approval(Request $request, int $id)
@@ -149,7 +90,7 @@ class UserController extends Controller
         ]);
 
         if (! $user->hasExpiredTrial()) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
+            throw ValidationException::withMessages([
                 'approval_status' => 'Approval can only be changed after the subscription has ended.',
             ]);
         }

@@ -51,6 +51,8 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'phone_number' => ['required', 'string', 'max:30'],
             'alternative_phone_number' => ['nullable', 'string', 'max:30'],
+            'price' => ['sometimes', 'required', 'numeric', 'min:0', 'max:99999999.99'],
+            'offer_price' => ['sometimes', 'required', 'numeric', 'min:0', 'max:99999999.99'],
             'email' => ['required', 'email', Rule::unique('dealers')->ignore($dealer->id)],
             'referral_code' => ['required', 'alpha_num:ascii', 'size:8', Rule::unique('dealers')->ignore($dealer->id)],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],

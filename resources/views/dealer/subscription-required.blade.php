@@ -19,6 +19,8 @@
     <div class="details">
         <div class="detail"><span>Plan</span><strong>Free subscription</strong></div>
         <div class="detail"><span>Expired on</span><strong>{{ optional($dealer->subscription_ends_at)->format('d M Y') ?: 'Not available' }}</strong></div>
+        <div class="detail"><span>Price</span><strong><s style="text-decoration-thickness:2px">{{ number_format($dealer->price, 2) }}</s></strong></div>
+        <div class="detail"><span>Offer Price</span><strong>{{ number_format($dealer->offer_price, 2) }}</strong></div>
     </div>
     <div class="contacts">
         <span>Contact the administrator to renew access</span>

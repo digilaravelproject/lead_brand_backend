@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DealerController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\LeadController;
+use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ToolController;
 use App\Http\Controllers\Admin\TrainingCategoryController;
@@ -59,6 +60,14 @@ Route::prefix('admin')->group(function () {
             Route::get('{id}', [DealerController::class, 'show'])->name('admin.dealers.show');
             Route::post('{id}/update', [DealerController::class, 'update'])->name('admin.dealers.update');
             Route::delete('{id}', [DealerController::class, 'destroy'])->name('admin.dealers.destroy');
+        });
+
+        // Manage Messages
+        Route::prefix('messages')->name('admin.messages.')->group(function () {
+            Route::get('/', [MessageController::class, 'index'])->name('index');
+            Route::post('/', [MessageController::class, 'store'])->name('store');
+            Route::post('{message}/update', [MessageController::class, 'update'])->name('update');
+            Route::delete('{message}', [MessageController::class, 'destroy'])->name('destroy');
         });
 
         // Manage FAQs

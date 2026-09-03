@@ -147,6 +147,13 @@
                 <span>Static Pages</span>
             </a>
 
+            <!-- Manage Messages Link -->
+            <a href="{{ route('admin.messages.index') }}"
+               class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.messages.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5M5 4h14a2 2 0 012 2v12a2 2 0 01-2 2H9l-6 2V6a2 2 0 012-2z"/></svg>
+                <span>Manage Messages</span>
+            </a>
+
             <!-- Manage FAQs Link -->
             <a href="{{ route('admin.faqs.index') }}" 
                class="flex items-center space-x-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all group {{ request()->routeIs('admin.faqs.*') ? 'bg-amber-600/15 text-amber-400 border-l-4 border-amber-500' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200' }}">
@@ -331,7 +338,11 @@
                       </div>
                   </div>
 
-                  <div class="border-t border-slate-800 pt-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <label class="text-xs text-slate-300">Price<input name="price" type="number" min="0" max="99999999.99" step="0.01" required value="{{ old('price', Auth::guard('admin')->user()->price ?? 1000) }}" class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white">@error('price')<span class="block text-red-400">{{ $message }}</span>@enderror</label>
+                    <label class="text-xs text-slate-300">Offer Price<input name="offer_price" type="number" min="0" max="99999999.99" step="0.01" required value="{{ old('offer_price', Auth::guard('admin')->user()->offer_price ?? 800) }}" class="mt-1 w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white">@error('offer_price')<span class="block text-red-400">{{ $message }}</span>@enderror</label>
+                </div>
+                <div class="border-t border-slate-800 pt-4">
                     <p class="text-xs text-slate-400 mb-4">Leave password fields blank if you do not want to change it.</p>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

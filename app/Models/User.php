@@ -29,6 +29,8 @@ class User extends Authenticatable
         'otp_expires_at',
         'profile_photo',
         'phone_number',
+        'whatsapp_number',
+        'address',
         'destination',
         'logo',
         'language',
